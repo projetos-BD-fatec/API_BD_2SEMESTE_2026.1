@@ -1,9 +1,6 @@
 # 🔁 Guia de Pull Request
 
-## O que é um Pull Request?
-Pull Request é uma solicitação para que suas alterações sejam analisadas e adicionadas ao projeto.
-
-Fluxo básico:
+## Fluxo ideal de Pull Request?
 
 feature → develop
 
