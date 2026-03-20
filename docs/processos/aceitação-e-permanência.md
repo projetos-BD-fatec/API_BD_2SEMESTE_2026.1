@@ -20,6 +20,8 @@ Todos os integrantes do grupo devem ter conhecimento mínimo das ferramentas uti
 
 No grupo BugHunters todos esperamos que cada integrante seja responsável e se atente às entregas; tanto para realizar entregas com a melhor qualidade possível, quanto para sempre conseguir entregar no prazo.
 
+---
+
 ## Critérios para a permanência dos integrantes
 ### 1. Seguir o padrão de commits
 
@@ -52,7 +54,8 @@ Afim de manter uma boa relação do grupo espera-se de cada integrante respeito 
 > **Caso de banimento:** Aquele que assediar moralmente, virtualmente ou sexualmente algum colega, deverá se retirar do grupo.
 
 ### 7. Média do Pacer
-
+O pacer é uma forma de medir a visão que o grupo tem sobre cada integrante, sendo assim, obter uma média final baixa no pacer indica que a pessoa não esta suprindo as expectativas da equipe.
+> **Caso de banimento:** Aquele que obtiver média final menor que 2 no pacer, deverá se retirar do grupo.
 
 
 
