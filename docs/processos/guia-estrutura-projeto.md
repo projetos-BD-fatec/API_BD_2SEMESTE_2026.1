@@ -14,15 +14,17 @@ Este arquivo tem como objetivo estabelecer uma estrutura padrão para as pastas 
      │   ├── estratégia-de-branch.md
      │   ├── padrão-de-commit.md
      │   ├── guia-estrutura-projeto.md
-     │   └── guia-de-pull-requests.md
+     │   ├── guia-de-pull-requests.md
+     │   └── aceitação-e-permanência.md
      ├── imagens/
      │   ├── fluxograma-branches.png
      │   └── logo-bughunters.png
-     └── sprints/
-         ├── sprint-01/
-         │   └── README.md
-         ├── sprint-02/
-         │   └── README.md
-         └── sprint-03/
-              └── README.md
+     ├── sprints/
+     │   ├── sprint-01/
+     │   │   └── README.md
+     │   ├── sprint-02/
+     │   │   └── README.md
+     │   └── sprint-03/
+     │         └── README.md
+     └── documentação.md
 ```
