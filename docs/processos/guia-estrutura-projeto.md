@@ -7,8 +7,12 @@ Este arquivo tem como objetivo estabelecer uma estrutura padrão para as pastas 
 ├── README.md
 ├── .github/
 │    └── pull_request_template.md
-├── src/
-│    └── código.java
+├── projeto/
+│    ├── .idea/
+│    ├── src/
+│    ├── target/
+│    ├── pom.xml
+│    └── .gitignore
 └── docs/
      ├── processos/
      │   ├── estratégia-de-branch.md
