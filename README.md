@@ -25,6 +25,15 @@ O desafio consiste em criar um sistema desktop para auxiliar os professores a mo
 
 <p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
 
+## 📄Backlog - requisitos <a id="backlog"></a>
+| Requisito  | Assunto | User Story | Prioridade | Sprint | Observação |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| RF01  | Definição de horários da disciplina  | Como professor, desejo visualizar os dias da semana e horários das aulas cadastrados para ter fácil acesso a essas informações  | Alta  | 2  | Meta  |
+| RF02  | Gestão de conteúdos  | Como professor, desejo visualizar os tópicos cadastrados para acompanhar a distribuição do conteúdo.  | Alta  | 2  | Meta  |
+| RF03  | Planejamento de aulas  | Como professor, desejo associar um tópico a cada aula do semestre para organizar o conteúdo que será ministrado em cada dia.  | Alta  | 2  | Meta  |
+| RF04  | Calendário acadêmico | Como professor, desejo que minhas aulas sejam distribuídas pelos dias letivos que constam no calendário acadêmico para que eu não precise cadastrar os dias de aula manualmente  | Alta  | 2  | Meta  |
+| RF05  | Calendário acadêmico  | Como professor, desejo que o calendário considere os feriados e eventos acadêmicos no planejamento das aulas para evitar marcar avaliações em datas inadequadas como última semana de sprint e semana de planejamento.  | Alta  | 2  | Meta  |
+
 
 ## 🏃‍ DoR - Definition of Ready <a id="dor"></a>
 
