@@ -14,6 +14,7 @@
   <a href ="#dor">DoR</a>  |
   <a href ="#dod">DoD</a>  |
   <a href ="#tecnologias">Tecnologias</a>  |
+  <a href ="#documentacao">Documentação</a>  |
   <a href ="#equipe"> Equipe</a> |
 </p>
 
@@ -90,6 +91,11 @@ O desafio consiste em criar um sistema desktop para auxiliar os professores a mo
 
 ---
 
+<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
+
+## 📁 Documentação <a id="documentacao"></a>
+
+- [Resumo da documentação](docs/README.md)
 
 ## 🎓 Equipe <a id="equipe"></a>
 
