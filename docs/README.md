@@ -47,7 +47,7 @@
      │   │   └── README.md
      │   └── sprint-03/
      │         └── README.md
-     └── documentação.md
+     └── README.md
 ```
 ## 4. <a href="docs/processos/guia-pull-requests.md">Guia de Pull Request</a>
 - Guia de Pull Request para garantir que features novas sejam integradas apenas após testar corretamente.
