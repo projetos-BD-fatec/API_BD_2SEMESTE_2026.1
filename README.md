@@ -10,8 +10,10 @@
 
 <p align="center">
 | <a href ="#desafio"> Desafio</a>  |  
+  <a href ="#backlog">Backlog</a>  |
   <a href ="#dor">DoR</a>  |
   <a href ="#dod">DoD</a>  |
+  <a href ="#tecnologias">Tecnologias</a>  |
   <a href ="#equipe"> Equipe</a> |
 </p>
 
@@ -56,14 +58,16 @@ O desafio consiste em criar um sistema desktop para auxiliar os professores a mo
 | RF25      | Integração com IA                   | Como professor, eu desejo receber emails antes de cada aula com sugestões/dicas de assuntos personalizados sobre o conteúdo.                                                                                        | Baixa      | 3      | Bônus da sprint 3 |
 | RF26      | Calendário interativo               | Como professor, eu desejo visualizar minhas aulas num calendário interativo, onde eu consiga selecionar um mês, e então visualizar as aulas dentro do mês, e ao passar o mouse no dia, aparece a descrição da aula. | Baixa      | 3      | Bônus da sprint 3 |
 
+---
 
+<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
 
 ## 🏃‍ DoR - Definition of Ready <a id="dor"></a>
 
-- [ ] Histórias bem descritas e compreensíveis
-- [ ] Time entende o objetivo e a complexidade
-- [ ] Prioridades definidas
-- [ ] Metas definidas
+- [x] Histórias bem descritas e compreensíveis
+- [x] Time entende o objetivo e a complexidade
+- [x] Prioridades definidas
+- [x] Metas definidas
 
 ## 🏆 DoD - Definition of Done <a id="dod"></a>
 - [ ] Código final escrito e funcional
