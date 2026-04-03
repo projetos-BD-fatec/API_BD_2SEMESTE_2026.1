@@ -30,8 +30,8 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <ComboBox fx:id="btnEscolherDicilplina" layoutX="197.0" layoutY="121.0" onAction="#escolherDicilplina" prefHeight="44.0" prefWidth="184.0" />
-      <ComboBox fx:id="btnEscolherTurma" layoutX="197.0" layoutY="193.0" onAction="#escolherTurma" prefHeight="44.0" prefWidth="184.0" />
+      <ComboBox fx:id="cbEscolherDisciplina" layoutX="197.0" layoutY="121.0" onAction="#escolherDicilplina" prefHeight="44.0" prefWidth="184.0" />
+      <ComboBox fx:id="cbEscolherTurma" layoutX="197.0" layoutY="193.0" onAction="#escolherTurma" prefHeight="44.0" prefWidth="184.0" />
       <Label layoutX="52.0" layoutY="276.0" prefHeight="44.0" prefWidth="160.0" text="Cronograma.">
          <font>
             <Font name="System Bold" size="24.0" />
@@ -39,11 +39,11 @@
       </Label>
       <TableView fx:id="tabelaCronograma" layoutX="52.0" layoutY="347.0" prefHeight="336.0" prefWidth="934.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="347.0">
         <columns>
-          <TableColumn prefWidth="103.19998931884766" text="Data" />
-          <TableColumn prefWidth="122.39997863769531" text="Dia" />
-            <TableColumn minWidth="0.0" prefWidth="109.60003662109375" text="Horário" />
-            <TableColumn prefWidth="331.20001220703125" text="Conteundo" />
-            <TableColumn prefWidth="265.79999999999995" text="Evento" />
+          <TableColumn fx:id="colData" prefWidth="103.19998931884766" text="Data" />
+          <TableColumn fx:id="colDia" prefWidth="122.39997863769531" text="Dia" />
+            <TableColumn fx:id="colHorario" minWidth="0.0" prefWidth="109.60003662109375" text="Horário" />
+            <TableColumn fx:id="colEvento" prefWidth="331.20001220703125" text="Evento" />
+            <TableColumn fx:id="colConteudo" prefWidth="265.79999999999995" text="Conteúdo" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
