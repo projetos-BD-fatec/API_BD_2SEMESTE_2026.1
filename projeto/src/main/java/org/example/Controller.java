@@ -50,6 +50,17 @@ public class Controller implements Initializable {
     void escolherTurma(ActionEvent event) {
 
     }
+    @FXML
+    private TableView<Aula> tabelaAulas;
+
+    @FXML
+    private TableColumn<Aula, String> colnDia;
+
+    @FXML
+    private TableColumn<Aula, String> colnHorario;
+
+    @FXML
+    private TableColumn<Aula, Integer> colnAulas;
 
     @FXML
     private TableView<Planejamento> tabelaCronograma;
@@ -79,6 +90,17 @@ public class Controller implements Initializable {
             colConteudo.setCellValueFactory(new PropertyValueFactory<>("conteudo"));
             tabelaCronograma.setItems(getDadosExemplo());
         }
+        if (tabelaAulas != null) {
+
+            colnDia.setCellValueFactory(new PropertyValueFactory<>("dia"));
+            colnHorario.setCellValueFactory(new PropertyValueFactory<>("horario"));
+            colnAulas.setCellValueFactory(new PropertyValueFactory<>("aulas"));
+
+            tabelaAulas.setItems(FXCollections.observableArrayList(
+                    new Aula("Segunda", "18:45 - 19:35", 1),
+                    new Aula("Quarta", "18:45 - 20:25", 3)
+            ));
+        }
     }
 
     private ObservableList<Planejamento> getDadosExemplo() {
@@ -88,4 +110,5 @@ public class Controller implements Initializable {
                 new Planejamento("04/03/2026","Quarta","19:35 - 20:25","Letivo","Selecionar")
                 );
     }
+
 }
