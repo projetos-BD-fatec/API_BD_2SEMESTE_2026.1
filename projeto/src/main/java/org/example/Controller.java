@@ -1,10 +1,33 @@
 package org.example;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.event.ActionEvent;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableView;
+
 
 public class Controller {
-        @FXML
+
+    @FXML
+    private ComboBox<String> cbEscolherDisciplina;
+
+    @FXML
+    private ComboBox<String> cbEscolherTurma;
+
+    @FXML
+    private TableView<Object> tabelaCronograma;
+
+
+@FXML
+void escolherDicilplina(ActionEvent event) {
+
+}
+
+@FXML
+void escolherTurma(ActionEvent event) {
+
+}
+    @FXML
         private void clicarBtnVoltar() {
             try {
                 App.setRoot("TelaDisciplinas");
