@@ -15,12 +15,12 @@
             <Font name="System Bold Italic" size="48.0" />
          </font>
       </Label>
-      <Button layoutX="831.0" layoutY="60.0" mnemonicParsing="false" onAction="#clicarBtnVoltar" prefHeight="51.0" prefWidth="110.0" text="Voltar" AnchorPane.rightAnchor="79.60000000000002">
+      <Button layoutX="845.0" layoutY="26.0" mnemonicParsing="false" onAction="#clicarBtnVoltar" prefHeight="51.0" prefWidth="110.0" text="Voltar" AnchorPane.rightAnchor="66.0">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Button>
-      <Label layoutX="52.0" layoutY="116.0" prefHeight="44.0" prefWidth="110.0" text="Diciplina:">
+      <Label layoutX="52.0" layoutY="116.0" prefHeight="44.0" prefWidth="127.0" text="Disciplina:">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>

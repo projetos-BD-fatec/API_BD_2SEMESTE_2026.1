@@ -17,7 +17,7 @@
         <columns>
           <TableColumn fx:id="colnDia" prefWidth="75.0" style="-fx-alignment: CENTER;" text="Dia" />
           <TableColumn fx:id="colnHorario" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Horário" />
-            <TableColumn fx:id="colnAulas" prefWidth="75.0" sortType="DESCENDING" style="-fx-text-fill: white; -fx-alignment: center;" styleClass="botao-adicionar" text="Aulas" />
+            <TableColumn fx:id="colnAulas" prefWidth="75.0" sortType="DESCENDING" style="-fx-alignment: CENTER;" styleClass="botao-adicionar" text="Aulas" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
