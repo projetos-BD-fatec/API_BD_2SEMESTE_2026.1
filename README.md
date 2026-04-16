@@ -93,7 +93,7 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
       <a href="https://www.oracle.com/java/technologies/downloads/"><img alt="Java" height="60" src="https://assets.dio.me/NWp0ked1gAcRd2n_uPBhJUJVmS5mkR31t0YiPMYMdpA/f:webp/q:80/L2FydGljbGVzL2NvdmVyLzdiODlmZGEyLTRhZjMtNGFlMC05OGJjLWFkMmI2NTg1NDkwOS5wbmc" /></a>&nbsp;&nbsp;&nbsp;
       <a href="https://openjfx.io/"><img alt="JavaFX" height="60" src="https://upload.wikimedia.org/wikipedia/en/c/cc/JavaFX_Logo.png" /></a>&nbsp;&nbsp;&nbsp;
       <a href="https://gluonhq.com/products/scene-builder/"><img alt="SceneBuilder" height="50" src="https://gluonhq.com/wp-content/uploads/2015/02/SceneBuilderLogo.png" /></a>&nbsp;&nbsp;&nbsp;
-      <a href="https://supabase.com/dashboard/org/"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg" /></a>
+      <a href="https://supabase.com/dashboard/org/"><img alt="Supabase" height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg" /></a>
 </h4>
 
 ---
