@@ -74,19 +74,6 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 [Sprint 1](docs/sprints/sprint-01) <br>
 [Sprint 2](docs/sprints/sprint-02) <br>
 
-
-## 🏃‍ DoR - Definition of Ready <a id="dor"></a>
-
-- [x] Histórias bem descritas e compreensíveis
-- [x] Time entende o objetivo e a complexidade
-- [x] Prioridades definidas
-- [x] Metas definidas
-
-## 🏆 DoD - Definition of Done <a id="dod"></a>
-- [ ] Código final escrito e funcional
-- [ ] Documentação finalizada
-- [ ] Code review aprovado
-
 ---
 
 <p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
