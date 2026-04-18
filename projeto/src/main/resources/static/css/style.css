@@ -2,92 +2,58 @@
    SISTEMA DE PLANEJAMENTO DE AULAS - JavaFX CSS
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
-
-/* ---------- ROOT / VARIÁVEIS ---------- */
+/* ---------- ROOT ---------- */
 .root {
     -fx-background-color: #F0EBE1;
-    -fx-font-family: font-family: "Teachers", sans-serif;
+    -fx-font-family: "Teachers", sans-serif;
     -fx-font-size: 13px;
 }
 
 /* ============================================================
-   TOPBAR  →  id="topBar"  (HBox principal do topo)
+   TOPBAR
    ============================================================ */
 #topBar {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #CCCCCC;
-    -fx-border-width: 0 0 1 0;
-    -fx-padding: 0;
-    -fx-min-height: 36px;
-    -fx-max-height: 36px;
-    -fx-alignment: CENTER_LEFT;
+    -fx-background-color: #F0EBE1;
+    -fx-border-color: #000000;
+    -fx-border-width: 0 0 2 0;
 }
 
-/* Label "Emanuel"  →  id="labelUsuario" */
-#labelUsuario {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #AAAAAA;
-    -fx-border-width: 0 1 0 0;
-    -fx-padding: 8 16 8 16;
-    -fx-font-weight: bold;
-    -fx-font-size: 13px;
-}
-
-/* Label "Sistema de Planejamento de aulas"  →  id="labelTitulo" */
 #labelTitulo {
+    -fx-text-fill: #000000;
     -fx-font-weight: bold;
-    -fx-font-size: 14px;
+    -fx-font-size: 32px;
     -fx-alignment: CENTER;
 }
 
-/* Botão "Sair"  →  id="btnSair" */
-#btnSair {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #AAAAAA;
-    -fx-border-width: 0 0 0 1;
-    -fx-padding: 8 16 8 16;
-    -fx-font-size: 13px;
-    -fx-cursor: hand;
-}
-#btnSair:hover {
-    -fx-background-color: #F5F5F5;
-}
-
 /* ============================================================
-   PAINEL CADASTRO  →  id="painelCadastro"  (VBox/AnchorPane)
+   PAINEL CADASTRO
    ============================================================ */
 #painelCadastro {
     -fx-background-color: #000000, #F0EBE1;
     -fx-background-insets: 0, 2 10 10 2;
     -fx-background-radius: 10;
-    -fx-padding: 16;
 }
 
-/* Label "Cadastro de disciplina"  →  id="labelCadastroDisciplina" */
 #labelCadastroDisciplina {
     -fx-text-fill: #000000;
     -fx-background-color: #F5E6CF;
-    -fx-background-radius: 10 10 0 0;
+    -fx-background-radius: 8 8 0 0;
     -fx-border-color: #000000;
     -fx-border-width: 0 0 2 0;
     -fx-font-weight: bold;
-    -fx-font-size: 32px;
-    -fx-padding: 0 0 0 10;
+    -fx-font-size: 28px;
+    -fx-padding: 8 0 8 14;
 }
 
 /* ============================================================
    CAMPOS DE TEXTO
    ============================================================ */
-
-/* TextField "Nome da disciplina"  →  id="tfNomeDisciplina" */
 #tfNomeDisciplina {
     -fx-background-color: #FFFFFF;
     -fx-border-color: #000000;
     -fx-border-width: 2 5 5 2;
     -fx-padding: 6 10 6 10;
-    -fx-pref-width: 450px;
-    -fx-pref-height: 60px;
+    -fx-font-size: 16px;
 }
 #tfNomeDisciplina:focused {
     -fx-border-color: #F25958;
@@ -96,25 +62,17 @@
 /* ============================================================
    COMBOBOXES
    ============================================================ */
-
-/* ComboBox "Curso"  →  id="cbCurso" */
 #cbCurso,
-/* ComboBox "Semestre"  →  id="cbSemestre" */
 #cbSemestre,
-/* ComboBox "Carga horária"  →  id="cbCargaHoraria" */
 #cbCargaHoraria,
-/* ComboBox "Dia"  →  id="cbDia" */
 #cbDia,
-/* ComboBox "Início"  →  id="cbInicio" */
 #cbInicio,
-/* ComboBox "Fim"  →  id="cbFim" */
 #cbFim {
     -fx-background-color: #FFFFFF;
     -fx-border-color: #000000;
-    -fx-font-size: 20px;
+    -fx-font-size: 16px;
     -fx-border-width: 2 5 5 2;
     -fx-padding: 2 6 2 6;
-    -fx-pref-height: 60px;
 }
 
 #cbCurso:focused,
@@ -126,14 +84,6 @@
     -fx-border-color: #F25958;
 }
 
-#cbCurso { -fx-pref-width: 450px; }
-#cbSemestre { -fx-pref-width: 190px; }
-#cbCargaHoraria { -fx-pref-width: 250px; }
-#cbDia { -fx-pref-width: 150px; }
-#cbInicio { -fx-pref-width: 150px; }
-#cbFim { -fx-pref-width: 150px; }
-
-/* Seta dos ComboBoxes */
 #cbCurso .arrow-button,
 #cbSemestre .arrow-button,
 #cbCargaHoraria .arrow-button,
@@ -144,10 +94,10 @@
 }
 
 /* ============================================================
-   BOTÃO "+ Adicionar"  →  id="btnAdicionar"
+   BOTÃO "+ Adicionar"
    ============================================================ */
 #btnAdicionar {
-    -fx-background-color: #ffffff00;
+    -fx-background-color: transparent;
     -fx-border-color: #000000;
     -fx-border-width: 2;
     -fx-border-radius: 30;
@@ -162,19 +112,17 @@
 }
 
 /* ============================================================
-   PAINEL
+   PAINEL DE HORÁRIOS
    ============================================================ */
 #painelHorarios {
     -fx-background-color: #FFFFFF;
     -fx-border-color: #000000;
     -fx-border-width: 2;
-    -fx-pref-width: 260px;
 }
 
-/* Título */
 #labelHorarios {
-    -fx-font-size: 20px;
-    -fx-text-fill: #000000;s
+    -fx-font-size: 18px;
+    -fx-text-fill: #000000;
     -fx-font-weight: bold;
     -fx-padding: 2 0 4 6;
     -fx-background-color: #F5E6CF;
@@ -183,10 +131,8 @@
 }
 
 /* ============================================================
-   TABLEVIEW CUSTOM
+   TABLEVIEW
    ============================================================ */
-
-/* Remove header (colunas) */
 .table-view .column-header-background {
     -fx-max-height: 0;
     -fx-min-height: 0;
@@ -194,25 +140,22 @@
     -fx-opacity: 0;
 }
 
-/* Remove bordas padrão */
 .table-view {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
-/* Linhas */
 .table-row-cell {
     -fx-background-color: transparent;
     -fx-padding: 0;
 }
 
-/* Remove seleção azul feia */
 .table-row-cell:filled:selected {
     -fx-background-color: transparent;
 }
 
 /* ============================================================
-   CONTEÚDO DA LINHA (igual seu HBox antigo)
+   ITENS DA TABELA DE HORÁRIO
    ============================================================ */
 .itemHorario {
     -fx-alignment: CENTER_LEFT;
@@ -221,18 +164,15 @@
     -fx-background-color: #FAFAFA;
 }
 
-/* Dia */
 .labelDiaHorario {
     -fx-pref-width: 80px;
     -fx-font-size: 13px;
 }
 
-/* Horário */
 .labelIntervaloHorario {
     -fx-font-size: 13px;
 }
 
-/* Botão X */
 .btnRemoverHorario {
     -fx-background-color: #E53935;
     -fx-background-radius: 50;
@@ -246,19 +186,18 @@
     -fx-cursor: hand;
     -fx-padding: 0;
 }
-
 .btnRemoverHorario:hover {
     -fx-background-color: #B71C1C;
 }
 
 /* ============================================================
-   BOTÃO "Salvar Disciplina"  →  id="btnSalvarDisciplina"
+   BOTÃO "Salvar Disciplina"
    ============================================================ */
 #btnSalvarDisciplina {
     -fx-background-color: #F25958;
     -fx-text-fill: #FFFFFF;
     -fx-font-weight: bold;
-    -fx-font-size: 20px;
+    -fx-font-size: 18px;
     -fx-border-color: #000000;
     -fx-border-width: 2;
     -fx-border-radius: 30;
@@ -274,16 +213,7 @@
 }
 
 /* ============================================================
-   SEÇÃO "Disciplinas:"  →  id="labelDisciplinas"
-   ============================================================ */
-#labelDisciplinas {
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
-    -fx-padding: 12 0 8 0;
-}
-
-/* ============================================================
-   CARD DE DISCIPLINA  →  styleClass="cardDisciplina"  (VBox)
+   CARD DE DISCIPLINA
    ============================================================ */
 .cardDisciplina {
     -fx-background-color: #FFFFFF;
@@ -291,8 +221,6 @@
     -fx-border-width: 2 5 5 2;
     -fx-border-radius: 6;
     -fx-background-radius: 10;
-    -fx-pref-width: 300px;
-    -fx-pref-height: 300px;
     -fx-alignment: CENTER;
     -fx-cursor: hand;
     -fx-padding: 0;
@@ -303,24 +231,19 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 3);
 }
 
-/* Ícone de pasta dentro do card  →  styleClass="iconePastaDisciplina" */
-.iconePastaDisciplina {
-    -fx-font-size: 40px;
-}
-
-/* Nome da disciplina no card  →  styleClass="cardNomeDisciplina" */
 .cardNomeDisciplina {
     -fx-font-weight: bold;
     -fx-text-fill: #000000;
-    -fx-font-size: 24px;
+    -fx-font-size: 18px;
     -fx-wrap-text: true;
     -fx-alignment: CENTER;
+    -fx-text-alignment: CENTER;
 }
 
-/* Subtítulo (curso - semestre) no card  →  styleClass="cardSubtituloDisciplina" */
 .cardSubtituloDisciplina {
-    -fx-font-size: 24px;
+    -fx-font-size: 16px;
     -fx-alignment: CENTER;
+    -fx-text-alignment: CENTER;
     -fx-text-fill: #000000;
 }
 
@@ -328,34 +251,4 @@
     -fx-background-color: #F5E6CF;
     -fx-border-color: #000000;
     -fx-border-width: 2 0 0 0;
-}
-
-/* Botão editar no card  →  styleClass="btnEditarCard" */
-.btnEditarCard {
-    -fx-background-color: #9E9E9E;
-    -fx-background-radius: 50;
-    -fx-border-radius: 50;
-    -fx-min-width: 24px;
-    -fx-min-height: 24px;
-    -fx-max-width: 24px;
-    -fx-max-height: 24px;
-    -fx-cursor: hand;
-}
-.btnEditarCard:hover {
-    -fx-background-color: #757575;
-}
-
-/* Botão deletar no card  →  styleClass="btnDeletarCard" */
-.btnDeletarCard {
-    -fx-background-color: #E53935;
-    -fx-background-radius: 50;
-    -fx-border-radius: 50;
-    -fx-min-width: 24px;
-    -fx-min-height: 24px;
-    -fx-max-width: 24px;
-    -fx-max-height: 24px;
-    -fx-cursor: hand;
-}
-.btnDeletarCard:hover {
-    -fx-background-color: #B71C1C;
 }

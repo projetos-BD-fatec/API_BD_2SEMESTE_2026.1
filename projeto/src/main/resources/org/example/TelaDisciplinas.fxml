@@ -12,17 +12,25 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../static/css/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller">
+<AnchorPane id="root" stylesheets="@../../static/css/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller">
    <children>
-      <Pane id="painelCadastro" layoutX="213.0" layoutY="49.0" prefHeight="513.0" prefWidth="1468.0">
+      <HBox id="topBar" alignment="CENTER" minHeight="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <VBox layoutX="1.0" layoutY="1.0" prefHeight="503.0" prefWidth="1456.0" spacing="20.0">
+            <Label id="labelTitulo" alignment="CENTER" contentDisplay="CENTER" text="PlanGuide" textAlignment="CENTER">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
+         <children>
+            <VBox id="painelCadastro" alignment="CENTER" maxWidth="1300.0" minHeight="400.0" minWidth="1300.0" spacing="20.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label id="labelCadastroDisciplina" prefHeight="65.0" prefWidth="1468.0" text="Cadastro de disciplina:">
+                  <Label id="labelCadastroDisciplina" blendMode="DARKEN" minWidth="1300.0" text="Cadastro de disciplina:">
                      <font>
                         <Font name="Arial Bold" size="16.0" />
                      </font>
@@ -30,16 +38,16 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <HBox alignment="CENTER" prefHeight="325.0" prefWidth="1416.0" spacing="100.0">
+                  <HBox alignment="CENTER" spacing="100.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox prefHeight="221.0" prefWidth="450.0" spacing="10.0">
+                        <VBox minWidth="450.0" spacing="10.0">
                            <children>
-                              <TextField id="tfNomeDisciplina" opacity="0.73" prefHeight="60.0" prefWidth="450.0" promptText="Nome" stylesheets="@../../static/css/style.css">
+                              <TextField id="tfNomeDisciplina" opacity="0.8" promptText="Nome" stylesheets="@../../static/css/style.css">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </TextField>
-                              <ComboBox id="cbCurso" prefHeight="36.0" prefWidth="459.0" promptText="Curso" stylesheets="@../../static/css/style.css">
+                              <ComboBox id="cbCurso" maxWidth="450.0" minWidth="450.0" promptText="Curso" stylesheets="@../../static/css/style.css">
                                  <effect>
                                     <Bloom threshold="0.63" />
                                  </effect>
@@ -47,14 +55,14 @@
                                     <Insets />
                                  </opaqueInsets>
                               </ComboBox>
-                              <HBox prefHeight="66.0" prefWidth="450.0" spacing="10.0">
+                              <HBox spacing="10.0">
                                  <children>
-                                    <ComboBox id="cbSemestre" promptText="Semestre" stylesheets="@../../static/css/style.css">
+                                    <ComboBox id="cbSemestre" maxWidth="265.0" minWidth="265.0" promptText="Semestre" stylesheets="@../../static/css/style.css">
                                        <effect>
                                           <Bloom threshold="0.81" />
                                        </effect>
                                     </ComboBox>
-                                    <ComboBox id="cbCargaHoraria" promptText="Carga Horária">
+                                    <ComboBox id="cbCargaHoraria" maxWidth="175.0" minWidth="175.0" promptText="Carga Horária">
                                        <effect>
                                           <Bloom threshold="0.63" />
                                        </effect>
@@ -63,39 +71,40 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox prefHeight="296.0" prefWidth="583.0" spacing="10.0">
+                        <VBox spacing="10.0">
                            <children>
-                              <HBox prefHeight="71.0" prefWidth="583.0" spacing="10.0">
+                              <HBox spacing="10.0">
                                  <children>
-                                    <ComboBox id="cbDia" prefWidth="150.0" promptText="Dia" stylesheets="@../../static/css/style.css">
+                                    <ComboBox id="cbDia" minWidth="160.0" promptText="Dia" stylesheets="@../../static/css/style.css">
                                        <effect>
                                           <Bloom threshold="0.63" />
                                        </effect>
                                     </ComboBox>
-                                    <ComboBox id="cbInicio" prefHeight="36.0" prefWidth="130.0" promptText="00h00" stylesheets="@../../static/css/style.css">
+                                    <ComboBox id="cbInicio" minWidth="145.0" promptText="00h00" stylesheets="@../../static/css/style.css">
                                        <effect>
                                           <Bloom threshold="0.63" />
                                        </effect>
                                     </ComboBox>
-                                    <ComboBox id="cbFim" prefHeight="25.0" prefWidth="101.0" promptText="00h00">
+                                    <ComboBox id="cbFim" minWidth="145.0" promptText="00h00">
                                        <effect>
                                           <Bloom threshold="0.63" />
                                        </effect>
                                     </ComboBox>
-                                    <Button id="btnAdicionar" mnemonicParsing="false" prefHeight="62.0" prefWidth="104.0" stylesheets="@../../static/css/style.css" text="+ Adicionar" textAlignment="CENTER">
+                                    <Button id="btnAdicionar" minHeight="46.0" minWidth="100.0" mnemonicParsing="false" stylesheets="@../../static/css/style.css" text="+ Adicionar" textAlignment="CENTER">
                                        <font>
                                           <Font size="14.0" />
-                                       </font></Button>
+                                       </font>
+                                    </Button>
                                  </children>
                               </HBox>
-                              <VBox fx:id="painelHorarios" prefHeight="121.0" prefWidth="583.0">
+                              <VBox fx:id="painelHorarios" minHeight="120.0" prefHeight="120.0">
                                  <Label id="labelHorarios" fx:id="labelHorarios" prefHeight="48.0" prefWidth="579.0" text="Horários da disciplina">
                                     <font>
                                        <Font size="24.0" />
                                     </font>
                                  </Label>
-                           
-                                 <TableView id="tableHorarios" fx:id="tabelaHorarios" prefHeight="230.0" prefWidth="579.0">
+      
+                                                         <TableView id="tableHorarios" fx:id="tabelaHorarios" VBox.vgrow="ALWAYS">
                                     <columns>
                                        <TableColumn id="colHorario" fx:id="colHorario" prefWidth="245.0" />
                                     </columns>
@@ -105,46 +114,56 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="1416.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="1416.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Button id="btnSalvarDisciplina" alignment="CENTER" mnemonicParsing="false" stylesheets="@../../static/css/style.css" text="Salvar Disciplina" textAlignment="CENTER" />
                      </children>
                      <padding>
-                        <Insets right="10.0" />
+                        <Insets bottom="20.0" right="20.0" />
                      </padding>
                   </HBox>
                </children>
             </VBox>
          </children>
-      </Pane>
-      <Button layoutX="208.0" layoutY="579.0" mnemonicParsing="false" onAction="#clicarDisciplina" prefHeight="168.0" prefWidth="250.0" styleClass="cardDisciplina">
-         <graphic>
-            <VBox alignment="CENTER" prefHeight="285.0" prefWidth="303.0">
+      </HBox>
+      <HBox alignment="CENTER" layoutY="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="600.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" maxWidth="1300.0" minWidth="1300.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="195.0" prefWidth="293.0">
-                     <children>
-                        <ImageView fitHeight="157.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../static/imagens/folder.png" />
-                           </image>
-                        </ImageView>
-                     </children></VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="178.0" prefWidth="333.0" styleClass="cardBgTitulo">
-                     <children>
-                        <Label prefHeight="103.0" prefWidth="312.0" styleClass="cardNomeDisciplina" text="Modelagem de Banco de dados" textAlignment="CENTER" wrapText="true">
-                           <font>
-                              <Font name="System Bold" size="21.0" />
-                           </font>
-                        </Label>
-                        <Label prefHeight="49.0" prefWidth="273.0" styleClass="cardSubtituloDisciplina" text="Banco de dados - 2º Sem" textAlignment="CENTER" wrapText="true">
-                           <font>
-                              <Font size="23.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
+                  <Button maxHeight="250.0" maxWidth="250.0" minHeight="250.0" minWidth="250.0" mnemonicParsing="false" onAction="#clicarDisciplina" styleClass="cardDisciplina">
+                     <graphic>
+                        <VBox alignment="CENTER" prefHeight="285.0" prefWidth="303.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="195.0" prefWidth="293.0">
+                                 <children>
+                                    <ImageView fitHeight="157.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../static/imagens/folder.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="TOP_CENTER" prefHeight="178.0" prefWidth="333.0" styleClass="cardBgTitulo">
+                                 <children>
+                                    <Label prefHeight="103.0" prefWidth="312.0" styleClass="cardNomeDisciplina" text="Modelagem de Banco de dados" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font name="System Bold" size="21.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="49.0" prefWidth="273.0" styleClass="cardSubtituloDisciplina" text="Banco de dados - 2º Sem" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font size="23.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </Button>
                </children>
-            </VBox>
-         </graphic></Button>
+            </HBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
