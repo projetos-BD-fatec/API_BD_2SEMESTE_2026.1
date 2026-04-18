@@ -1,6 +1,6 @@
 <a id="readme-top"></a>
 
-#👾 API 2º Semestre BD
+# 👾 API 2º Semestre BD
 
 <p align="center"> <img src="..\..\imagens\logo-bughunters.png" alt="logo da BugHunters" width="200"> <h2 align="center">BugHunters</h2> </p>
 
