@@ -5,9 +5,9 @@
 <p align="center"> <img src="..\..\imagens\logo-bughunters.png" alt="logo da BugHunters" width="200"> <h2 align="center">BugHunters</h2> </p>
 
 # Sprint 2
-Na Sprint 2, nosso foco é entregar o MVP do produto, garantindo que o professor já consiga realizar o planejamento das aulas de forma completa e funcional.
-Priorizamos as funcionalidades essenciais para resolver o problema principal, enquanto melhorias de usabilidade e recursos adicionais serão desenvolvidos nas próximas sprints, evoluindo a experiência do usuário.
-Metas da sprint: US01, US02, US03, US04, US05, US06, US07.
+Na Sprint 2, nosso foco é entregar o MVP do produto, garantindo que o professor já consiga realizar o planejamento das aulas de forma completa e funcional.<br>
+Priorizamos as funcionalidades essenciais para resolver o problema principal, enquanto melhorias de usabilidade e recursos adicionais serão desenvolvidos nas próximas sprints, evoluindo a experiência do usuário.<br>
+**Metas da sprint:** US01, US02, US03, US04, US05, US06, US07.
 
 ## 📄 Backlog da Sprint <a id="backlog"></a>
 
@@ -23,7 +23,6 @@ Metas da sprint: US01, US02, US03, US04, US05, US06, US07.
 |  [US08](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/Docs/Backlog/docs/User_Stories/US08.md)     | Controle carga horária              | Como professor, desejo ser avisado quando a carga horária não estiver sendo cumprida.                                                                                                                               | Moderada   | 2      | Bônus da sprint 2 | 3 |
 | [US09](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/Docs/Backlog/docs/User_Stories/US09.md)      | Calendário acadêmico                | Como professor, desejo ser avisado ao tentar planejar aulas em datas não letivas/proibidas para evitar conflitos no cronograma.                                                                                     | Moderada   | 2      | Bônus da sprint 2 | 3 |
 | [US10](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/Docs/Backlog/docs/User_Stories/US10.md)      | Exportar planejamento               | Como professor, desejo exportar o planejamento de aulas para facilitar subir em outras plataformas.                                                                                                                 | Moderada   | 2      | Bônus da sprint 2 | 5 |
-| [US11](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/Docs/Backlog/docs/User_Stories/US11.md)     | Gestão de disciplinas               | Como professor, desejo cadastrar uma disciplina informando nome, curso, semestre e carga horária para iniciar o planejamento das aulas do semestre.                                                                 | Baixa      | 2      | Bônus da sprint 2              | 3 |
 
 ---
 
