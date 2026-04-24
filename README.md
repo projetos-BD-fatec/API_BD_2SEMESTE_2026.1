@@ -113,7 +113,13 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 
 ## 📁 Documentação <a id="documentacao"></a>
 
-<a href="docs/README.md"><img src="https://img.shields.io/badge/Leia_mais-F2F0EF?style=for-the-badge&logo=folder&logoColor=white"></a>
+### <a href="docs/README.md">Resumo</a>
+1. <a href="docs/processos/aceitação-e-permanência.md">Aceitação e permanência</a>
+2. <a href="docs/processos/estratégia-de-branch.md">Estratégia de branch</a>
+3. <a href="docs/processos/guia-estrutura-projeto.md">Estrutura do projeto</a>
+4. <a href="docs/processos/guia-pull-requests.md">Guia de Pull Request</a>
+5. <a href="docs/processos/padrão-de-commit.md">Padrões de commit</a>
+      
           
 
 ## 🎓 Equipe <a id="equipe"></a>
