@@ -1,4 +1,4 @@
-package org.example;
+package org.example.infrastructure;
 
 import java.sql.Connection;
 
@@ -6,7 +6,7 @@ public class Teste {
 
     public static void main(String[] args) {
 
-        try (Connection conn = Conexao.conectar()) {
+        try (Connection conn = ConexaoBD.conectar()) {
 
             if (conn != null) {
                 System.out.println("Conectado com sucesso!");
