@@ -250,3 +250,21 @@
     -fx-border-color: transparent;
     -fx-pref-height: 30px;
 }
+
+.campoComLabel {
+    -fx-spacing: 4;
+    -fx-alignment: TOP_LEFT;
+}
+
+.labelCampoPequeno {
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-text-fill: #000000;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0;
+}
+
+.linhaCadastro {
+    -fx-alignment: BOTTOM_LEFT;
+    -fx-spacing: 10;
+}
