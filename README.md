@@ -13,6 +13,7 @@
   <a href ="#backlog">Backlog</a>  |
   <a href ="#dor">DoR</a>  |
   <a href ="#dod">DoD</a>  |
+  <a href ="#sprint"> Cronograma de Sprints</a>  |
   <a href ="#tecnologias">Tecnologias</a>  |
   <a href ="#documentacao">Documentação</a>  |
   <a href ="#equipe"> Equipe</a> |
@@ -70,6 +71,16 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 
 <p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
 
+## 📅 Cronograma de Sprints <a id="sprint"></a>
+
+| Sprint          |    Período    | Documentação    |
+| --------------- | :-----------: | --------------- |
+| 🔖 **SPRINT 1** | 16/03 - 05/04 | [Sprint 1 Docs](docs/sprints/sprint-01) |
+| 🔖 **SPRINT 2** | 13/04 - 03/05 | [Sprint 2 Docs](docs/sprints/sprint-02) |
+| 🔖 **SPRINT 3** | 11/05 - 31/05 | [Sprint 3 Docs](docs/sprints/sprint-03) |
+
+<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
+
 ## 🏃‍ DoR - Definition of Ready <a id="dor"></a>
 
 - [x] Histórias bem descritas e compreensíveis
@@ -102,7 +113,14 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 
 ## 📁 Documentação <a id="documentacao"></a>
 
-- [Resumo da documentação](docs/README.md)
+### <a href="docs/README.md">Resumo</a>
+1. <a href="docs/processos/aceitação-e-permanência.md">Aceitação e permanência</a>
+2. <a href="docs/processos/estratégia-de-branch.md">Estratégia de branch</a>
+3. <a href="docs/processos/guia-estrutura-projeto.md">Estrutura do projeto</a>
+4. <a href="docs/processos/guia-pull-requests.md">Guia de Pull Request</a>
+5. <a href="docs/processos/padrão-de-commit.md">Padrões de commit</a>
+      
+          
 
 ## 🎓 Equipe <a id="equipe"></a>
 
