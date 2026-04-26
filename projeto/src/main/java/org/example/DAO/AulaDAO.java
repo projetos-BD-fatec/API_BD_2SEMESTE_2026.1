@@ -34,7 +34,7 @@ public class AulaDAO {
 
     public List<Aula> findByDisciplinaId(Long disciplinaId) {
         List<Aula> aulas = new ArrayList<>();
-        String sql = "SELECT a.*, c.dia_semana, c.evento FROM aula a JOIN calendario c ON a.data = c.data WHERE a.disciplina_id = ?";
+        String sql = "SELECT a.*, c.dia_semana, c.evento FROM aula a JOIN calendario c ON a.data = c.data WHERE a.disciplina_id = ? ORDER BY  a.data, a.hora_inicio";
 
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

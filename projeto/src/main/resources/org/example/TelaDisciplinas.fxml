@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.Controller">
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.DisciplinasController">
    <content>
-      <AnchorPane id="root" stylesheets="@../../static/css/style.css">
+      <AnchorPane id="root" stylesheets="@../../static/css/disciplina.css">
          <children>
             <HBox id="topBar" alignment="CENTER" minHeight="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
@@ -45,12 +45,12 @@
                            <children>
                               <VBox minWidth="450.0" spacing="10.0">
                                  <children>
-                                    <TextField id="tfNomeDisciplina" opacity="0.8" promptText="Nome" stylesheets="@../../static/css/style.css">
+                                    <TextField id="tfNomeDisciplina" opacity="0.8" promptText="Nome" stylesheets="@../../static/css/disciplina.css">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </TextField>
-                                    <ComboBox id="cbCurso" maxWidth="450.0" minWidth="450.0" promptText="Curso" stylesheets="@../../static/css/style.css">
+                                    <ComboBox id="cbCurso" maxWidth="450.0" minWidth="450.0" promptText="Curso" stylesheets="@../../static/css/disciplina.css">
                                        <effect>
                                           <Bloom threshold="0.63" />
                                        </effect>
@@ -60,7 +60,7 @@
                                     </ComboBox>
                                     <HBox spacing="10.0">
                                        <children>
-                                          <ComboBox id="cbSemestre" maxWidth="265.0" minWidth="265.0" promptText="Semestre" stylesheets="@../../static/css/style.css">
+                                          <ComboBox id="cbSemestre" maxWidth="265.0" minWidth="265.0" promptText="Semestre" stylesheets="@../../static/css/disciplina.css">
                                              <effect>
                                                 <Bloom threshold="0.81" />
                                              </effect>
@@ -78,12 +78,12 @@
                                  <children>
                                     <HBox spacing="10.0">
                                        <children>
-                                          <ComboBox id="cbDia" minWidth="160.0" promptText="Dia" stylesheets="@../../static/css/style.css">
+                                          <ComboBox id="cbDia" minWidth="160.0" promptText="Dia" stylesheets="@../../static/css/disciplina.css">
                                              <effect>
                                                 <Bloom threshold="0.63" />
                                              </effect>
                                           </ComboBox>
-                                          <ComboBox id="cbInicio" minWidth="145.0" promptText="00h00" stylesheets="@../../static/css/style.css">
+                                          <ComboBox id="cbInicio" minWidth="145.0" promptText="00h00" stylesheets="@../../static/css/disciplina.css">
                                              <effect>
                                                 <Bloom threshold="0.63" />
                                              </effect>
@@ -93,7 +93,7 @@
                                                 <Bloom threshold="0.63" />
                                              </effect>
                                           </ComboBox>
-                                          <Button id="btnAdicionar" minHeight="46.0" minWidth="100.0" mnemonicParsing="false" stylesheets="@../../static/css/style.css" text="+ Adicionar" textAlignment="CENTER">
+                                          <Button id="btnAdicionar" minHeight="46.0" minWidth="100.0" mnemonicParsing="false" stylesheets="@../../static/css/disciplina.css" text="+ Adicionar" textAlignment="CENTER">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -119,7 +119,7 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="1416.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button id="btnSalvarDisciplina" alignment="CENTER" mnemonicParsing="false" stylesheets="@../../static/css/style.css" text="Salvar Disciplina" textAlignment="CENTER" />
+                              <Button id="btnSalvarDisciplina" alignment="CENTER" mnemonicParsing="false" stylesheets="@../../static/css/disciplina.css" text="Salvar Disciplina" textAlignment="CENTER" />
                            </children>
                            <padding>
                               <Insets bottom="20.0" right="20.0" />

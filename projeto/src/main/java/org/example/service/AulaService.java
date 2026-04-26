@@ -35,4 +35,8 @@ public class AulaService {
             }
         }
     }
+
+    public List<Aula> buscarAulas(Long disciplinaId) {
+        return aulaDAO.findByDisciplinaId(disciplinaId);
+    }
 }

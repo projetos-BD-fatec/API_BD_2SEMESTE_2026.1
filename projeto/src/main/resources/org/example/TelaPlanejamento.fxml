@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1021.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller">
+<AnchorPane stylesheets="@../../static/css/planejamento.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.PlanejamentoController">
 
     <children>
       <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -32,7 +32,7 @@
 
                 <Label id="labelTitulo" maxWidth="Infinity" prefHeight="60.0" text="PlanGuide" HBox.hgrow="ALWAYS" />
 
-                <Button id="btnVoltar" mnemonicParsing="false" onAction="#clicarBtnVoltar" prefHeight="60.0" prefWidth="110.0" text="← Voltar" />
+                <Button id="btnVoltar" mnemonicParsing="false" onAction="#clicarVoltar" prefHeight="60.0" prefWidth="110.0" text="← Voltar" />
             </children>
         </HBox>
 
@@ -40,11 +40,11 @@
         <VBox id="mainContent" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
 
             <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox>
                <children>
       
                       <!-- COMBO DISCIPLINA -->
-                      <ComboBox id="comboDisciplina" fx:id="cbEscolherDisciplina" onAction="#escolherDicilplina" prefHeight="42.0" prefWidth="400.0" promptText="Modelagem de Banco de Dados – BD 2º Sem." />
+                      <ComboBox id="comboDisciplina" fx:id="cbEscolherDisciplina" prefHeight="42.0" prefWidth="400.0" promptText="Modelagem de Banco de Dados – BD 2º Sem." />
                </children>
             </HBox>
 
@@ -72,13 +72,13 @@
 
                                         <HBox spacing="10.0">
                                             <children>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                    <VBox prefWidth="100.0">
                                        <children>
                                           <Label minWidth="72.0" prefHeight="23.0" prefWidth="448.0" styleClass="sectionTitle" text="Cadastro de tópico:" />
                                                       <TextField fx:id="txtTopico" maxWidth="500.0" minWidth="450.0" promptText="Tópico" styleClass="inputText" />
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                    <VBox prefWidth="100.0">
                                        <children>
                   
                                                     <Label minWidth="72.0" prefHeight="23.0" prefWidth="72.0" styleClass="sectionTitle" text="Mín:" />
@@ -86,30 +86,30 @@
                                                       <Spinner fx:id="spinnerMin" prefWidth="75.0" styleClass="numberInput" />
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                    <VBox prefWidth="100.0">
                                        <children>
                                           <Label minWidth="72.0" prefHeight="23.0" styleClass="sectionTitle" text="Max:" />
                                           <Spinner fx:id="spinnerMax" prefWidth="75.0" styleClass="numberInput" />
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                    <VBox prefWidth="100.0">
                                        <children>
                                           <Label minWidth="72.0" prefHeight="23.0" styleClass="sectionTitle" text="Peso:" />
       
                                                       <ComboBox fx:id="cbPeso" prefWidth="100.0" promptText="Peso 1" styleClass="comboPeso" />
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                    <VBox prefWidth="100.0">
                                        <children>
                                           <Label minWidth="72.0" prefWidth="23.0" styleClass="sectionTitle" />
       
-                                                            <Button id="btnIncluir" fx:id="btnIncluir" onAction="#clicarBtnIncluir" text="Incluir" />
+                                                            <Button id="btnIncluir" fx:id="btnIncluir" text="Incluir" />
                                        </children>
                                     </VBox>
                                             </children>
                                         </HBox>
 
-                                        <Label alignment="CENTER" maxWidth="Infinity" prefHeight="193.0" prefWidth="796.0" styleClass="emptyText" text="Nenhum tópico cadastrado" />
+                                        <Label alignment="CENTER" maxWidth="Infinity" styleClass="emptyText" text="Nenhum tópico cadastrado" VBox.vgrow="ALWAYS" />
 
                                     </children>
                                 </VBox>
@@ -183,7 +183,7 @@
                         </HBox>
 
                         <!-- TABELA -->
-                        <TableView fx:id="tabelaCronograma" prefHeight="360.0" prefWidth="992.0">
+                        <TableView fx:id="tabelaCronograma" VBox.vgrow="ALWAYS">
 
                             <columns>
                                 <TableColumn fx:id="colData" prefWidth="120.0" text="Data" />
