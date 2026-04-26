@@ -1,6 +1,6 @@
 package org.example.model;
 
-public class DiaSemana {
+public enum DiaSemana {
     SEGUNDA("Segunda"),
     TERCA("Terça"),
     QUARTA("Quarta"),

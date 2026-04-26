@@ -9,7 +9,7 @@ public class Horario {
     private LocalTime horaInicio;
     private LocalTime horaFim;
 
-    public Horario(Long id, Long disciplinaId, String diaSemana, Time horaInicio, Time horaFim) {
+    public Horario(Long id, Long disciplinaId, DiaSemana diaSemana, LocalTime horaInicio, LocalTime horaFim) {
         this.id = id;
         this.disciplinaId = disciplinaId;
         this.diaSemana = diaSemana;
@@ -33,11 +33,11 @@ public class Horario {
         this.disciplinaId = disciplinaId;
     }
 
-    public String getDiaSemana() {
+    public DiaSemana getDiaSemana() {
         return diaSemana;
     }
 
-    public void setDiaSemana(String diaSemana) {
+    public void setDiaSemana(DiaSemana diaSemana) {
         this.diaSemana = diaSemana;
     }
 
