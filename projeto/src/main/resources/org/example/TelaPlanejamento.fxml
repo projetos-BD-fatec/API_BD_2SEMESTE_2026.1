@@ -3,51 +3,211 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1021.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.Controller">
-   <children>
-      <Label layoutX="34.0" prefHeight="77.0" prefWidth="658.0" text="Organização de conteúdo.">
-         <font>
-            <Font name="System Bold Italic" size="48.0" />
-         </font>
-      </Label>
-      <Button layoutX="845.0" layoutY="26.0" mnemonicParsing="false" onAction="#clicarBtnVoltar" prefHeight="51.0" prefWidth="110.0" text="Voltar" AnchorPane.rightAnchor="66.0">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Button>
-      <Label layoutX="52.0" layoutY="116.0" prefHeight="44.0" prefWidth="127.0" text="Disciplina:">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="52.0" layoutY="188.0" prefHeight="44.0" prefWidth="110.0" text="Turma:">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="cbEscolherDisciplina" layoutX="197.0" layoutY="121.0" onAction="#escolherDicilplina" prefHeight="44.0" prefWidth="184.0" />
-      <ComboBox fx:id="cbEscolherTurma" layoutX="197.0" layoutY="193.0" onAction="#escolherTurma" prefHeight="44.0" prefWidth="184.0" />
-      <Label layoutX="52.0" layoutY="276.0" prefHeight="44.0" prefWidth="160.0" text="Cronograma.">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tabelaCronograma" layoutX="52.0" layoutY="347.0" prefHeight="336.0" prefWidth="934.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="347.0">
-        <columns>
-          <TableColumn fx:id="colData" prefWidth="103.19998931884766" text="Data" />
-          <TableColumn fx:id="colDia" prefWidth="122.39997863769531" text="Dia" />
-            <TableColumn fx:id="colHorario" minWidth="0.0" prefWidth="109.60003662109375" text="Horário" />
-            <TableColumn fx:id="colEvento" prefWidth="331.20001220703125" text="Evento" />
-            <TableColumn fx:id="colConteudo" prefWidth="265.79999999999995" text="Conteúdo" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
-   </children>
+<AnchorPane prefHeight="720.0" prefWidth="1021.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller">
+
+    <children>
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
+
+        <!-- TOPBAR -->
+        <HBox id="topBar" alignment="CENTER" prefHeight="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <children>
+                <Label id="labelUsuario" prefHeight="60.0" prefWidth="130.0" text="Emanuel" />
+
+                <Label id="labelTitulo" maxWidth="Infinity" prefHeight="60.0" text="PlanGuide" HBox.hgrow="ALWAYS" />
+
+                <Button id="btnVoltar" mnemonicParsing="false" onAction="#clicarBtnVoltar" prefHeight="60.0" prefWidth="110.0" text="← Voltar" />
+            </children>
+        </HBox>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <VBox id="mainContent" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+
+            <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+      
+                      <!-- COMBO DISCIPLINA -->
+                      <ComboBox id="comboDisciplina" fx:id="cbEscolherDisciplina" onAction="#escolherDicilplina" prefHeight="42.0" prefWidth="400.0" promptText="Modelagem de Banco de Dados – BD 2º Sem." />
+               </children>
+            </HBox>
+
+                <!-- CARD PRINCIPAL -->
+                <VBox id="cardOrganizacao" alignment="CENTER" maxWidth="1200.0">
+
+                    <children>
+
+                        <!-- HEADER DO CARD -->
+                        <HBox id="cardHeader" prefHeight="48.0">
+                            <children>
+                                <Label id="cardHeaderLabel" text="Organização do conteúdo" />
+                            </children>
+                        </HBox>
+
+                        <!-- ÁREA DE CADASTRO + INDICADORES -->
+                        <HBox id="areaCadastro" spacing="30.0">
+
+                            <children>
+
+                                <!-- LADO ESQUERDO -->
+                                <VBox spacing="18.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                              <HBox />
+
+                                        <HBox spacing="10.0">
+                                            <children>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Label minWidth="72.0" prefHeight="23.0" prefWidth="448.0" styleClass="sectionTitle" text="Cadastro de tópico:" />
+                                                      <TextField fx:id="txtTopico" maxWidth="500.0" minWidth="450.0" promptText="Tópico" styleClass="inputText" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                  
+                                                    <Label minWidth="72.0" prefHeight="23.0" prefWidth="72.0" styleClass="sectionTitle" text="Mín:" />
+      
+                                                      <Spinner fx:id="spinnerMin" prefWidth="75.0" styleClass="numberInput" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Label minWidth="72.0" prefHeight="23.0" styleClass="sectionTitle" text="Max:" />
+                                          <Spinner fx:id="spinnerMax" prefWidth="75.0" styleClass="numberInput" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Label minWidth="72.0" prefHeight="23.0" styleClass="sectionTitle" text="Peso:" />
+      
+                                                      <ComboBox fx:id="cbPeso" prefWidth="100.0" promptText="Peso 1" styleClass="comboPeso" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Label minWidth="72.0" prefWidth="23.0" styleClass="sectionTitle" />
+      
+                                                            <Button id="btnIncluir" fx:id="btnIncluir" onAction="#clicarBtnIncluir" text="Incluir" />
+                                       </children>
+                                    </VBox>
+                                            </children>
+                                        </HBox>
+
+                                        <Label alignment="CENTER" maxWidth="Infinity" prefHeight="193.0" prefWidth="796.0" styleClass="emptyText" text="Nenhum tópico cadastrado" />
+
+                                    </children>
+                                </VBox>
+
+                                <!-- INDICADORES -->
+                                <VBox spacing="12.0">
+                                    <children>
+
+                                        <Label styleClass="sectionTitle" text="Indicadores:" />
+
+                                        <VBox id="cardIndicadores" maxWidth="240.0" spacing="14.0">
+                                            <children>
+
+                                                <HBox spacing="6.0">
+                                                    <children>
+                                                        <Label styleClass="indicadorTitulo" text="Carga horária:" />
+                                                        <Label styleClass="horaVermelha" text="00:00" />
+                                                        <Label styleClass="horaNormal" text="/ 40:00" />
+                                                    </children>
+                                                </HBox>
+
+                                                <GridPane hgap="10.0" vgap="10.0">
+                                                    <children>
+
+                                                        <VBox styleClass="indicadorBox" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                            <children>
+                                                                <Label styleClass="indicadorNumero" text="16" />
+                                                                <Label styleClass="indicadorTexto" text="Aulas totais" />
+                                                            </children>
+                                                        </VBox>
+
+                                                        <VBox styleClass="indicadorBox" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                                            <children>
+                                                                <Label styleClass="indicadorNumero" text="2" />
+                                                                <Label styleClass="indicadorTexto" text="Planejadas" />
+                                                            </children>
+                                                        </VBox>
+
+                                                        <VBox styleClass="indicadorBox" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                            <children>
+                                                                <Label styleClass="indicadorNumero" text="16" />
+                                                                <Label styleClass="indicadorTexto" text="Restantes" />
+                                                            </children>
+                                                        </VBox>
+
+                                                        <VBox styleClass="indicadorBox" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                            <children>
+                                                                <Label styleClass="indicadorNumero" text="2" />
+                                                                <Label styleClass="indicadorTexto" text="Tópicos" />
+                                                            </children>
+                                                        </VBox>
+
+                                                    </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints />
+                                          <ColumnConstraints />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints />
+                                          <RowConstraints />
+                                       </rowConstraints>
+                                                </GridPane>
+
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </VBox>
+
+                            </children>
+                        </HBox>
+
+                        <!-- TABELA -->
+                        <TableView fx:id="tabelaCronograma" prefHeight="360.0" prefWidth="992.0">
+
+                            <columns>
+                                <TableColumn fx:id="colData" prefWidth="120.0" text="Data" />
+
+                                <TableColumn fx:id="colDia" prefWidth="120.0" text="Dia da semana" />
+
+                                <TableColumn fx:id="colEvento" prefWidth="130.0" text="Evento" />
+
+                                <TableColumn fx:id="colHorario" prefWidth="140.0" text="Horário" />
+
+                                <TableColumn fx:id="colConteudo" prefWidth="250.0" text="Conteúdo" />
+                            </columns>
+
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+
+                        </TableView>
+
+                    </children>
+                </VBox>
+
+            </children>
+        </VBox>
+
+    </children>
 </AnchorPane>

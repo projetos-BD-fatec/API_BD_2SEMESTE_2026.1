@@ -10,9 +10,56 @@ Este arquivo tem como objetivo estabelecer uma estrutura padrão para as pastas 
 ├── projeto/
 │    ├── .idea/
 │    ├── src/
+│    │    ├── main/
+│    │    │    ├── java/
+│    │    │    │    └── org/example/
+│    │    │    │         ├── Main.java
+│    │    │    │         |
+│    │    │    │         ├── model/           # EXEMPLO: Representação das entidades do sistema
+│    │    │    │         │    ├── Disciplina.java
+│    │    │    │         │    ├── Aula.java
+│    │    │    │         │    ├── Topico.java
+│    │    │    │         │    └── Horario.java
+│    │    │    │         |
+│    │    │    │         ├── dao/             #EXEMPLO: Acesso ao banco (CRUD)
+│    │    │    │         │    ├── DisciplinaDAO.java
+│    │    │    │         │    ├── AulaDAO.java
+│    │    │    │         │    ├── TopicoDAO.java
+│    │    │    │         │    └── HorarioDAO.java
+│    │    │    │         |
+│    │    │    │         ├── db/              # Configuração e conexão com banco
+│    │    │    │         │    ├── Conexao.java
+│    │    │    │         │    └── ConfigBD.java
+│    │    │    │         |
+│    │    │    │         ├── controller/      # Controllers do JavaFX
+│    │    │    │         │    ├── TelaDisciplinasController.java
+│    │    │    │         │    └── TelaPlanejamentoController.java
+│    │    │    │         |
+│    │    │    │         └── service/         # Regras de negócio (opcional, mas recomendado)
+│    │    │    │              └── PlanejamentoService.java
+│    │    │    │
+│    │    │    ├── resources/
+│    │    │    │    ├── db.properties        # Configuração do banco
+│    │    │    │    |
+│    │    │    │    ├── org/example/
+│    │    │    │    │    ├── TelaDisciplinas.fxml
+│    │    │    │    │    └── TelaPlanejamento.fxml
+│    │    │    │    |
+│    │    │    │    ├── static/
+│    │    │    │    │    └── css/
+│    │    │    │    │         └── style.css
+│    │    │    │    |
+│    │    │    │    └── imagens/
+│    │    │    │         └── (logos, ícones, etc)
+│    │    │    │
+│    │    │    └── module-info.java
+│    │    │
+│    │    └── test/                         # Testes
+│    │
 │    ├── target/
 │    ├── pom.xml
 │    └── .gitignore
+│
 └── docs/
      ├── processos/
      │   ├── estratégia-de-branch.md
@@ -20,9 +67,11 @@ Este arquivo tem como objetivo estabelecer uma estrutura padrão para as pastas 
      │   ├── guia-estrutura-projeto.md
      │   ├── guia-de-pull-requests.md
      │   └── aceitação-e-permanência.md
+     │
      ├── imagens/
      │   ├── fluxograma-branches.png
      │   └── logo-bughunters.png
+     │
      ├── sprints/
      │   ├── sprint-01/
      │   │   └── README.md
@@ -30,5 +79,6 @@ Este arquivo tem como objetivo estabelecer uma estrutura padrão para as pastas 
      │   │   └── README.md
      │   └── sprint-03/
      │         └── README.md
+     │
      └── documentação.md
 ```
