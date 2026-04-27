@@ -35,6 +35,7 @@ public class App extends Application {
     public static void navegarParaPlanejamento(Long disciplinaId) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("TelaPlanejamento.fxml"));
         Parent root = loader.load();
+
         PlanejamentoController controller = loader.getController();
         controller.setDisciplinaId(disciplinaId);
         scene.setRoot(root);
