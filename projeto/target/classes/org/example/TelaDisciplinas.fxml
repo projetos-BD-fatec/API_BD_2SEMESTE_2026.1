@@ -18,7 +18,7 @@
 
 <ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.DisciplinasController">
    <content>
-      <AnchorPane id="root" fx:id="root" stylesheets="@../../static/css/disciplina.css">
+      <AnchorPane fx:id="root" styleClass="root" stylesheets="@../../static/css/disciplina.css">
          <children>
             <HBox id="topBar" fx:id="topBar" alignment="CENTER" minHeight="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
