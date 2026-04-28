@@ -58,6 +58,7 @@ public class PlanejamentoController {
             {
                 comboTopico.setMaxWidth(Double.MAX_VALUE);
                 comboTopico.setPromptText("Selecionar");
+                comboTopico.getStyleClass().add("comboTabela");
             }
 
             @Override
