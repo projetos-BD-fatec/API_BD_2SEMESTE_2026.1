@@ -5,12 +5,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ComboBox; // CORRIGIDO: import correto
+import javafx.scene.control.TableCell; // CORRIGIDO: import correto
 import org.example.App;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
 import org.example.DAO.HorarioDAO;
 import org.example.model.Aula;
-import org.example.model.DiaSemana;
 import org.example.service.AulaService;
 
 import java.time.LocalDate;
@@ -49,9 +50,28 @@ public class PlanejamentoController {
             String horario = aula.getHoraInicio() + " - " + aula.getHoraFim();
             return new SimpleStringProperty(horario);
         });
-        colConteudo.setCellValueFactory(cell -> new SimpleStringProperty(""));
+
+        // --- CÓDIGO DA STORY 5 CORRIGIDO ---
+        colConteudo.setCellFactory(col -> new TableCell<Aula, String>() {
+            private final ComboBox<String> comboTopico = new ComboBox<>();
+
+            {
+                comboTopico.setMaxWidth(Double.MAX_VALUE);
+                comboTopico.setPromptText("Selecionar");
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(comboTopico);
+                }
+            }
+        }); // FECHAMENTO CORRIGIDO: });
+
         List<Aula> aulas = aulaService.buscarAulas(disciplinaId);
         tabelaCronograma.getItems().setAll(aulas);
     }
-
 }
