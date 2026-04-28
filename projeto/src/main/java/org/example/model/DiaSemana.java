@@ -27,4 +27,9 @@ public enum DiaSemana {
         throw new IllegalArgumentException("Dia inválido: " + valor);
     }
 
+    @Override
+    public String toString() {
+        return valorBanco;
+    }
+
 }
