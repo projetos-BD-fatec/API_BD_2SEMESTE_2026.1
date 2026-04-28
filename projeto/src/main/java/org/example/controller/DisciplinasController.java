@@ -11,15 +11,16 @@ import javafx.scene.control.TableView;
 import org.example.App;
 import org.example.model.DiaSemana;
 import org.example.model.Horario;
+import org.example.util.DadosFixos;
+
 import java.time.LocalTime;
+import java.util.List;
 
 public class DisciplinasController {
 
     @FXML private ComboBox<DiaSemana> cbDia;
     @FXML private ComboBox<LocalTime> cbInicio;
     @FXML private ComboBox<LocalTime> cbFim;
-    @FXML private Button btnAdicionar;
-
     @FXML private TableView<Horario> tabelaHorarios;
     @FXML private TableColumn<Horario, String> colDia;
     @FXML private TableColumn<Horario, String> colInicio;
@@ -29,39 +30,33 @@ public class DisciplinasController {
 
     @FXML
     public void initialize() {
-        // 1. Preenche os dias da semana
-        cbDia.setItems(FXCollections.observableArrayList(DiaSemana.values()));
+        cbDia.getItems().setAll(DiaSemana.values());
 
-        // 2. Cria a lista de horários manuais da FATEC
-        ObservableList<LocalTime> listaDeHoras = FXCollections.observableArrayList(
-                LocalTime.of(18, 45),
-                LocalTime.of(19, 35),
-                LocalTime.of(20, 25),
-                LocalTime.of(21, 25),
-                LocalTime.of(22, 15),
-                LocalTime.of(23, 0)
-        );
-        // Toda vez que o usuário escolher um horário de Início...
-        cbInicio.valueProperty().addListener((observable, valorAntigo, valorNovo) -> {
-            if (valorNovo != null) {
-                // Criamos uma nova lista filtrada apenas com horários DEPOIS do início
-                ObservableList<LocalTime> horariosFiltrados = listaDeHoras.filtered(horario ->
-                        horario.isAfter(valorNovo)
-                );
+        cbInicio.getItems().setAll(DadosFixos.HORARIOS);
 
-                // Atualizamos as opções do campo de Fim
+        cbFim.getItems().setAll(DadosFixos.HORARIOS);
+
+
+        cbInicio.valueProperty().addListener((obs, antigo, novo) -> {
+
+            if (novo != null) {
+
+                ObservableList<LocalTime> horariosFiltrados =
+                        FXCollections.observableArrayList(
+                                DadosFixos.HORARIOS.filtered(
+                                        h -> h.isAfter(novo)
+                                )
+                        );
+
                 cbFim.setItems(horariosFiltrados);
 
-                // Se o horário de fim que já estava selecionado for inválido, limpamos ele
-                if (cbFim.getValue() != null && !cbFim.getValue().isAfter(valorNovo)) {
+                if (cbFim.getValue() != null &&
+                        !cbFim.getValue().isAfter(novo)) {
+
                     cbFim.setValue(null);
                 }
             }
         });
-
-        // 3. Alimenta os ComboBoxes
-        cbInicio.setItems(listaDeHoras);
-        cbFim.setItems(listaDeHoras);
 
         // 4. Configura as colunas da tabela
         colDia.setCellValueFactory(cell ->
