@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -70,46 +71,57 @@
                                     <children>
                               <HBox />
 
-                                        <HBox spacing="10.0">
+                                        <HBox maxHeight="65.0" spacing="10.0">
                                             <children>
-                                    <VBox prefWidth="100.0">
+                                    <VBox>
                                        <children>
-                                          <Label minWidth="72.0" prefHeight="23.0" prefWidth="448.0" styleClass="sectionTitle" text="Cadastro de tópico:" />
-                                                      <TextField fx:id="txtTopico" maxWidth="500.0" minWidth="450.0" promptText="Tópico" styleClass="inputText" />
+                                          <Label styleClass="sectionTitle" text="Cadastro de tópico:" />
+                                                      <TextField fx:id="txtTopico" maxWidth="300.0" minWidth="300.0" promptText="Tópico" styleClass="inputText" />
                                        </children>
                                     </VBox>
-                                    <VBox prefWidth="100.0">
+                                    <VBox>
                                        <children>
                   
-                                                    <Label minWidth="72.0" prefHeight="23.0" prefWidth="72.0" styleClass="sectionTitle" text="Mín:" />
+                                                    <Label styleClass="sectionTitle" text="Mín:" />
       
                                                       <Spinner fx:id="spinnerMin" prefWidth="75.0" styleClass="numberInput" />
                                        </children>
                                     </VBox>
-                                    <VBox prefWidth="100.0">
+                                    <VBox>
                                        <children>
-                                          <Label minWidth="72.0" prefHeight="23.0" styleClass="sectionTitle" text="Max:" />
+                                          <Label styleClass="sectionTitle" text="Max:" />
                                           <Spinner fx:id="spinnerMax" prefWidth="75.0" styleClass="numberInput" />
                                        </children>
                                     </VBox>
                                     <VBox prefWidth="100.0">
                                        <children>
-                                          <Label minWidth="72.0" prefHeight="23.0" styleClass="sectionTitle" text="Peso:" />
+                                          <Label styleClass="sectionTitle" text="Peso:" />
       
                                                       <ComboBox fx:id="cbPeso" prefWidth="100.0" promptText="Peso 1" styleClass="comboPeso" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                                       <children>
+                                          <Label styleClass="sectionTitle" text="Avaliação" />
+                                          <CheckBox fx:id="chkAvaliacao" mnemonicParsing="false" />
                                        </children>
                                     </VBox>
                                     <VBox prefWidth="100.0">
                                        <children>
                                           <Label minWidth="72.0" prefWidth="23.0" styleClass="sectionTitle" />
       
-                                                            <Button id="btnIncluir" fx:id="btnIncluir" text="Incluir" />
+                                                            <Button id="btnIncluir" fx:id="btnIncluir" onAction="#clicarIncluir" text="Incluir" />
                                        </children>
                                     </VBox>
                                             </children>
                                         </HBox>
 
-                                        <Label alignment="CENTER" maxWidth="Infinity" styleClass="emptyText" text="Nenhum tópico cadastrado" VBox.vgrow="ALWAYS" />
+
+                                        <ScrollPane fitToWidth="true" maxHeight="200.0" styleClass="topico-scroll" VBox.vgrow="ALWAYS">
+                                            <content>
+                                                <VBox fx:id="containerTopicos" styleClass="topico-container" />
+                                            </content>
+                                        </ScrollPane>
 
                                     </children>
                                 </VBox>
@@ -126,8 +138,8 @@
                                                 <HBox spacing="6.0">
                                                     <children>
                                                         <Label styleClass="indicadorTitulo" text="Carga horária:" />
-                                                        <Label styleClass="horaVermelha" text="00:00" />
-                                                        <Label styleClass="horaNormal" text="/ 40:00" />
+                                                        <Label fx:id="lblHoraPlanejada" styleClass="horaVermelha" text="00:00" />
+                                                        <Label fx:id="lblHoraTotal" styleClass="horaNormal" text="/ 40:00" />
                                                     </children>
                                                 </HBox>
 
@@ -136,28 +148,28 @@
 
                                                         <VBox styleClass="indicadorBox" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                                             <children>
-                                                                <Label styleClass="indicadorNumero" text="16" />
+                                                                <Label fx:id="lblAulasTotais" styleClass="indicadorNumero" text="0" />
                                                                 <Label styleClass="indicadorTexto" text="Aulas totais" />
                                                             </children>
                                                         </VBox>
 
                                                         <VBox styleClass="indicadorBox" GridPane.columnIndex="1" GridPane.rowIndex="0">
                                                             <children>
-                                                                <Label styleClass="indicadorNumero" text="2" />
+                                                                <Label fx:id="lblAulasPlanejadas" styleClass="indicadorNumero" text="0" />
                                                                 <Label styleClass="indicadorTexto" text="Planejadas" />
                                                             </children>
                                                         </VBox>
 
                                                         <VBox styleClass="indicadorBox" GridPane.columnIndex="0" GridPane.rowIndex="1">
                                                             <children>
-                                                                <Label styleClass="indicadorNumero" text="16" />
+                                                                <Label fx:id="lblAulasRestantes" styleClass="indicadorNumero" text="0" />
                                                                 <Label styleClass="indicadorTexto" text="Restantes" />
                                                             </children>
                                                         </VBox>
 
                                                         <VBox styleClass="indicadorBox" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                             <children>
-                                                                <Label styleClass="indicadorNumero" text="2" />
+                                                                <Label fx:id="lblTotalTopicos" styleClass="indicadorNumero" text="0" />
                                                                 <Label styleClass="indicadorTexto" text="Tópicos" />
                                                             </children>
                                                         </VBox>
