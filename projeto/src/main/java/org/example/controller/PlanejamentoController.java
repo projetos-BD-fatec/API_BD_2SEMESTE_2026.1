@@ -71,10 +71,6 @@ public class PlanejamentoController {
         }
     }
 
-    private final AulaService aulaService = new AulaService(
-            new HorarioDAO(), new CalendarioDAO(), new AulaDAO()
-    );
-
     public void setDisciplinaId(Long disciplinaId) {
         this.disciplinaIdAtual = disciplinaId;
 
