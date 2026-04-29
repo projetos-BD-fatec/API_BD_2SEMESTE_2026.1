@@ -268,3 +268,109 @@
     -fx-alignment: BOTTOM_LEFT;
     -fx-spacing: 10;
 }
+
+/* LISTA DE TÓPICOS :) (VBox dinâmica) */
+
+.topico-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: #000000;
+    -fx-border-width: 1;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.topico-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.topico-container {
+    -fx-background-color: #FFFFFF;
+    -fx-spacing: 0;
+}
+
+.topico-linha {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8 12 8 8;
+    -fx-min-height: 44px;
+}
+
+.topico-linha:hover {
+    -fx-background-color: #f9f5ef;
+}
+
+.topico-nome {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222222;
+    -fx-padding: 0 10 0 6;
+}
+
+.topico-info {
+    -fx-text-fill: #c0603a;
+    -fx-font-size: 12px;
+    -fx-padding: 0 10 0 0;
+}
+
+.topico-badge {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFA500;
+    -fx-alignment: center;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 5 0 5;
+}
+
+.btn-seta {
+    -fx-background-color: #eeeeee;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-font-size: 9px;
+    -fx-padding: 1 4 1 4;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-cursor: hand;
+    -fx-min-width: 22px;
+    -fx-max-height: 14px;
+}
+
+.btn-seta:hover {
+    -fx-background-color: #dddddd;
+}
+
+.btn-editar {
+    -fx-background-color: #9b59b6;
+    -fx-text-fill: white;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+.btn-editar:hover {
+    -fx-background-color: #8e44ad;
+}
+
+.btn-deletar {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+.btn-deletar:hover {
+    -fx-background-color: #c0392b;
+}
