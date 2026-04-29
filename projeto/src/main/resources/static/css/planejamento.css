@@ -132,6 +132,14 @@
     -fx-pref-height: 42px;
 }
 
+.topicoAvaliacao {
+    -fx-background-color: #FFCDD2;
+    -fx-text-fill: #B71C1C;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10;
+    -fx-background-radius: 12;
+}
+
 #btnIncluir {
     -fx-background-color: #F0EBE1;
     -fx-border-color: #000000;

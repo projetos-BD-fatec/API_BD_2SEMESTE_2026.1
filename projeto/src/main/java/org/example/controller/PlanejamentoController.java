@@ -34,6 +34,7 @@ public class PlanejamentoController {
     @FXML private ComboBox<String> cbPeso;
 
     @FXML private VBox containerTopicos;
+    @FXML private CheckBox chkAvaliacao;
 
     @FXML private Label lblAulasTotais;
     @FXML private Label lblAulasPlanejadas;
@@ -85,15 +86,22 @@ public class PlanejamentoController {
         List<Aula> aulas = aulaService.buscarAulas(disciplinaId);
         tabelaCronograma.getItems().setAll(aulas);
 
+        List<Topico> topicos = topicoDAO.findByDisciplinaId(disciplinaId);
+        for (Topico topico : topicos) {
+            adicionarLinhaTopico(topico);
+        }
+
         atualizarIndicadores();
     }
+
 
     @FXML
     private void clicarIncluir() {
         String nome = txtTopico.getText().trim();
-        int min     = spinnerMin.getValue();
-        int max     = spinnerMax.getValue();
-        int peso    = Integer.parseInt(cbPeso.getValue().replace("Peso ", ""));
+        Integer min     = spinnerMin.getValue();
+        Integer max     = spinnerMax.getValue();
+        Integer peso    = Integer.parseInt(cbPeso.getValue().replace("Peso ", ""));
+        Boolean avaliacao = chkAvaliacao.isSelected();
 
         if (nome.isEmpty()) {
             mostrarAlerta("Campo obrigatório", "O nome do tópico não pode estar vazio.");
@@ -104,7 +112,7 @@ public class PlanejamentoController {
             return;
         }
 
-        Topico topico = new Topico(nome, min, max, peso, disciplinaIdAtual);
+        Topico topico = new Topico(nome, min, max, peso, disciplinaIdAtual, avaliacao);
         try {
             topicoDAO.salvar(topico);
         } catch (SQLException e) {
@@ -120,6 +128,7 @@ public class PlanejamentoController {
         spinnerMin.getValueFactory().setValue(1);
         spinnerMax.getValueFactory().setValue(2);
         cbPeso.setValue("Peso 1");
+        chkAvaliacao.setSelected(false);
     }
 
     private void adicionarLinhaTopico(Topico topico) {
@@ -165,7 +174,16 @@ public class PlanejamentoController {
             atualizarIndicadores();
         });
 
-        linha.getChildren().addAll(setas, lblNome, spacerInfo, lblInfo, lblBadge, btnDeletar);
+        linha.getChildren().addAll(setas, lblNome, spacerInfo);
+
+        if (topico.isAvaliacao()) {
+            Label lblAvaliacao = new Label("Avaliação");
+            lblAvaliacao.getStyleClass().add("topicoAvaliacao");
+            linha.getChildren().add(lblAvaliacao);
+        }
+
+        linha.getChildren().addAll(lblInfo, lblBadge, btnDeletar);
+
         containerTopicos.getChildren().add(linha);
     }
 
@@ -204,8 +222,8 @@ public class PlanejamentoController {
         lblAulasRestantes.setText(String.valueOf(restantes));
         lblTotalTopicos.setText(String.valueOf(containerTopicos.getChildren().size()));
 
-        int totalMinutosPlanejados = planejadas * 45;
-        int totalMinutosBase = totais * 45;
+        int totalMinutosPlanejados = planejadas * 50;
+        int totalMinutosBase = totais * 50;
 
         lblHoraPlanejada.setText(formatarHoras(totalMinutosPlanejados));
         lblHoraTotal.setText("/ " + formatarHoras(totalMinutosBase));

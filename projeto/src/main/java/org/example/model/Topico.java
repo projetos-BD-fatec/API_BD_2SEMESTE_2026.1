@@ -3,17 +3,41 @@ package org.example.model;
 public class Topico {
     private Long id;
     private String nome;
-    private int minAulas;
-    private int maxAulas;
-    private int peso;
+    private Integer minAulas;
+    private Integer maxAulas;
+    private Integer peso;
     private Long disciplinaId;
+    private Boolean avaliacao;
 
-    public Topico(String nome, int minAulas, int maxAulas, int peso, Long disciplinaId) {
+    public Topico(String nome, Integer minAulas, Integer maxAulas, Integer peso, Long disciplinaId, Boolean avaliacao) {
         this.nome = nome;
         this.minAulas = minAulas;
         this.maxAulas = maxAulas;
         this.peso = peso;
         this.disciplinaId = disciplinaId;
+        this.avaliacao = avaliacao;
+    }
+
+    public Topico(Long id, String nome, int minAulas, int maxAulas, int peso, Long disciplinaId, Boolean avaliacao) {
+        this.id = id;
+        this.nome = nome;
+        this.minAulas = minAulas;
+        this.maxAulas = maxAulas;
+        this.peso = peso;
+        this.disciplinaId = disciplinaId;
+        this.avaliacao = avaliacao;
+    }
+
+    public Boolean isAvaliacao() {
+        return avaliacao;
+    }
+
+    public Boolean getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(Boolean avaliacao) {
+        this.avaliacao = avaliacao;
     }
 
     public Long getId() { return id; }
@@ -22,14 +46,14 @@ public class Topico {
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
-    public int getMinAulas() { return minAulas; }
-    public void setMinAulas(int minAulas) { this.minAulas = minAulas; }
+    public Integer getMinAulas() { return minAulas; }
+    public void setMinAulas(Integer minAulas) { this.minAulas = minAulas; }
 
-    public int getMaxAulas() { return maxAulas; }
-    public void setMaxAulas(int maxAulas) { this.maxAulas = maxAulas; }
+    public Integer getMaxAulas() { return maxAulas; }
+    public void setMaxAulas(Integer maxAulas) { this.maxAulas = maxAulas; }
 
-    public int getPeso() { return peso; }
-    public void setPeso(int peso) { this.peso = peso; }
+    public Integer getPeso() { return peso; }
+    public void setPeso(Integer peso) { this.peso = peso; }
 
     public Long getDisciplinaId() { return disciplinaId; }
     public void setDisciplinaId(Long disciplinaId) { this.disciplinaId = disciplinaId; }
