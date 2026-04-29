@@ -25,6 +25,10 @@ public class DisciplinasController {
     @FXML private TableColumn<Horario, String> colDia;
     @FXML private TableColumn<Horario, String> colInicio;
     @FXML private TableColumn<Horario, String> colFim;
+    @FXML private ComboBox<Integer> cbCargaHoraria;
+    @FXML private ComboBox<String> cbCurso;
+    @FXML private ComboBox<String> cbSemestre;
+
 
     private final ObservableList<Horario> listaHorarios = FXCollections.observableArrayList();
 
@@ -68,6 +72,17 @@ public class DisciplinasController {
 
         // 5. Conecta a lista à tabela
         tabelaHorarios.setItems(listaHorarios);
+
+        // Popular os ComboBoxes
+        cbCurso.getItems().setAll(DadosFixos.CURSOS);
+        cbSemestre.getItems().setAll(DadosFixos.SEMESTRES);
+        cbCargaHoraria.getItems().setAll(DadosFixos.CARGAS_HORARIAS);
+
+        //Bloquear edição manual (apenas seleção)
+        cbCurso.setEditable(false);
+        cbSemestre.setEditable(false);
+        cbCargaHoraria.setEditable(false);
+
     }
 
     @FXML
