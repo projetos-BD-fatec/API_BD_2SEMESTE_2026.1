@@ -4,10 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import org.example.App;
 import org.example.model.DiaSemana;
 import org.example.model.Horario;
@@ -25,6 +22,7 @@ public class DisciplinasController {
     @FXML private TableColumn<Horario, String> colDia;
     @FXML private TableColumn<Horario, String> colInicio;
     @FXML private TableColumn<Horario, String> colFim;
+    @FXML private TableColumn<Horario, Void> colExcluir;
     @FXML private ComboBox<Integer> cbCargaHoraria;
     @FXML private ComboBox<String> cbCurso;
     @FXML private ComboBox<String> cbSemestre;
@@ -69,16 +67,34 @@ public class DisciplinasController {
                 new SimpleStringProperty(cell.getValue().getHoraInicio().toString()));
         colFim.setCellValueFactory(cell ->
                 new SimpleStringProperty(cell.getValue().getHoraFim().toString()));
+        colExcluir.setCellFactory(col -> new TableCell<>(){
+            private final Button btnExcluir = new Button("x");
+            {
+                btnExcluir.setOnAction(e ->{
+                    Horario horario = getTableView().getItems().get(getIndex());
+                    listaHorarios.remove(horario);
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty){
+                super.updateItem(item, empty);
+                if (empty){
+                    setGraphic(null);
+                } else {
+                    setGraphic(btnExcluir);
+                }
+            }
+        });
 
-        // 5. Conecta a lista à tabela
+
         tabelaHorarios.setItems(listaHorarios);
 
-        // Popular os ComboBoxes
+
         cbCurso.getItems().setAll(DadosFixos.CURSOS);
         cbSemestre.getItems().setAll(DadosFixos.SEMESTRES);
         cbCargaHoraria.getItems().setAll(DadosFixos.CARGAS_HORARIAS);
 
-        //Bloquear edição manual (apenas seleção)
+
         cbCurso.setEditable(false);
         cbSemestre.setEditable(false);
         cbCargaHoraria.setEditable(false);
@@ -93,6 +109,17 @@ public class DisciplinasController {
 
         if (dia == null || inicio == null || fim == null) return;
         if (!fim.isAfter(inicio)) return;
+
+        boolean diaJaCadastrado = listaHorarios.stream()
+                        .anyMatch(h -> h.getDiaSemana() == dia);
+        if (diaJaCadastrado) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Dia duplicado");
+            alert.setHeaderText(null);
+            alert.setContentText(" Já existe um horário castrado para " + dia.getValorBanco() + ".");
+            alert.showAndWait();
+            return;
+        }
 
         Horario horario = new Horario(null, null, dia, inicio, fim);
         listaHorarios.add(horario);
