@@ -44,7 +44,7 @@ public class PlanejamentoController {
     @FXML private Label lblAulasRestantes;
     @FXML private Label lblTotalTopicos;
     @FXML private Label lblHoraPlanejada;
-    @FXML private Label lblHoraTotal;
+    //@FXML private Label lblHoraTotal;
 
     private Long disciplinaIdAtual;
 
@@ -249,7 +249,7 @@ public class PlanejamentoController {
         int totalMinutosBase = totais * 50;
 
         lblHoraPlanejada.setText(formatarHoras(totalMinutosPlanejados));
-        lblHoraTotal.setText("/ " + formatarHoras(totalMinutosBase));
+        //lblHoraTotal.setText("/ " + formatarHoras(totalMinutosBase));
     }
 
     private String formatarHoras(int totalMinutos) {

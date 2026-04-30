@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -76,7 +77,10 @@
                                     <VBox>
                                        <children>
                                           <Label styleClass="sectionTitle" text="Cadastro de tópico:" />
-                                                      <TextField fx:id="txtTopico" maxWidth="300.0" minWidth="300.0" promptText="Tópico" styleClass="inputText" />
+                                                      <TextField fx:id="txtTopico" maxWidth="300.0" minWidth="300.0" promptText="Tópico" styleClass="inputText">
+                                             <effect>
+                                                <Bloom threshold="1.0" />
+                                             </effect></TextField>
                                        </children>
                                     </VBox>
                                     <VBox>
@@ -139,7 +143,7 @@
                                                     <children>
                                                         <Label styleClass="indicadorTitulo" text="Carga horária:" />
                                                         <Label fx:id="lblHoraPlanejada" styleClass="horaVermelha" text="00:00" />
-                                                        <Label fx:id="lblHoraTotal" styleClass="horaNormal" text="/ 40:00" />
+                                                        <Label styleClass="horaNormal" text="| 80:00" />
                                                     </children>
                                                 </HBox>
 

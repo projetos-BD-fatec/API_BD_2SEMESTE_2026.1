@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.DisciplinasController">
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.DisciplinasController">
    <content>
       <AnchorPane fx:id="root" styleClass="root" stylesheets="@../../static/css/disciplina.css">
          <children>
@@ -49,10 +49,13 @@
                                        <font>
                                           <Font size="20.0" />
                                        </font>
+                                       <effect>
+                                          <Bloom threshold="1.0" />
+                                       </effect>
                                     </TextField>
                                     <ComboBox id="cbCurso" fx:id="cbCurso" maxWidth="450.0" minWidth="450.0" promptText="Curso" stylesheets="@../../static/css/disciplina.css">
                                        <effect>
-                                          <Bloom threshold="0.63" />
+                                          <Bloom threshold="1.0" />
                                        </effect>
                                        <opaqueInsets>
                                           <Insets />
@@ -62,12 +65,12 @@
                                        <children>
                                           <ComboBox id="cbSemestre" fx:id="cbSemestre" maxWidth="265.0" minWidth="265.0" promptText="Semestre" stylesheets="@../../static/css/disciplina.css">
                                              <effect>
-                                                <Bloom threshold="0.81" />
+                                                <Bloom threshold="1.0" />
                                              </effect>
                                           </ComboBox>
                                           <ComboBox id="cbCargaHoraria" fx:id="cbCargaHoraria" maxWidth="175.0" minWidth="175.0" promptText="Carga Horária">
                                              <effect>
-                                                <Bloom threshold="0.63" />
+                                                <Bloom threshold="1.0" />
                                              </effect>
                                           </ComboBox>
                                        </children>
@@ -80,17 +83,17 @@
                                        <children>
                                           <ComboBox id="cbDia" fx:id="cbDia" minWidth="160.0" promptText="Dia" styleClass="combo-box" stylesheets="@../../static/css/disciplina.css">
                                              <effect>
-                                                <Bloom threshold="0.63" />
+                                                <Bloom threshold="1.0" />
                                              </effect>
                                           </ComboBox>
-                                          <ComboBox id="cbInicio" fx:id="cbInicio" minWidth="145.0" promptText="00h00" styleClass="combo-box" stylesheets="@../../static/css/disciplina.css">
+                                          <ComboBox id="cbInicio" fx:id="cbInicio" minWidth="145.0" promptText="Início" styleClass="combo-box" stylesheets="@../../static/css/disciplina.css">
                                              <effect>
-                                                <Bloom threshold="0.63" />
+                                                <Bloom threshold="1.0" />
                                              </effect>
                                           </ComboBox>
-                                          <ComboBox id="cbFim" fx:id="cbFim" minWidth="145.0" promptText="00h00" styleClass="combo-box">
+                                          <ComboBox id="cbFim" fx:id="cbFim" minWidth="145.0" promptText="Fim" styleClass="combo-box">
                                              <effect>
-                                                <Bloom threshold="0.63" />
+                                                <Bloom threshold="1.0" />
                                              </effect>
                                           </ComboBox>
                                           <Button id="btnAdicionar" fx:id="btnAdicionar" minHeight="46.0" minWidth="100.0" mnemonicParsing="false" onAction="#clicarBtnAdicionar" stylesheets="@../../static/css/disciplina.css" text="+ Adicionar" textAlignment="CENTER">
@@ -121,10 +124,14 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="1416.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button id="btnSalvarDisciplina" fx:id="btnSalvarDisciplina" alignment="CENTER" mnemonicParsing="false" stylesheets="@../../static/css/disciplina.css" text="Salvar Disciplina" textAlignment="CENTER" />
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Button id="btnSalvarDisciplina" fx:id="btnSalvarDisciplina" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" stylesheets="@../../static/css/disciplina.css" text="Salvar Disciplina" textAlignment="CENTER" />
+                                 </children>
+                              </VBox>
                            </children>
                            <padding>
-                              <Insets bottom="20.0" right="20.0" />
+                              <Insets bottom="20.0" right="85.0" />
                            </padding>
                         </HBox>
                      </children>
