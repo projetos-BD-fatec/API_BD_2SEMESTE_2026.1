@@ -21,6 +21,7 @@ import org.example.service.AulaService;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,9 @@ public class PlanejamentoController {
 
     private Long disciplinaIdAtual;
 
+    private List<Topico> topicosCache = new ArrayList<>();
     private final TopicoDAO topicoDAO = new TopicoDAO();
+    private final AulaDAO aulaDAO = new AulaDAO();
     private final AulaService aulaService = new AulaService(
             new HorarioDAO(), new CalendarioDAO(), new AulaDAO()
     );
@@ -81,7 +84,6 @@ public class PlanejamentoController {
     public void setDisciplinaId(Long disciplinaId) {
         this.disciplinaIdAtual = disciplinaId;
 
-        // Configuração das Colunas
         colData.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getData()));
         colDia.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getDiaSemana().getValorBanco()));
         colEvento.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getEvento()));
@@ -90,26 +92,43 @@ public class PlanejamentoController {
             return new SimpleStringProperty(aula.getHoraInicio() + " - " + aula.getHoraFim());
         });
 
-        // Configuração da Coluna de Conteúdo (ComboBox dentro da Tabela)
+        topicosCache = topicoDAO.findByDisciplinaId(disciplinaId);
         colConteudo.setCellFactory(col -> new TableCell<Aula, String>() {
             private final ComboBox<String> comboTopico = new ComboBox<>();
+            private boolean atualizandoProgramaticamente = false;
 
             {
                 comboTopico.setMaxWidth(Double.MAX_VALUE);
                 comboTopico.setPromptText("Selecionar");
                 comboTopico.getStyleClass().add("comboTabela");
+                comboTopico.valueProperty().addListener((obs, antigoValor, novoValor) -> {
+                    if (atualizandoProgramaticamente) return;
+                    if (getTableRow() == null || getTableRow().getItem() == null) return;
 
-                comboTopico.setOnAction(e -> {
                     String selecionado = comboTopico.getSelectionModel().getSelectedItem();
-                    if (selecionado != null && getTableRow() != null && getTableRow().getItem() != null) {
+                    Aula aula = getTableRow().getItem();
+
+                    if (selecionado == null || selecionado.equals("Selecionar")) {
+                        aula.setTopicoId(null);
                         try {
-                            List<Topico> todos = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
-                            todos.stream()
-                                    .filter(t -> t.getNome().equals(selecionado))
-                                    .findFirst()
-                                    .ifPresent(t -> getTableRow().getItem().setTopicoId(t.getId()));
-                        } catch (Exception ex) { ex.printStackTrace(); }
+                            aulaDAO.updateTopicoId(aula.getId(), null);
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                        return;
                     }
+
+                    topicosCache.stream()
+                            .filter(t -> t.getNome().equals(selecionado))
+                            .findFirst()
+                            .ifPresent(t -> {
+                                aula.setTopicoId(t.getId());
+                                try {
+                                    aulaDAO.updateTopicoId(aula.getId(), t.getId());
+                                } catch (SQLException ex) {
+                                    ex.printStackTrace();
+                                }
+                            });
                 });
             }
 
@@ -128,7 +147,7 @@ public class PlanejamentoController {
                             .anyMatch(ev -> ev.equalsIgnoreCase(nomeEvento));
 
 
-                    List<Topico> todosTopicos = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
+                    List<Topico> todosTopicos = topicosCache;
                     List<String> nomesFiltrados;
 
                     if (isEventoReservado) {
@@ -138,7 +157,6 @@ public class PlanejamentoController {
                                 .collect(Collectors.toList());
                     } else {
                         nomesFiltrados = todosTopicos.stream()
-                                .filter(Topico::isAvaliacao)
                                 .map(Topico::getNome)
                                 .collect(Collectors.toList());
                     }
@@ -146,10 +164,20 @@ public class PlanejamentoController {
                     if (nomesFiltrados.isEmpty()) {
                         setGraphic(null);
 
-                        setText(isEventoReservado ? "Sem tópicos comuns" : "Sem tópicos de avaliação");
+                        setText(isEventoReservado ? "Sem tópicos comuns" : "Sem tópicos cadastrados");
                     } else {
+                        atualizandoProgramaticamente = true;
+                        nomesFiltrados.add(0, "Selecionar");
                         comboTopico.getItems().setAll(nomesFiltrados);
-                        comboTopico.setValue(item);
+                        if (aula.getTopicoId() != null) {
+                            topicosCache.stream()
+                                    .filter(t -> t.getId().equals(aula.getTopicoId()))
+                                    .findFirst()
+                                    .ifPresent(t -> comboTopico.setValue(t.getNome()));
+                        } else {
+                            comboTopico.setValue("Selecionar");
+                        }
+                        atualizandoProgramaticamente = false;
                         setGraphic(comboTopico);
                         setText(null);
                     }
@@ -176,7 +204,6 @@ public class PlanejamentoController {
             return;
         }
 
-        // Validação de nomes reservados
         if (eventosBloqueados.stream().anyMatch(e -> e.equalsIgnoreCase(nome))) {
             mostrarAlerta("Tópico Reservado", "O nome '" + nome + "' é reservado pelo sistema.");
             return;
@@ -193,6 +220,7 @@ public class PlanejamentoController {
             adicionarLinhaTopico(topico);
             atualizarIndicadores();
             limparCampos();
+            topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
         } catch (SQLException e) {
             mostrarAlerta("Erro no banco", "Não foi possível salvar o tópico: " + e.getMessage());
         }
@@ -233,6 +261,7 @@ public class PlanejamentoController {
             try {
                 if (topico.getId() != null) topicoDAO.deletar(topico.getId());
                 containerTopicos.getChildren().remove(linha);
+                topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
                 atualizarIndicadores();
             } catch (SQLException ex) { ex.printStackTrace(); }
         });
