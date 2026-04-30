@@ -46,7 +46,7 @@ public class PlanejamentoController {
     @FXML private Label lblAulasRestantes;
     @FXML private Label lblTotalTopicos;
     @FXML private Label lblHoraPlanejada;
-    @FXML private Label lblHoraTotal;
+    //@FXML private Label lblHoraTotal;
 
     private Long disciplinaIdAtual;
 
@@ -192,6 +192,7 @@ public class PlanejamentoController {
         atualizarIndicadores();
     }
 
+
     @FXML
     private void clicarIncluir() {
         String nome = txtTopico.getText().trim();
@@ -274,9 +275,9 @@ public class PlanejamentoController {
 
         linha.getChildren().addAll(setas, lblNome, spacerInfo);
         if (topico.isAvaliacao()) {
-            Label lblAval = new Label("Avaliação");
-            lblAval.getStyleClass().add("topicoAvaliacao");
-            linha.getChildren().add(lblAval);
+            Label lblAvaliacao = new Label("Avaliação");
+            lblAvaliacao.getStyleClass().add("topicoAvaliacao");
+            linha.getChildren().add(lblAvaliacao);
         }
         linha.getChildren().addAll(lblInfo, lblBadge, btnDeletar);
         containerTopicos.getChildren().add(linha);
@@ -303,7 +304,7 @@ public class PlanejamentoController {
         lblAulasRestantes.setText(String.valueOf(totais - planejadas));
         lblTotalTopicos.setText(String.valueOf(containerTopicos.getChildren().size()));
         lblHoraPlanejada.setText(formatarHoras(planejadas * 50));
-        lblHoraTotal.setText("/ " + formatarHoras(totais * 50));
+        //lblHoraTotal.setText("/ " + formatarHoras(totais * 50));
     }
 
     private String formatarHoras(int totalMinutos) {
