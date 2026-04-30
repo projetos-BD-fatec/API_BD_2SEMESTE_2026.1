@@ -60,4 +60,14 @@ public class AulaDAO {
         }
         return aulas;
     }
+
+    public void updateTopicoId(Long aulaId, Long topicoId) throws SQLException {
+        String sql = "UPDATE aula SET topico_id = ? WHERE id = ?";
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setObject(1, topicoId);
+            stmt.setObject(2, aulaId);
+            stmt.executeUpdate();
+        }
+    }
 }

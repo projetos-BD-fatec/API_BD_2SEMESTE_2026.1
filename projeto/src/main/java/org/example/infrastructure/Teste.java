@@ -22,13 +22,5 @@ public class Teste {
             e.printStackTrace();
         }
 
-        //Teste realizado apenas uma vez para testar o metodo gerarAulas() e inserir dados na tabela Aula.
-        AulaService aulaService = new AulaService(
-                new HorarioDAO(),
-                new CalendarioDAO(),
-                new AulaDAO()
-        );
-        aulaService.gerarAulas(1L);
-        System.out.println("Aulas geradas com sucesso!");
     }
 }
