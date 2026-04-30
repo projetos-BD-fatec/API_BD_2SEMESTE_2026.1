@@ -115,20 +115,21 @@ public class PlanejamentoController {
                         } catch (SQLException ex) {
                             ex.printStackTrace();
                         }
-                        return;
-                    }
+                    } else {
 
-                    topicosCache.stream()
-                            .filter(t -> t.getNome().equals(selecionado))
-                            .findFirst()
-                            .ifPresent(t -> {
-                                aula.setTopicoId(t.getId());
-                                try {
-                                    aulaDAO.updateTopicoId(aula.getId(), t.getId());
-                                } catch (SQLException ex) {
-                                    ex.printStackTrace();
-                                }
-                            });
+                        topicosCache.stream()
+                                .filter(t -> t.getNome().equals(selecionado))
+                                .findFirst()
+                                .ifPresent(t -> {
+                                    aula.setTopicoId(t.getId());
+                                    try {
+                                        aulaDAO.updateTopicoId(aula.getId(), t.getId());
+                                    } catch (SQLException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                });
+                    }
+                    atualizarIndicadores();
                 });
             }
 
@@ -221,6 +222,7 @@ public class PlanejamentoController {
             atualizarIndicadores();
             limparCampos();
             topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
+            tabelaCronograma.refresh();
         } catch (SQLException e) {
             mostrarAlerta("Erro no banco", "Não foi possível salvar o tópico: " + e.getMessage());
         }
@@ -262,8 +264,12 @@ public class PlanejamentoController {
                 if (topico.getId() != null) topicoDAO.deletar(topico.getId());
                 containerTopicos.getChildren().remove(linha);
                 topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
+                tabelaCronograma.refresh();
                 atualizarIndicadores();
-            } catch (SQLException ex) { ex.printStackTrace(); }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                mostrarAlerta("Não foi possível deletar", "O tópico esta atribuído a ao menos uma aula. Favor verificar.");
+            }
         });
 
         linha.getChildren().addAll(setas, lblNome, spacerInfo);
@@ -288,17 +294,9 @@ public class PlanejamentoController {
     private void atualizarIndicadores() {
         List<Aula> aulas = tabelaCronograma.getItems();
         int totais = aulas.size();
-        int planejadas = 0;
-
-        for (javafx.scene.Node child : containerTopicos.getChildren()) {
-            if (child instanceof HBox) {
-                for (javafx.scene.Node inner : ((HBox) child).getChildren()) {
-                    if (inner instanceof Label && inner.getStyleClass().contains("topico-badge")) {
-                        try { planejadas += Integer.parseInt(((Label) inner).getText()); } catch (Exception e) {}
-                    }
-                }
-            }
-        }
+        int planejadas = (int) aulas.stream()
+                .filter(a -> a.getTopicoId() != null)
+                .count();
 
         lblAulasTotais.setText(String.valueOf(totais));
         lblAulasPlanejadas.setText(String.valueOf(planejadas));

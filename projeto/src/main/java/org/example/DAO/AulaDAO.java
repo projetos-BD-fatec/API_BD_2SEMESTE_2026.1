@@ -65,8 +65,8 @@ public class AulaDAO {
         String sql = "UPDATE aula SET topico_id = ? WHERE id = ?";
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setLong(1, topicoId);
-            stmt.setLong(2, aulaId);
+            stmt.setObject(1, topicoId);
+            stmt.setObject(2, aulaId);
             stmt.executeUpdate();
         }
     }
