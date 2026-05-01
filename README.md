@@ -103,14 +103,18 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 
 </details>
 
-# Sprints <a id="sprint"></a>
+<div align="center">
+    <h1 id="sprint">Sprint</h1>
+</div>
+<div align="center">
 
 | Sprint | Período | Docs |
-| ------ | :-----: | ---- |
+| :----: | :-----: | :---: |
 | 1 | 08/09 - 28/09 | [Sprint 1 Docs](docs/sprints/sprint-01) |
 | 2 | 06/10 - 26/10 | [Sprint 2 Docs](docs/sprints/sprint-02) |
 | 3 | 03/11 - 23/11 | [Sprint 3 Docs](docs/sprints/sprint-03) |
 
+</div>
 
 # Instalação
 Este guia fornece as instruções necessárias para configurar e executar o projeto da API localmente para desenvolvimento ou avaliação.  
