@@ -13,10 +13,10 @@
 
 
 <p align="center">
-| <a href ="docs/processos/aceitação-e-permanência.md"> Permanência</a>  |  
-  <a href ="docs/processos/estratégia-de-branch.md">Branch</a>  |
-  <a href ="docs/processos/guia-pull-requests.md">Pull request</a>  |
-  <a href ="docs/processos/padrão-de-commit.md"> Commit</a> |
+| <a href ="processos/aceitação-e-permanência.md"> Permanência</a>  |  
+  <a href ="processos/estratégia-de-branch.md">Branch</a>  |
+  <a href ="processos/guia-pull-requests.md">Pull request</a>  |
+  <a href ="processos/padrão-de-commit.md"> Commit</a> |
 </p>
 
 # DoR  <a id="DoR"></a>
