@@ -8,27 +8,16 @@
 </h1>
 
 <p align="center">
-  <i align="center">Plataforma de cadastro de aulas feito com java 🚀</i>
+  <i align="center">Este documento estabelece as diretrizes de participação, fluxo de trabalho e padrões técnicos do grupo BugHunters.</i>
 </p>
 
 
-# Estratégia de Branch <a id="branches"></a>
-O processo de desenvolvimento começa na branch Develop, onde novas funcionalidades são isoladas em branches de feature para passar por ciclos de desenvolvimento e teste. Se o resultado dos testes for negativo, o desenvolvedor retorna à codificação; caso contrário, realiza-se o Merge de volta para a branch de desenvolvimento. Diante de problemas de integração, o fluxo prevê a criação de branches de fix para correções rápidas e novos testes antes de reincorporar o código. Por fim, uma vez que o sistema está totalmente integrado e sem falhas, o código é mesclado para a branch MAIN, consolidando a entrega final em produção.
-
-# Padrão de Commit e Pull <a id="commit"></a>
- 
-- feat (nova funcionalidade)
-- fix (correção de bug)
-- docs (documentação)
-- Refactor (refatoração de código)
-- Style (visual / formatação)
-- Chore (manutenção / tarefas internas)
-- Release (merge da develop → main)
-
-```
-tipo(assunto): descrição curta
-```
-
+<p align="center">
+| <a href ="docs/processos/aceitação-e-permanência.md"> Permanência</a>  |  
+  <a href ="docs/processos/estratégia-de-branch.md">Branch</a>  |
+  <a href ="docs/processos/guia-pull-requests.md">Pull request</a>  |
+  <a href ="docs/processos/padrão-de-commit.md"> Commit</a> |
+</p>
 
 # DoR  <a id="DoR"></a>
 
