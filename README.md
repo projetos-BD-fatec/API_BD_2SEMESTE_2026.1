@@ -181,11 +181,11 @@ mvn clean javafx:run
 
 
 
+<div align="center">
+  <h1 id="equipe">Equipe</h1>
+</div>
 
-
-# Equipe <a id="equipe"></a> 
-
-<div align="left">
+<div align="center">
   <table>
     <tr>
       <th>Membro</th>
