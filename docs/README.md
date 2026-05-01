@@ -1,25 +1,20 @@
-<a id="readme-top"></a>
-
-
-# 👾 API 2º Semestre BD
+<h1 align="center">
+    <a href="https://amplication.com/#gh-light-mode-only">
+    <img src="imagens/logo-lightversion.png">
+    </a>
+    <a href="https://amplication.com/#gh-dark-mode-only">
+    <img src="imagens/logo-darkversion.png">
+    </a>
+</h1>
 
 <p align="center">
-      <img src="imagens\logo-bughunters.png" alt="logo da BugHunters" width="200">
-      <h2 align="center">BugHunters</h2>
+  <i align="center">Plataforma de cadastro de aulas feito com java 🚀</i>
 </p>
 
-# Resumo da documentação
+# Estratégia  <a id="branches"></a>
+O processo de desenvolvimento estruturado no fluxograma começa na branch Develop, onde novas funcionalidades são isoladas em branches de feature para passar por ciclos de desenvolvimento e teste. Se o resultado dos testes for negativo, o desenvolvedor retorna à codificação; caso contrário, realiza-se o Merge de volta para a branch de desenvolvimento. Diante de problemas de integração, o fluxo prevê a criação de branches de fix para correções rápidas e novos testes antes de reincorporar o código. Por fim, uma vez que o sistema está totalmente integrado e sem falhas, o código é mesclado para a branch MAIN, consolidando a entrega final em produção.
 
-## 1. <a href="./processos/aceitação-e-permanência.md">Critérios de aceitação e permanência</a>
-- Critérios definidos para aceitação ou não de novos integrantes no grupo e critérios que todos os integrantes devem seguir para permanecer na equipe.
-
-## 2. <a href="./processos/estratégia-de-branch.md">Estratégia de branches</a>
-- Um guia para organização das branches, para que o código principal esteja sempre livre de bugs.
-- Diagrama do fluxo de branches:
-![Fluxo de Branch](imagens/fluxograma-branches.png)
-
-## 3. <a href="./processos/guia-estrutura-projeto.md">Guia de estrutura do projeto</a>
-- Um guia com objetivo de planejar a organização das pastas e arquivos do projeto.
+# Estrutura <a id="estrutura"></a>
 ```
 ├── README.md
 ├── .github/
@@ -49,15 +44,43 @@
      │         └── README.md
      └── README.md
 ```
-## 4. <a href="./processos/guia-pull-requests.md">Guia de Pull Request</a>
-- Guia de Pull Request para garantir que features novas sejam integradas apenas após testar corretamente.
-- [Template de Pull Request](../.github/pull_request_template.md)
+# Padrão de Commit e Pull <a id="commit"></a>
+ 
+- feat (nova funcionalidade)
+- fix (correção de bug)
+- docs (documentação)
+- Refactor (refatoração de código)
+- Style (visual / formatação)
+- Chore (manutenção / tarefas internas)
+- Release (merge da develop → main)
 
-## 5. <a href="./processos/padrão-de-commit.md">Padrão de commits</a>
-- Um guia para padronizar os commits, melhorando a legibidade do repositório.
 ```
 tipo(assunto): descrição curta
 ```
->Obs.:
->O assunto é opcional, porém bem útil para entendimento!
+
+# Cronograma de Sprints <a id="calendariosprint"></a>
+
+| Sprint          |    Período    | Documentação    |
+| --------------- | :-----------: | --------------- |
+|  **✅ SPRINT 1** | 16/03 - 05/04 | [Sprint 1 Docs](docs/sprints/sprint-01) |
+|  **✅ SPRINT 2** | 13/04 - 03/05 | [Sprint 2 Docs](docs/sprints/sprint-02) |
+|  **❌ SPRINT 3** | 11/05 - 31/05 | [Sprint 3 Docs](docs/sprints/sprint-03) |
+
+
+# DoR  <a id="DoR"></a>
+
+| DoR                                                |
+|----------------------------------------------------|
+|✅Histórias bem descritas e compreensíveis|
+|✅Time entende o objetivo e a complexidade|
+|✅Prioridades definidas|
+|✅Metas definidas|
+
+# DoD <a id="DoD"></a>
+
+| DoD                                               |
+|----------------------------------------------------|
+|✅Código final escrito e funcional|
+|✅Documentação finalizada|
+|✅Code review aprovado|
 
