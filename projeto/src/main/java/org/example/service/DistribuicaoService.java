@@ -8,7 +8,7 @@ import java.util.*;
 public class DistribuicaoService {
     private static final List<String> eventosBloqueados = List.of(
             "Sprint 1 | Semana 3", "Sprint 2 | Semana 3", "Sprint 3 | Semana 3",
-            "Kickoff", "Planning", "Review | Planning",
+            "Planning", "Review | Planning",
             "Sprint Review", "Feira de Soluções", "Apresentação de TGs"
     );
 

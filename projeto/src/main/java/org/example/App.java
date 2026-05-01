@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import org.example.controller.PlanejamentoController;
 
@@ -15,11 +18,40 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private static Stage primaryStage;
+    private static boolean alteracaoNaoSalva = false;
+    private static Runnable salvarCallback = () -> {};
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("TelaDisciplinas"), 640, 480);
+        scene = new Scene(loadFXML("TelaDisciplinas"), 960, 540);
         stage.setScene(scene);
+
+        stage.setOnCloseRequest(event -> {
+            if (alteracaoNaoSalva) {
+                event.consume();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Salvar alterações");
+                alert.setHeaderText("Você tem alterações não salvas.");
+                alert.setContentText("Deseja salvar antes de sair?");
+
+                ButtonType salvar = new ButtonType("Salvar e Sair");
+                ButtonType sair = new ButtonType("Sair sem Salvar");
+                ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+                alert.getButtonTypes().setAll(salvar, sair, cancelar);
+
+                alert.showAndWait().ifPresent(resposta -> {
+                    if (resposta == salvar) {
+                        salvarCallback.run();
+                        stage.close();
+                    } else if (resposta == sair) {
+                        alteracaoNaoSalva = false;
+                        stage.close();
+                    }
+                });
+            }
+        });
+
         stage.show();
     }
 
@@ -39,6 +71,14 @@ public class App extends Application {
         PlanejamentoController controller = loader.getController();
         controller.setDisciplinaId(disciplinaId);
         scene.setRoot(root);
+    }
+
+    public static void setAlteracaoNaoSalva(boolean value) {
+        alteracaoNaoSalva = value;
+    }
+
+    public static void setSalvarCallback(Runnable callback) {
+        salvarCallback = callback;
     }
 
     public static void main(String[] args) {

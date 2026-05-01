@@ -74,6 +74,8 @@ public class PlanejamentoController {
     @FXML
     private void clicarVoltar() {
         try {
+            App.setAlteracaoNaoSalva(false);
+            App.setSalvarCallback(() -> {});
             App.setRoot("TelaDisciplinas");
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -81,6 +83,7 @@ public class PlanejamentoController {
     }
 
     public void setDisciplinaId(Long disciplinaId) {
+        App.setSalvarCallback(this::clicarSalvar);
         this.disciplinaIdAtual = disciplinaId;
 
         colData.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getData()));
@@ -230,6 +233,7 @@ public class PlanejamentoController {
             aulaDAO.clearTopicoId(disciplinaIdAtual);
             aulaDAO.salvarDistribuicao(aulasCronograma);
             mostrarAlerta("Sucesso", "Planejamento salvo com sucesso!");
+            App.setAlteracaoNaoSalva(false);
         } catch (SQLException e) {
             mostrarAlerta("Erro ao salvar", e.getMessage());
         }
@@ -300,6 +304,7 @@ public class PlanejamentoController {
     }
 
     private void redistribuir() {
+        App.setAlteracaoNaoSalva(true);
         List<TopicoOrdenado> topicosOrdenados = new ArrayList<>();
         List<javafx.scene.Node> linhas = containerTopicos.getChildren();
 
