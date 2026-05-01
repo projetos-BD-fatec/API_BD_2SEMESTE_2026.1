@@ -17,7 +17,9 @@ import org.example.DAO.HorarioDAO;
 import org.example.DAO.TopicoDAO;
 import org.example.model.Aula;
 import org.example.model.Topico;
+import org.example.model.TopicoOrdenado;
 import org.example.service.AulaService;
+import org.example.service.DistribuicaoService;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -56,12 +58,9 @@ public class PlanejamentoController {
     private final AulaService aulaService = new AulaService(
             new HorarioDAO(), new CalendarioDAO(), new AulaDAO()
     );
+    private final DistribuicaoService distribuicaoService = new DistribuicaoService();
 
-    private final List<String> eventosBloqueados = List.of(
-            "Sprint 1 | Semana 3", "Sprint 2 | Semana 3", "Sprint 3 | Semana 3",
-            "Kickoff", "Planning", "Review | Planning",
-            "Sprint Review", "Feira de Soluções", "Apresentação de TGs"
-    );
+    private List<Aula> aulasCronograma = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -144,8 +143,7 @@ public class PlanejamentoController {
                     String nomeEvento = aula.getEvento() != null ? aula.getEvento() : "";
 
 
-                    boolean isEventoReservado = eventosBloqueados.stream()
-                            .anyMatch(ev -> ev.equalsIgnoreCase(nomeEvento));
+                    boolean isEventoReservado = distribuicaoService.isDiaBloqueado(aula);
 
 
                     List<Topico> todosTopicos = topicosCache;
@@ -186,7 +184,8 @@ public class PlanejamentoController {
             }
         });
 
-        tabelaCronograma.getItems().setAll(aulaService.buscarAulas(disciplinaId));
+        aulasCronograma = aulaService.buscarAulas(disciplinaId);
+        tabelaCronograma.getItems().setAll(aulasCronograma);
         containerTopicos.getChildren().clear();
         topicoDAO.findByDisciplinaId(disciplinaId).forEach(this::adicionarLinhaTopico);
         atualizarIndicadores();
@@ -206,11 +205,6 @@ public class PlanejamentoController {
             return;
         }
 
-        if (eventosBloqueados.stream().anyMatch(e -> e.equalsIgnoreCase(nome))) {
-            mostrarAlerta("Tópico Reservado", "O nome '" + nome + "' é reservado pelo sistema.");
-            return;
-        }
-
         if (max < min) {
             mostrarAlerta("Valores inválidos", "O máximo de aulas não pode ser menor que o mínimo.");
             return;
@@ -224,8 +218,20 @@ public class PlanejamentoController {
             limparCampos();
             topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
             tabelaCronograma.refresh();
+            redistribuir();
         } catch (SQLException e) {
             mostrarAlerta("Erro no banco", "Não foi possível salvar o tópico: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void clicarSalvar() {
+        try {
+            aulaDAO.clearTopicoId(disciplinaIdAtual);
+            aulaDAO.salvarDistribuicao(aulasCronograma);
+            mostrarAlerta("Sucesso", "Planejamento salvo com sucesso!");
+        } catch (SQLException e) {
+            mostrarAlerta("Erro ao salvar", e.getMessage());
         }
     }
 
@@ -267,9 +273,9 @@ public class PlanejamentoController {
                 topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
                 tabelaCronograma.refresh();
                 atualizarIndicadores();
+                redistribuir();
             } catch (SQLException ex) {
-                ex.printStackTrace();
-                mostrarAlerta("Não foi possível deletar", "O tópico esta atribuído a ao menos uma aula. Favor verificar.");
+                mostrarAlerta("Erro ao deletar", "Não foi possível deletar o tópico: " + ex.getMessage());
             }
         });
 
@@ -289,7 +295,33 @@ public class PlanejamentoController {
         if (novoIdx >= 0 && novoIdx < containerTopicos.getChildren().size()) {
             containerTopicos.getChildren().remove(linha);
             containerTopicos.getChildren().add(novoIdx, linha);
+            redistribuir();
         }
+    }
+
+    private void redistribuir() {
+        List<TopicoOrdenado> topicosOrdenados = new ArrayList<>();
+        List<javafx.scene.Node> linhas = containerTopicos.getChildren();
+
+        for (int i = 0; i < linhas.size(); i++) {
+            HBox linha = (HBox) linhas.get(i);
+            Label lblNome = (Label) linha.getChildren().get(1);
+            String nome = lblNome.getText();
+
+            topicosCache.stream()
+                    .filter(t -> t.getNome().equals(nome))
+                    .findFirst()
+                    .ifPresent(t -> topicosOrdenados.add(
+                            new TopicoOrdenado(t, topicosOrdenados.size())
+                    ));
+        }
+        try {
+            distribuicaoService.distribuir(aulasCronograma, topicosOrdenados);
+        } catch (IllegalStateException e) {
+            mostrarAlerta("Distribuição impossível", e.getMessage());
+        }
+        tabelaCronograma.getItems().setAll(aulasCronograma);
+        atualizarIndicadores();
     }
 
     private void atualizarIndicadores() {
