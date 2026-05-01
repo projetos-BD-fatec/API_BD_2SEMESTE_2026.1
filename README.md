@@ -11,36 +11,33 @@
   <i align="center">Plataforma de cadastro de aulas feito com java 🚀</i>
 </p>
 
-
 <p align="center">
 | <a href ="#desafio"> Desafio</a>  |  
   <a href ="#backlog">Backlog</a>  |
   <a href ="#dor">DoR</a>  |
   <a href ="#dod">DoD</a>  |
   <a href ="#sprint"> Cronograma de Sprints</a>  |
-  <a href ="#tecnologias">Tecnologias</a>  |
-  <a href ="#documentacao">Documentação</a>  |
+  <a href ="docs">Documentação</a>  |
   <a href ="#equipe"> Equipe</a> |
 </p>
 
----
+<p align="center">
+    <img src="docs/imagens/L2.33.jpg" alt="dashboard"/>
+</p>
   
-## 🏅 O desafio <a id="desafio"></a>
+# Desafio <a id="desafio"></a>
 
 O desafio consiste em criar um sistema desktop para auxiliar os professores a montarem seus planos de aula.
 
 O planejamento de aulas é um processo complexo e propenso a erros, pois exige o uso de diferentes fontes de informação para organizar horários, conteúdos e carga horária. Além disso, fatores como calendário acadêmico e feriados tornam a tarefa ainda mais difícil, levando muitos professores a utilizarem planilhas manuais, o que aumenta o risco de inconsistências e retrabalho.
 
----
 
-## ✅ A solução <a id="solução"></a>
+
+# Solução <a id="solução"></a>
 
 Centralizar o planejamento de aulas em um único ambiente, permitindo que o professor organize todo o semestre de forma visual e integrada, sendo possível visualizar as aulas, distribuir os conteúdos ao longo das datas e acompanhar o progresso do planejamento em relação à carga horária da disciplina.
 
----
-<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
-
-## 📄Backlog - requisitos <a id="backlog"></a>
+# Backlog <a id="backlog"></a>
 
 | Requisito | Assunto                             | User Story                                                                                                                                                                                                              | Prioridade | Sprint | Observação | Estimativa (Fibonacci) |
 | --------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------ | ---------- | ------ |
@@ -71,64 +68,37 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 | RF25      | Integração com IA                   | Como professor, eu desejo receber emails antes de cada aula com sugestões/dicas de assuntos personalizados sobre o conteúdo.                                                                                        | Baixa      | 3      | Bônus da sprint 3 | 21 |
 | RF26      | Calendário interativo               | Como professor, eu desejo visualizar minhas aulas num calendário interativo, onde eu consiga selecionar um mês, e então visualizar as aulas dentro do mês, e ao passar o mouse no dia, aparece a descrição da aula. | Baixa      | 3      | Bônus da sprint 3 | 21 |
 
----
-
-<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
-
-## 📅 Cronograma de Sprints <a id="sprint"></a>
+# Cronograma de Sprints <a id="sprint"></a>
 
 | Sprint          |    Período    | Documentação    |
 | --------------- | :-----------: | --------------- |
-| 🔖 **SPRINT 1** | 16/03 - 05/04 | [Sprint 1 Docs](docs/sprints/sprint-01) |
-| 🔖 **SPRINT 2** | 13/04 - 03/05 | [Sprint 2 Docs](docs/sprints/sprint-02) |
-| 🔖 **SPRINT 3** | 11/05 - 31/05 | [Sprint 3 Docs](docs/sprints/sprint-03) |
-
-<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
-
-## 🏃‍ DoR - Definition of Ready <a id="dor"></a>
-
-- [x] Histórias bem descritas e compreensíveis
-- [x] Time entende o objetivo e a complexidade
-- [x] Prioridades definidas
-- [x] Metas definidas
-
-## 🏆 DoD - Definition of Done <a id="dod"></a>
-- [ ] Código final escrito e funcional
-- [ ] Documentação finalizada
-- [ ] Code review aprovado
-
----
-
-<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
+|  **✅ SPRINT 1** | 16/03 - 05/04 | [Sprint 1 Docs](docs/sprints/sprint-01) |
+|  **✅ SPRINT 2** | 13/04 - 03/05 | [Sprint 2 Docs](docs/sprints/sprint-02) |
+|  **❌ SPRINT 3** | 11/05 - 31/05 | [Sprint 3 Docs](docs/sprints/sprint-03) |
 
 
-## 💻 Tecnologias <a id="tecnologias"></a>
+# DoR 
 
-<h4 align="center">
-      <a href="https://www.oracle.com/java/technologies/downloads/"><img alt="Java" height="60" src="https://assets.dio.me/NWp0ked1gAcRd2n_uPBhJUJVmS5mkR31t0YiPMYMdpA/f:webp/q:80/L2FydGljbGVzL2NvdmVyLzdiODlmZGEyLTRhZjMtNGFlMC05OGJjLWFkMmI2NTg1NDkwOS5wbmc" /></a>&nbsp;&nbsp;&nbsp;
-      <a href="https://openjfx.io/"><img alt="JavaFX" height="60" src="https://upload.wikimedia.org/wikipedia/en/c/cc/JavaFX_Logo.png" /></a>&nbsp;&nbsp;&nbsp;
-      <a href="https://gluonhq.com/products/scene-builder/"><img alt="SceneBuilder" height="50" src="https://gluonhq.com/wp-content/uploads/2015/02/SceneBuilderLogo.png" /></a>&nbsp;&nbsp;&nbsp;
-      <a href="https://supabase.com/dashboard/org/"><img alt="Supabase" height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg" /></a>
-</h4>
+| DoR                                                |
+|----------------------------------------------------|
+|✅Histórias bem descritas e compreensíveis|
+|✅Time entende o objetivo e a complexidade|
+|✅Prioridades definidas|
+|✅Metas definidas|
 
----
+# DoD
 
-<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
+| DoD                                               |
+|----------------------------------------------------|
+|✅Código final escrito e funcional|
+|✅Documentação finalizada|
+|✅Code review aprovado|
 
-## 📁 Documentação <a id="documentacao"></a>
-
-### <a href="docs/README.md">Resumo</a>
-1. <a href="docs/processos/aceitação-e-permanência.md">Aceitação e permanência</a>
-2. <a href="docs/processos/estratégia-de-branch.md">Estratégia de branch</a>
-3. <a href="docs/processos/guia-estrutura-projeto.md">Estrutura do projeto</a>
-4. <a href="docs/processos/guia-pull-requests.md">Guia de Pull Request</a>
-5. <a href="docs/processos/padrão-de-commit.md">Padrões de commit</a>
-      
           
 
-## 🎓 Equipe <a id="equipe"></a>
+# Equipe <a id="equipe"></a>
 
-<div align="center">
+<div align="left">
   <table>
     <tr>
       <th>Membro</th>
