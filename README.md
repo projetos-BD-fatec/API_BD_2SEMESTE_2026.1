@@ -1,12 +1,16 @@
-<a id="readme-top"></a>
-
-
-# 👾 API 2º Semestre BD
+<h1 align="center">
+    <a href="https://amplication.com/#gh-light-mode-only">
+    <img src="docs/imagens/logo-lightversion.png">
+    </a>
+    <a href="https://amplication.com/#gh-dark-mode-only">
+    <img src="docs/imagens/logo-darkversion.png">
+    </a>
+</h1>
 
 <p align="center">
-      <img src="docs\imagens\logo-bughunters.png" alt="logo da BugHunters" width="200">
-      <h2 align="center">BugHunters</h2>
+  <i align="center">Plataforma de cadastro de aulas feito com java 🚀</i>
 </p>
+
 
 <p align="center">
 | <a href ="#desafio"> Desafio</a>  |  
