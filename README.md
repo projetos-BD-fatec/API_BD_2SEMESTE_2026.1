@@ -14,12 +14,11 @@
 <p align="center">
 | <a href ="#desafio"> Desafio</a>  |  
   <a href ="#backlog">Backlog</a>  |
-  <a href ="#dor">DoR</a>  |
-  <a href ="#dod">DoD</a>  |
-  <a href ="#sprint"> Cronograma de Sprints</a>  |
   <a href ="docs">Documentação</a>  |
   <a href ="#equipe"> Equipe</a> |
 </p>
+
+
 
 <p align="center">
     <img src="docs/imagens/L2.33.jpg" alt="dashboard"/>
@@ -68,33 +67,6 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 | RF25      | Integração com IA                   | Como professor, eu desejo receber emails antes de cada aula com sugestões/dicas de assuntos personalizados sobre o conteúdo.                                                                                        | Baixa      | 3      | Bônus da sprint 3 | 21 |
 | RF26      | Calendário interativo               | Como professor, eu desejo visualizar minhas aulas num calendário interativo, onde eu consiga selecionar um mês, e então visualizar as aulas dentro do mês, e ao passar o mouse no dia, aparece a descrição da aula. | Baixa      | 3      | Bônus da sprint 3 | 21 |
 
-# Cronograma de Sprints <a id="sprint"></a>
-
-| Sprint          |    Período    | Documentação    |
-| --------------- | :-----------: | --------------- |
-|  **✅ SPRINT 1** | 16/03 - 05/04 | [Sprint 1 Docs](docs/sprints/sprint-01) |
-|  **✅ SPRINT 2** | 13/04 - 03/05 | [Sprint 2 Docs](docs/sprints/sprint-02) |
-|  **❌ SPRINT 3** | 11/05 - 31/05 | [Sprint 3 Docs](docs/sprints/sprint-03) |
-
-
-# DoR 
-
-| DoR                                                |
-|----------------------------------------------------|
-|✅Histórias bem descritas e compreensíveis|
-|✅Time entende o objetivo e a complexidade|
-|✅Prioridades definidas|
-|✅Metas definidas|
-
-# DoD
-
-| DoD                                               |
-|----------------------------------------------------|
-|✅Código final escrito e funcional|
-|✅Documentação finalizada|
-|✅Code review aprovado|
-
-          
 
 # Equipe <a id="equipe"></a>
 
