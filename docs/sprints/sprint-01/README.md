@@ -14,8 +14,8 @@
 
 Nas sprint 1 focamos em estruturar nossa documentação, estabelecemos processos e para o cliente desenvolvemos wireframes que mostram a ele como planejamos solucionar a dor do mesmo.
 
-**Aqui temos uma pasta compactada com o que foi feito no projeto durante a sprint 1:**<br>
-![Projeto Sprint 1](./projeto_v1.rar)
+**Aqui temos uma pasta com o que foi feito no projeto durante a sprint 1:**<br>
+<a href="./projeto_v1"><img src="https://img.shields.io/badge/Projeto-004d7c?style=for-the-badge&logoColor=white"></a>
 
 ## Gráfico BurnDown Sprint 1
-![BurnDown Chart](../../imagens/BurnDown-Sprint01.jpg)
+![BurnDown Chart](../../imagens/burndown-Sprint01.jpg)

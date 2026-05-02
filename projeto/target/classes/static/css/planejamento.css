@@ -1,0 +1,383 @@
+/* ============================================================
+   SISTEMA DE PLANEJAMENTO DE AULAS - JavaFX CSS
+   ============================================================ */
+
+/* ---------- ROOT ---------- */
+.root {
+    -fx-background-color: #F0EBE1;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: #000000;
+}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+#topBar {
+    -fx-background-color: #F0EBE1;
+    -fx-border-color: #000000;
+    -fx-border-width: 0 0 2 0;
+}
+
+#labelUsuario {
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-alignment: center;
+    -fx-border-color: #000000;
+    -fx-border-width: 0 2 0 0;
+    -fx-padding: 0 20 0 20;
+}
+
+#labelTitulo {
+    -fx-text-fill: #000000;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-alignment: center;
+}
+
+#btnVoltar, #btnSalvar {
+    -fx-background-color: transparent;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-border-color: #000000;
+    -fx-border-width: 0 0 0 2;
+    -fx-cursor: hand;
+}
+
+/* ============================================================
+   CONTEÚDO PRINCIPAL
+   ============================================================ */
+#mainContent {
+    -fx-background-color: #F0EBE1;
+    -fx-padding: 55 0 40 25;
+    -fx-spacing: 35;
+}
+
+/* ---------- COMBOBOX DISCIPLINA ---------- */
+#comboDisciplina {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-pref-width: 400px;
+    -fx-pref-height: 42px;
+}
+
+/* ============================================================
+   CARD ORGANIZAÇÃO
+   ============================================================ */
+#cardOrganizacao {
+    -fx-background-color: #F0EBE1;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-pref-width: 1080px;
+}
+
+#cardHeader {
+    -fx-background-color: #F6EAD2;
+    -fx-border-color: #000000;
+    -fx-border-width: 0 0 1.5 0;
+    -fx-background-radius: 10 10 0 0;
+    -fx-padding: 12;
+}
+
+#cardHeaderLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* ============================================================
+   ÁREA DE CADASTRO
+   ============================================================ */
+#areaCadastro {
+    -fx-padding: 25 15 30 15;
+    -fx-spacing: 20;
+}
+
+.sectionTitle {
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.inputText {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-pref-height: 42px;
+    -fx-font-size: 14px;
+}
+
+.numberInput {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-pref-width: 80px;
+    -fx-pref-height: 42px;
+}
+
+.comboPeso {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-pref-width: 110px;
+    -fx-pref-height: 42px;
+}
+
+.topicoAvaliacao {
+    -fx-background-color: #FFCDD2;
+    -fx-text-fill: #89b71c;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10;
+    -fx-background-radius: 12;
+}
+
+#btnIncluir {
+    -fx-background-color: #F0EBE1;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 8 22 8 22;
+    -fx-cursor: hand;
+}
+
+#btnIncluir:hover {
+    -fx-background-color: #E4DED2;
+}
+
+.emptyText {
+    -fx-text-fill: #7A6A5D;
+    -fx-font-size: 15px;
+}
+
+/* ============================================================
+   INDICADORES
+   ============================================================ */
+#cardIndicadores {
+    -fx-background-color: #F0EBE1;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 18;
+    -fx-pref-width: 340px;
+}
+
+.indicadorTitulo {
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+}
+
+.horaVermelha {
+    -fx-text-fill: #E74C3C;
+    -fx-font-weight: bold;
+}
+
+.horaNormal {
+    -fx-text-fill: #5A514A;
+    -fx-font-weight: bold;
+}
+
+.indicadorBox {
+    -fx-background-color: rgba(255,255,255,0.35);
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+    -fx-alignment: center;
+}
+
+.indicadorNumero {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.indicadorTexto {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6D5E52;
+}
+
+.numeroVermelho {
+    -fx-text-fill: #E74C3C;
+}
+
+.numeroVerde {
+    -fx-text-fill: #2E8B57;
+}
+
+/* ============================================================
+   TABELA
+   ============================================================ */
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 2 0 0 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #F6EAD2;
+    -fx-border-color: #000000;
+    -fx-border-width: 0 0 1.5 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-font-weight: bold;
+    -fx-size: 44px;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 0 0 1 0;
+    -fx-cell-size: 52px;
+}
+
+.table-view .table-cell {
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 15 0 15;
+    -fx-text-fill: #000000;
+}
+
+.table-view .column-header .label {
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 15 0 15;
+}
+
+/* ComboBox dentro da tabela */
+.comboTabela {
+    -fx-background-color: #F7F3EE;
+    -fx-border-color: transparent;
+    -fx-pref-height: 30px;
+}
+
+.campoComLabel {
+    -fx-spacing: 4;
+    -fx-alignment: TOP_LEFT;
+}
+
+.labelCampoPequeno {
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-text-fill: #000000;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0;
+}
+
+.linhaCadastro {
+    -fx-alignment: BOTTOM_LEFT;
+    -fx-spacing: 10;
+}
+
+/* LISTA DE TÓPICOS :) (VBox dinâmica) */
+
+.topico-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: #000000;
+    -fx-border-width: 1;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.topico-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.topico-container {
+    -fx-background-color: #FFFFFF;
+    -fx-spacing: 0;
+}
+
+.topico-linha {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8 12 8 8;
+    -fx-min-height: 44px;
+}
+
+.topico-linha:hover {
+    -fx-background-color: #f9f5ef;
+}
+
+.topico-nome {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222222;
+    -fx-padding: 0 10 0 6;
+}
+
+.topico-info {
+    -fx-text-fill: #c0603a;
+    -fx-font-size: 12px;
+    -fx-padding: 0 10 0 0;
+}
+
+.topico-badge {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFA500;
+    -fx-alignment: center;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 5 0 5;
+}
+
+.btn-seta {
+    -fx-background-color: #eeeeee;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-font-size: 9px;
+    -fx-padding: 1 4 1 4;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-cursor: hand;
+    -fx-min-width: 22px;
+    -fx-max-height: 14px;
+}
+
+.btn-seta:hover {
+    -fx-background-color: #dddddd;
+}
+
+.btn-editar {
+    -fx-background-color: #9b59b6;
+    -fx-text-fill: white;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+.btn-editar:hover {
+    -fx-background-color: #8e44ad;
+}
+
+.btn-deletar {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+.btn-deletar:hover {
+    -fx-background-color: #c0392b;
+}
+

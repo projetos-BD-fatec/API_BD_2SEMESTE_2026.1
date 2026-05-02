@@ -1,41 +1,77 @@
-<a id="readme-top"></a>
+<h1 align="center">
+    <a href="https://amplication.com/#gh-light-mode-only">
+    <img src="docs/imagens/logo-lightversion.png">
+    </a>
+    <a href="https://amplication.com/#gh-dark-mode-only">
+    <img src="docs/imagens/logo-darkversion.png">
+    </a>
 
-
-# 👾 API 2º Semestre BD
-
+</h1>
 <p align="center">
-      <img src="docs\imagens\logo-bughunters.png" alt="logo da BugHunters" width="200">
-      <h2 align="center">BugHunters</h2>
+  <i align="center">Plataforma de cadastro de aulas feito com java 🚀</i>
 </p>
 
 <p align="center">
 | <a href ="#desafio"> Desafio</a>  |  
   <a href ="#backlog">Backlog</a>  |
-  <a href ="#sprint">Sprint Backlog</a>  |
-  <a href ="#tecnologias">Tecnologias</a>  |
-  <a href ="#documentacao">Documentação</a>  |
+  <a href ="docs">Documentação</a>  |
   <a href ="#equipe"> Equipe</a> |
 </p>
 
----
-  
-## 🏅 O desafio <a id="desafio"></a>
 
+
+<p align="center">
+    <img src="docs/imagens/L2.33.jpg" alt="dashboard"/>
+</p>
+
+# Desafio
 O desafio consiste em criar um sistema desktop para auxiliar os professores a montarem seus planos de aula.
 
-O planejamento de aulas é um processo complexo e propenso a erros, pois exige o uso de diferentes fontes de informação para organizar horários, conteúdos e carga horária. Além disso, fatores como calendário acadêmico e feriados tornam a tarefa ainda mais difícil, levando muitos professores a utilizarem planilhas manuais, o que aumenta o risco de inconsistências e retrabalho.
 
----
+<table width="100%">
+  <tr>
+    <!-- Coluna 1 -->
+    <td width="33%" valign="top">
+      <div align="center">
+        <h3>
+          <img src="https://img.icons8.com/?size=100&id=lrcr6RgJFygK&format=png&color=000000" width="20" height="20" style="vertical-align: middle;">
+          <span>Fragmentação de Dados</span>
+        </h3>
+        <p>As informações necessárias para o planejamento estão dispersas.</p>
+      </div>
+    </td>
+    <!-- Coluna 2 -->
+    <td width="33%" valign="top">
+      <div align="center">
+        <h3>
+          <img src="https://img.icons8.com/?size=100&id=nkGDoqzPxYM3&format=png&color=000000" width="20" height="20" style="vertical-align: middle;">
+          <span>Logística</span>
+        </h3>
+        <p>Fatores externos e calendários variáveis tornam o processo propenso a erros.</p>
+      </div>
+    </td>
+    <!-- Coluna 3 -->
+    <td width="33%" valign="top">
+      <div align="center">
+        <h3>
+          <img src="https://img.icons8.com/?size=100&id=102707&format=png&color=000000" width="20" height="20" style="vertical-align: middle;">
+          <span>Automatização</span>
+        </h3>
+        <p>A dependência de planilhas manuais gera alto risco de inconsistências.</p>
+      </div>
+    </td>
+  </tr>
+</table>
 
-## ✅ A solução <a id="solução"></a>
-
+# Solução <a id="solução"></a>
 Centralizar o planejamento de aulas em um único ambiente, permitindo que o professor organize todo o semestre de forma visual e integrada, sendo possível visualizar as aulas, distribuir os conteúdos ao longo das datas e acompanhar o progresso do planejamento em relação à carga horária da disciplina.
 
----
-<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
-
-## 📄Backlog - requisitos <a id="backlog"></a>
-
+# Backlog <a id="backlog"></a>
+<details closed>
+<summary>
+ Features
+</summary> <br />
+    
 | Requisito | Assunto                             | User Story                                                                                                                                                                                                              | Prioridade | Sprint | Observação | Estimativa (Fibonacci) |
 | --------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------ | ---------- | ------ |
 | [US01](docs/User_Stories/US01.md)     | Definição de horários da disciplina | Como professor, desejo visualizar os dias da semana e horários das aulas cadastrados para ter fácil acesso a essas informações.                                                                                         | Alta       | 2      | Meta       | 5 |
@@ -65,37 +101,93 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 | US25      | Integração com IA                   | Como professor, eu desejo receber emails antes de cada aula com sugestões/dicas de assuntos personalizados sobre o conteúdo.                                                                                        | Baixa      | 3      | Bônus da sprint 3 | 21 |
 | US26      | Calendário interativo               | Como professor, eu desejo visualizar minhas aulas num calendário interativo, onde eu consiga selecionar um mês, e então visualizar as aulas dentro do mês, e ao passar o mouse no dia, aparece a descrição da aula. | Baixa      | 3      | Bônus da sprint 3 | 21 |
 
----
+</details>
 
-<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
+<div align="center">
+    <h1 id="sprint">Sprint</h1>
+</div>
+<div align="center">
 
-## 📅 Sprint Backlog <a id="sprint"></a>
-[Sprint 1](docs/sprints/sprint-01) <br>
-[Sprint 2](docs/sprints/sprint-02) <br>
+| Sprint | Período | Docs |
+| :----: | :-----: | :---: |
+| 1 | 08/09 - 28/09 | [Sprint 1 Docs](docs/sprints/sprint-01) |
+| 2 | 06/10 - 26/10 | [Sprint 2 Docs](docs/sprints/sprint-02) |
+| 3 | 03/11 - 23/11 | [Sprint 3 Docs](docs/sprints/sprint-03) |
 
----
+</div>
 
-<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
+# Instalação
+Este guia fornece as instruções necessárias para configurar e executar o projeto da API localmente para desenvolvimento ou avaliação.  
+Para garantir o funcionamento correto da API em seu ambiente, certifique-se de ter os seguintes pré-requisitos instalados:  
+
+```
+→ Java JDK 17 ou superior.  
+→ Maven 3.8+ para gestão de dependências.  
+→ Git (utilize o Git Bash para execução de comandos).  
+→ IDE Recomendada: IntelliJ IDEA ou VS Code.  
+```
+
+> **Nota**
+> Caso prefira não utilizar o terminal,você também pode baixar o projeto diretamente pelo GitHub navegando até o botão `< > Code`, select `donwload` 
+
+1. Abra o git bash e cole:
+```shell
+git clone: https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main
+```
+2. Abra sua IDE :
+```shell
+Abra a sua IDE, em seguida abra onde clonou o repositório e selecione a pasta projeto
+```
+
+3. Para que a API se conecte ao banco de dados externo (Supabase), siga estes passos: Navegue até a pasta: `src/main/resources/`, Crie um novo arquivo de texto e nomeie-o como `db.properties`, Abra o arquivo e cole exatamente a linha abaixo:  <br>
+```shell
+db.url=jdbc:postgresql://aws-1-sa-east-1.pooler.supabase.com:6543/postgres?user=postgres.ogvzlsaluygvhidfalut&password=Bughunters@2026&sslmode=require&prepareThreshold=0
+```
+4. Rodar o Aplicativo 
+> **Nota**
+> Caso prefira não utilizar o terminal,você também pode rodar o projeto navegando ate a classe app e selecionando o botao  `run` da sun IDE
+
+```shell
+mvn clean javafx:run 
+```
 
 
-## 💻 Tecnologias <a id="tecnologias"></a>
+# Estrutura <a id="estrutura"></a>
+```
+├── README.md
+├── .github/
+│    └── pull_request_template.md
+├── projeto/
+│    ├── .idea/
+│    ├── src/
+│    ├── target/
+│    ├── pom.xml
+│    └── .gitignore
+└── docs/
+     ├── processos/
+     │   ├── estratégia-de-branch.md
+     │   ├── padrão-de-commit.md
+     │   ├── guia-estrutura-projeto.md
+     │   ├── guia-de-pull-requests.md
+     │   └── aceitação-e-permanência.md
+     ├── imagens/
+     │   ├── fluxograma-branches.png
+     │   └── logo-bughunters.png
+     ├── sprints/
+     │   ├── sprint-01/
+     │   │   └── README.md
+     │   ├── sprint-02/
+     │   │   └── README.md
+     │   └── sprint-03/
+     │         └── README.md
+     └── README.md
+```
 
-<h4 align="center">
-      <a href="https://www.oracle.com/java/technologies/downloads/"><img alt="Java" height="60" src="https://assets.dio.me/NWp0ked1gAcRd2n_uPBhJUJVmS5mkR31t0YiPMYMdpA/f:webp/q:80/L2FydGljbGVzL2NvdmVyLzdiODlmZGEyLTRhZjMtNGFlMC05OGJjLWFkMmI2NTg1NDkwOS5wbmc" /></a>&nbsp;&nbsp;&nbsp;
-      <a href="https://openjfx.io/"><img alt="JavaFX" height="60" src="https://upload.wikimedia.org/wikipedia/en/c/cc/JavaFX_Logo.png" /></a>&nbsp;&nbsp;&nbsp;
-      <a href="https://gluonhq.com/products/scene-builder/"><img alt="SceneBuilder" height="50" src="https://gluonhq.com/wp-content/uploads/2015/02/SceneBuilderLogo.png" /></a>&nbsp;&nbsp;&nbsp;
-      <a href="https://dev.mysql.com/downloads/"><img alt="MySQL" height="60" src="https://1000logos.net/wp-content/uploads/2020/08/MySQL-Logo.png" /></a>
-</h4>
 
----
 
-<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
-
-## 📁 Documentação <a id="documentacao"></a>
-
-- [Resumo da documentação](docs/README.md)
-
-## 🎓 Equipe <a id="equipe"></a>
+<div align="center">
+  <h1 id="equipe">Equipe</h1>
+</div>
 
 <div align="center">
   <table>
@@ -123,6 +215,12 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
       <td><a href="https://github.com/abraaops25"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a></td>
       <td><a href="https://br.linkedin.com/in/abra%C3%A3o-prado-santana-830a06123"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></td>
     </tr>
+      </tr>
+    <td>André Junqueira</td>
+      <td>Desenvolvedor</td>
+      <td><a href="https://github.com/andre-sjunqueira"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a></td>
+      <td><a href="https://br.linkedin.com/in/andr%C3%A9-soares-junqueira-54668a26b"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a></td>
+    </tr>
     <tr>
       <td>Isabelle Cristine</td>
       <td>Desenvolvedor</td>
@@ -149,4 +247,8 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
     
   </table>
 </div>
+
+<p align="center">
+  <sub>feito com 💚 na fatec sjc </sub>
+</p>
 
