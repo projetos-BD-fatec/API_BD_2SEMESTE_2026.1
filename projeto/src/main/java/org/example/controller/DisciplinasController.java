@@ -116,7 +116,7 @@ public class DisciplinasController {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Dia duplicado");
             alert.setHeaderText(null);
-            alert.setContentText(" Já existe um horário castrado para " + dia.getValorBanco() + ".");
+            alert.setContentText(" Já existe um horário cadastrado para " + dia.getValorBanco() + ".");
             alert.showAndWait();
             return;
         }
