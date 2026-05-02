@@ -71,7 +71,7 @@ public class AulaDAO {
         }
     }
 
-    public void clearTopicoId(Long disciplinaId) throws SQLException {
+    public void clearTopicoByDisciplina(Long disciplinaId) throws SQLException {
         String sql = "UPDATE aula SET topico_id = NULL WHERE disciplina_id = ?";
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -80,10 +80,19 @@ public class AulaDAO {
         }
     }
 
+    public void clearTopicoById(Long topicoId) throws SQLException {
+        String sql = "UPDATE aula SET topico_id = NULL WHERE topico_id = ?";
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, topicoId);
+            stmt.executeUpdate();
+        }
+    }
+
     public void salvarDistribuicao(List<Aula> aulas) throws SQLException {
         String sql = "UPDATE aula SET topico_id = ? WHERE id = ?";
         try (Connection conn = ConexaoBD.conectar();
-        PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             for (Aula aula : aulas) {
                 stmt.setObject(1, aula.getTopicoId());
                 stmt.setObject(2, aula.getId());

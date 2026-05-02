@@ -53,6 +53,7 @@ public class PlanejamentoController {
     private Long disciplinaIdAtual;
 
     private List<Topico> topicosCache = new ArrayList<>();
+    private List<Topico> topicosPendentes = new ArrayList<>();
     private final TopicoDAO topicoDAO = new TopicoDAO();
     private final AulaDAO aulaDAO = new AulaDAO();
     private final AulaService aulaService = new AulaService(
@@ -143,11 +144,8 @@ public class PlanejamentoController {
                     setText(null);
                 } else {
                     Aula aula = getTableRow().getItem();
-                    String nomeEvento = aula.getEvento() != null ? aula.getEvento() : "";
-
 
                     boolean isEventoReservado = distribuicaoService.isDiaBloqueado(aula);
-
 
                     List<Topico> todosTopicos = topicosCache;
                     List<String> nomesFiltrados;
@@ -190,7 +188,7 @@ public class PlanejamentoController {
         aulasCronograma = aulaService.buscarAulas(disciplinaId);
         tabelaCronograma.getItems().setAll(aulasCronograma);
         containerTopicos.getChildren().clear();
-        topicoDAO.findByDisciplinaId(disciplinaId).forEach(this::adicionarLinhaTopico);
+        topicosCache.forEach(this::adicionarLinhaTopico);
         atualizarIndicadores();
     }
 
@@ -213,27 +211,47 @@ public class PlanejamentoController {
             return;
         }
 
-        Topico topico = new Topico(nome, min, max, peso, disciplinaIdAtual, avaliacao);
+        Topico topico = new Topico(nome, min, max, peso, disciplinaIdAtual, avaliacao, null);
         try {
             topicoDAO.salvar(topico);
-            adicionarLinhaTopico(topico);
-            atualizarIndicadores();
-            limparCampos();
-            topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
-            tabelaCronograma.refresh();
-            redistribuir();
         } catch (SQLException e) {
             mostrarAlerta("Erro no banco", "Não foi possível salvar o tópico: " + e.getMessage());
+            return;
         }
+        topicosCache.add(topico);
+        topicosPendentes.add(topico);
+        adicionarLinhaTopico(topico);
+        atualizarIndicadores();
+        limparCampos();
+        redistribuir();
+        App.setAlteracaoNaoSalva(true);
     }
 
     @FXML
     private void clicarSalvar() {
         try {
-            aulaDAO.clearTopicoId(disciplinaIdAtual);
+            List<javafx.scene.Node> linhas = containerTopicos.getChildren();
+            for (int i = 0; i < linhas.size(); i++) {
+                HBox linha = (HBox) linhas.get(i);
+                Label lblNome = (Label) linha.getChildren().get(1);
+                String nome = lblNome.getText();
+                final int ordem = i;
+                topicosCache.stream()
+                        .filter(t -> t.getNome().equals(nome))
+                        .findFirst()
+                        .ifPresent(t -> t.setOrdem(ordem));
+            }
+
+            if (!topicosCache.isEmpty()) {
+                topicoDAO.atualizarOrdens(topicosCache);
+            }
+
+            aulaDAO.clearTopicoByDisciplina(disciplinaIdAtual);
             aulaDAO.salvarDistribuicao(aulasCronograma);
+
             mostrarAlerta("Sucesso", "Planejamento salvo com sucesso!");
             App.setAlteracaoNaoSalva(false);
+
         } catch (SQLException e) {
             mostrarAlerta("Erro ao salvar", e.getMessage());
         }
@@ -272,9 +290,14 @@ public class PlanejamentoController {
         btnDeletar.getStyleClass().add("btn-deletar");
         btnDeletar.setOnAction(e -> {
             try {
-                if (topico.getId() != null) topicoDAO.deletar(topico.getId());
+                if (topico.getId() != null) {
+                    aulaDAO.clearTopicoById(topico.getId());
+                    topicoDAO.deletar(topico.getId());
+                } else {
+                    topicosPendentes.remove(topico);
+                }
+                topicosCache.remove(topico);
                 containerTopicos.getChildren().remove(linha);
-                topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
                 tabelaCronograma.refresh();
                 atualizarIndicadores();
                 redistribuir();
