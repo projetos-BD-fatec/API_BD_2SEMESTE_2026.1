@@ -8,17 +8,19 @@ public class Topico {
     private Integer peso;
     private Long disciplinaId;
     private Boolean avaliacao;
+    private Integer ordem;
 
-    public Topico(String nome, Integer minAulas, Integer maxAulas, Integer peso, Long disciplinaId, Boolean avaliacao) {
+    public Topico(String nome, Integer minAulas, Integer maxAulas, Integer peso, Long disciplinaId, Boolean avaliacao, Integer ordem) {
         this.nome = nome;
         this.minAulas = minAulas;
         this.maxAulas = maxAulas;
         this.peso = peso;
         this.disciplinaId = disciplinaId;
         this.avaliacao = avaliacao;
+        this.ordem = ordem;
     }
 
-    public Topico(Long id, String nome, int minAulas, int maxAulas, int peso, Long disciplinaId, Boolean avaliacao) {
+    public Topico(Long id, String nome, int minAulas, int maxAulas, int peso, Long disciplinaId, Boolean avaliacao, Integer ordem) {
         this.id = id;
         this.nome = nome;
         this.minAulas = minAulas;
@@ -26,6 +28,7 @@ public class Topico {
         this.peso = peso;
         this.disciplinaId = disciplinaId;
         this.avaliacao = avaliacao;
+        this.ordem = ordem;
     }
 
     public Boolean isAvaliacao() {
@@ -38,6 +41,14 @@ public class Topico {
 
     public void setAvaliacao(Boolean avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    public Integer getOrdem() {
+        return ordem;
+    }
+
+    public void setOrdem(Integer ordem) {
+        this.ordem = ordem;
     }
 
     public Long getId() { return id; }

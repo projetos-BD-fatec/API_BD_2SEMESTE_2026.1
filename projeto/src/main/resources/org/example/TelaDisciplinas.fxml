@@ -20,15 +20,6 @@
    <content>
       <AnchorPane fx:id="root" styleClass="root" stylesheets="@../../static/css/disciplina.css">
          <children>
-            <HBox id="topBar" fx:id="topBar" alignment="CENTER" minHeight="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <children>
-                  <Label id="labelTitulo" fx:id="labelTitulo" alignment="CENTER" contentDisplay="CENTER" text="PlanGuide" textAlignment="CENTER">
-                     <font>
-                        <Font size="32.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
             <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
                <children>
                   <VBox id="painelCadastro" fx:id="painelCadastro" alignment="CENTER" maxWidth="1300.0" minHeight="400.0" minWidth="1300.0" spacing="20.0" HBox.hgrow="ALWAYS">
@@ -176,6 +167,13 @@
                         </Button>
                      </children>
                   </HBox>
+               </children>
+            </HBox>
+            <HBox id="topBar" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefWidth="1105.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label id="labelUsuario" minHeight="40.0" prefWidth="130.0" text="Emanuel" />
+                  <Label id="labelTitulo" maxWidth="Infinity" text="PlanGuide" HBox.hgrow="ALWAYS" />
+                  <Button id="btnVoltar" minHeight="40.0" mnemonicParsing="false" prefWidth="110.0" text="← Sair" />
                </children>
             </HBox>
          </children>

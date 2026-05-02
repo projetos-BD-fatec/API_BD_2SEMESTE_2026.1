@@ -26,20 +26,8 @@
         </content>
       </ScrollPane>
 
-        <!-- TOPBAR -->
-        <HBox id="topBar" alignment="CENTER" prefHeight="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-
-            <children>
-                <Label id="labelUsuario" prefHeight="60.0" prefWidth="130.0" text="Emanuel" />
-
-                <Label id="labelTitulo" maxWidth="Infinity" prefHeight="60.0" text="PlanGuide" HBox.hgrow="ALWAYS" />
-
-                <Button id="btnVoltar" mnemonicParsing="false" onAction="#clicarVoltar" prefHeight="60.0" prefWidth="110.0" text="← Voltar" />
-            </children>
-        </HBox>
-
         <!-- CONTEÚDO PRINCIPAL -->
-        <VBox id="mainContent" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+        <VBox id="mainContent" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
             <children>
             <HBox>
@@ -63,12 +51,12 @@
                         </HBox>
 
                         <!-- ÁREA DE CADASTRO + INDICADORES -->
-                        <HBox id="areaCadastro" spacing="30.0">
+                        <HBox id="areaCadastro" alignment="TOP_CENTER">
 
                             <children>
 
                                 <!-- LADO ESQUERDO -->
-                                <VBox spacing="18.0" HBox.hgrow="ALWAYS">
+                                <VBox maxWidth="800.0" spacing="18.0" HBox.hgrow="ALWAYS">
                                     <children>
                               <HBox />
 
@@ -147,7 +135,7 @@
                                                     </children>
                                                 </HBox>
 
-                                                <GridPane hgap="10.0" vgap="10.0">
+                                                <GridPane alignment="CENTER" hgap="10.0" vgap="10.0">
                                                     <children>
 
                                                         <VBox styleClass="indicadorBox" GridPane.columnIndex="0" GridPane.rowIndex="0">
@@ -224,6 +212,19 @@
 
             </children>
         </VBox>
+
+        <!-- TOPBAR -->
+        <HBox id="topBar" alignment="CENTER" prefWidth="1105.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <children>
+                <Label id="labelUsuario" minHeight="40.0" prefWidth="130.0" text="👤 Emanuel" />
+
+                <Label id="labelTitulo" maxWidth="Infinity" text="PlanGuide" HBox.hgrow="ALWAYS" />
+            <Button id="btnSalvar" minHeight="40.0" mnemonicParsing="false" onAction="#clicarSalvar" text="💾 Salvar" />
+
+                <Button id="btnVoltar" minHeight="40.0" mnemonicParsing="false" onAction="#clicarVoltar" text="← Voltar" />
+            </children>
+        </HBox>
 
     </children>
 </AnchorPane>

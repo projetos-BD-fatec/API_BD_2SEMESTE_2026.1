@@ -17,8 +17,6 @@
     -fx-background-color: #F0EBE1;
     -fx-border-color: #000000;
     -fx-border-width: 0 0 2 0;
-    -fx-min-height: 60px;
-    -fx-pref-height: 60px;
 }
 
 #labelUsuario {
@@ -37,7 +35,7 @@
     -fx-alignment: center;
 }
 
-#btnVoltar {
+#btnVoltar, #btnSalvar {
     -fx-background-color: transparent;
     -fx-font-weight: bold;
     -fx-font-size: 15px;
