@@ -75,8 +75,40 @@ public class PlanejamentoController {
     @FXML
     private void clicarVoltar() {
         try {
+            if (App.isAlteracaoNaoSalva()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Alterações não salvas");
+                alert.setHeaderText("Você tem alterações não salvas.");
+                alert.setContentText("O que deseja fazer?");
+
+                ButtonType salvar = new ButtonType("Salvar");
+                ButtonType descartar = new ButtonType("Descartar alterações");
+                ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+                alert.getButtonTypes().setAll(salvar, descartar, cancelar);
+
+                alert.showAndWait().ifPresent(resposta -> {
+                    if (resposta == salvar) {
+                        clicarSalvar();
+                        navegarParaDisciplinas();
+                    } else if (resposta == descartar) {
+                        descartarAlteracoes();
+                        navegarParaDisciplinas();
+                    }
+                    // cancelar: não faz nada
+                });
+            } else {
+                navegarParaDisciplinas();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void navegarParaDisciplinas() {
+        try {
             App.setAlteracaoNaoSalva(false);
             App.setSalvarCallback(() -> {});
+            App.setDescartarCallback(() -> {});
             App.setRoot("TelaDisciplinas");
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -85,6 +117,7 @@ public class PlanejamentoController {
 
     public void setDisciplinaId(Long disciplinaId) {
         App.setSalvarCallback(this::clicarSalvar);
+        App.setDescartarCallback(this::descartarAlteracoes);
         this.disciplinaIdAtual = disciplinaId;
 
         colData.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getData()));
@@ -251,10 +284,24 @@ public class PlanejamentoController {
 
             mostrarAlerta("Sucesso", "Planejamento salvo com sucesso!");
             App.setAlteracaoNaoSalva(false);
-
+            topicosPendentes.clear();
         } catch (SQLException e) {
             mostrarAlerta("Erro ao salvar", e.getMessage());
         }
+    }
+
+    private void descartarAlteracoes() {
+        for (Topico topico : new ArrayList<>(topicosPendentes)) {
+            try {
+                if (topico.getId() != null) {
+                    aulaDAO.clearTopicoById(topico.getId());
+                    topicoDAO.deletar(topico.getId());
+                }
+            } catch (SQLException e) {
+                mostrarAlerta("Erro ao descartar", "Não foi possível reverter o tópico: " + topico.getNome());
+            }
+        }
+        topicosPendentes.clear();
     }
 
     private void adicionarLinhaTopico(Topico topico) {

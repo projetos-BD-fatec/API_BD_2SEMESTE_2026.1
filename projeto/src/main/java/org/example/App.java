@@ -21,6 +21,7 @@ public class App extends Application {
     private static Stage primaryStage;
     private static boolean alteracaoNaoSalva = false;
     private static Runnable salvarCallback = () -> {};
+    private static Runnable descartarCallback = () -> {};
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -45,6 +46,7 @@ public class App extends Application {
                         salvarCallback.run();
                         stage.close();
                     } else if (resposta == sair) {
+                        descartarCallback.run();
                         alteracaoNaoSalva = false;
                         stage.close();
                     }
@@ -77,8 +79,16 @@ public class App extends Application {
         alteracaoNaoSalva = value;
     }
 
+    public static boolean isAlteracaoNaoSalva() {
+        return alteracaoNaoSalva;
+    }
+
     public static void setSalvarCallback(Runnable callback) {
         salvarCallback = callback;
+    }
+
+    public static void setDescartarCallback(Runnable callback) {
+        descartarCallback = callback;
     }
 
     public static void main(String[] args) {
