@@ -141,7 +141,7 @@ Abra a sua IDE, em seguida abra onde clonou o repositório e selecione a pasta p
 
 3. Para que a API se conecte ao banco de dados externo (Supabase), siga estes passos: Navegue até a pasta: `src/main/resources/`, Crie um novo arquivo de texto e nomeie-o como `db.properties`, Abra o arquivo e cole exatamente a linha abaixo:  <br>
 ```shell
-db.url=jdbc:postgresql://aws-1-sa-east-1.pooler.supabase.com:6543/postgres?user=postgres.ogvzlsaluygvhidfalut&password=Bughunters@2026&sslmode=require
+db.url=jdbc:postgresql://aws-1-sa-east-1.pooler.supabase.com:6543/postgres?user=postgres.ogvzlsaluygvhidfalut&password=Bughunters@2026&sslmode=require&prepareThreshold=0
 ```
 4. Rodar o Aplicativo 
 > **Nota**
