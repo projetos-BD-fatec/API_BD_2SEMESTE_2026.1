@@ -10,6 +10,7 @@ import javafx.scene.control.TableCell;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
@@ -20,6 +21,7 @@ import org.example.model.Topico;
 import org.example.model.TopicoOrdenado;
 import org.example.service.AulaService;
 import org.example.service.DistribuicaoService;
+import org.example.util.Toast;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -397,6 +399,25 @@ public class PlanejamentoController {
         }
         tabelaCronograma.getItems().setAll(aulasCronograma);
         atualizarIndicadores();
+        verificarLacunas();
+    }
+
+    private void verificarLacunas() {
+        for (Topico t : topicosCache) {
+            if (!t.isAvaliacao()) continue;
+
+            aulasCronograma.stream()
+                    .filter(a -> t.getId().equals(a.getTopicoId()))
+                    .findFirst()
+                    .ifPresent(aulaAvaliacao -> {
+                        int idx = aulasCronograma.indexOf(aulaAvaliacao);
+                        if (idx > 0 && aulasCronograma.get(idx - 1).getTopicoId() == null) {
+                            Stage stage = (Stage) txtTopico.getScene().getWindow();
+                            Toast.mostrar(stage,
+                                    "Atenção: \"" + t.getNome() + "\" foi alocada após dias bloqueados. Verifique as lacunas no cronograma.");
+                        }
+                    });
+        }
     }
 
     private void atualizarIndicadores() {
@@ -421,7 +442,7 @@ public class PlanejamentoController {
     private void limparCampos() {
         txtTopico.clear();
         spinnerMin.getValueFactory().setValue(1);
-        spinnerMax.getValueFactory().setValue(2);
+        spinnerMax.getValueFactory().setValue(1);
         cbPeso.setValue("Peso 1");
         chkAvaliacao.setSelected(false);
     }

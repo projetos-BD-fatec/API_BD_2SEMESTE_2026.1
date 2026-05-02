@@ -132,7 +132,7 @@
 
 .topicoAvaliacao {
     -fx-background-color: #FFCDD2;
-    -fx-text-fill: #B71C1C;
+    -fx-text-fill: #89b71c;
     -fx-font-weight: bold;
     -fx-padding: 4 10;
     -fx-background-radius: 12;
@@ -380,3 +380,4 @@
 .btn-deletar:hover {
     -fx-background-color: #c0392b;
 }
+
