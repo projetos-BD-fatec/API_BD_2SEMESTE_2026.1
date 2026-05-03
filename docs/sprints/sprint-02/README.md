@@ -51,6 +51,12 @@ Priorizamos as funcionalidades essenciais para resolver o problema principal, en
 ### 1. Seleção da Disciplina
 Na tela inicial de disciplinas, o professor deve selecionar a matéria que deseja planejar.
 
+<h1 align="center">
+    <a>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/docs/readme/docs/imagens/Tela_disciplina1.jpeg>
+    </a>
+</h1>
+
 #### ⚠️ Observação: <br>
 O cadastro de novas disciplinas ainda não está disponível nesta sprint.<br>
 Nesta etapa, o sistema utiliza disciplinas previamente definidas.<br>
@@ -59,6 +65,13 @@ Após selecionar a disciplina (por exemplo, Modelagem de Banco de Dados), o usu�
 ### 2. Tela de Planejamento
 Na tela de planejamento, o professor organiza o conteúdo da disciplina ao longo do calendário de aulas.<br>
 <br>
+
+<h1 align="center">
+    <a>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/docs/readme/docs/imagens/Tela_planejamento1.jpeg>
+    </a>
+</h1>
+
 O professor pode cadastrar os tópicos que serão lecionados, informando:<br><br>
 •	Nome do tópico (ex: Introdução, DER, Avaliação 1) <br>
 •	Quantidade mínima de aulas <br>
