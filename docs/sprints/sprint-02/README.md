@@ -1,6 +1,10 @@
 <a id="readme-top"></a>
 
-# 👾 PlanGuide
+<h1 align="center">
+    <a>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/docs/readme/docs/imagens/PlanGuide_Banner.png>
+    </a>
+</h1>
 
 # Sprint 2
 Na Sprint 2, o foco é entregar o MVP do produto, garantindo que o professor já consiga realizar o planejamento das aulas de forma completa e funcional.<br>
@@ -131,3 +135,20 @@ Essas informações ajudam o professor a acompanhar o progresso do planejamento 
 
 </details>
 
+## 📷 Vídeos
+
+### Tela Disciplina
+
+<h1 align="center">
+    <a>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/docs/readme/docs/imagens/GIF_tela_disciplina(1).gif>
+    </a>
+</h1>
+
+### Tela Planejamento
+
+<h1 align="center">
+    <a>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/docs/readme/docs/imagens/GIF_tela_planejamento(1).gif>
+    </a>
+</h1>
