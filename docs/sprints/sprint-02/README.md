@@ -41,7 +41,7 @@ Priorizamos as funcionalidades essenciais para resolver o problema principal, en
 ## 🏆 DoD - Definition of Done <a id="dod"></a>
 - [x] Código final escrito e funcional
 - [x] Documentação finalizada
-- [ ] Code review aprovado
+- [x] Code review aprovado
 
 ---
 
