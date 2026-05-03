@@ -1,9 +1,6 @@
 <h1 align="center">
-    <a href="https://amplication.com/#gh-light-mode-only">
-    <img src="imagens/logo-lightversion.png">
-    </a>
-    <a href="https://amplication.com/#gh-dark-mode-only">
-    <img src="imagens/logo-darkversion.png">
+    <a>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/docs/readme/docs/imagens/PlanGuide_Banner.png>
     </a>
 </h1>
 
