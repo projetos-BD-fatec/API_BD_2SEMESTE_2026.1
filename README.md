@@ -1,13 +1,8 @@
 <h1 align="center">
     <a>
-    <img src=docs/imagens/logo-bughunters.png>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/docs/readme/docs/imagens/Plan_guide_bughunters.png>
     </a>
-    
-
 </h1>
-<p align="center">
-  <i align="center">Plataforma de cadastro de aulas feito com java 🚀</i>
-</p>
 
 <p align="center">
 | <a href ="#desafio"> Desafio</a>  |  
@@ -17,12 +12,6 @@
   <a href ="#estrutura">Estrutura</a>  |
   <a href ="#modelo">Modelo</a>  |
   <a href ="#equipe"> Equipe</a> |
-</p>
-
-
-
-<p align="center">
-    <img src=docs/imagens/PlanGuide.png/>
 </p>
 
 # Desafio <a id="desafio"></a>
