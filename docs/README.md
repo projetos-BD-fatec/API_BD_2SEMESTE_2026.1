@@ -1,6 +1,6 @@
 <h1 align="center">
     <a>
-    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/docs/readme/docs/imagens/PlanGuide_Banner.png>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/PlanGuide_Banner.png>
     </a>
 </h1>
 
@@ -38,7 +38,7 @@
 
 | Sprint | Status | Docs |
 | ------ | :----: | ---- |
-| 1 |  concluida | [Sprint 1 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/docs/readme/docs/sprints/sprint-01) |
-| 2 |  concluida | [Sprint 2 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/docs/readme/docs/sprints/sprint-02) |
-| 3 |  não iniciada | [Sprint 3 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/docs/readme/docs/sprints/sprint-03) |
+| 1 |  concluida | [Sprint 1 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-01) |
+| 2 |  concluida | [Sprint 2 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-02) |
+| 3 |  não iniciada | [Sprint 3 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-03) |
 
