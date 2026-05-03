@@ -1,10 +1,8 @@
 <h1 align="center">
-    <a href="https://amplication.com/#gh-light-mode-only">
-    <img src="docs/imagens/logo-lightversion.png">
+    <a>
+    <img src=docs/imagens/logo-bughunters.png>
     </a>
-    <a href="https://amplication.com/#gh-dark-mode-only">
-    <img src="docs/imagens/logo-darkversion.png">
-    </a>
+    
 
 </h1>
 <p align="center">
@@ -13,18 +11,21 @@
 
 <p align="center">
 | <a href ="#desafio"> Desafio</a>  |  
+  <a href ="#solução"> Solução</a>  |
   <a href ="#backlog">Backlog</a>  |
-  <a href ="docs">Documentação</a>  |
+  <a href ="#instalação">Instalação</a>  |
+  <a href ="#estrutura">Estrutura</a>  |
+  <a href ="#modelo">Modelo</a>  |
   <a href ="#equipe"> Equipe</a> |
 </p>
 
 
 
 <p align="center">
-    <img src="docs/imagens/L2.33.jpg" alt="dashboard"/>
+    <img src=docs/imagens/PlanGuide.png/>
 </p>
 
-# Desafio
+# Desafio <a id="desafio"></a>
 O desafio consiste em criar um sistema desktop para auxiliar os professores a montarem seus planos de aula.
 
 
@@ -37,7 +38,7 @@ O desafio consiste em criar um sistema desktop para auxiliar os professores a mo
           <img src="https://img.icons8.com/?size=100&id=lrcr6RgJFygK&format=png&color=000000" width="20" height="20" style="vertical-align: middle;">
           <span>Fragmentação de Dados</span>
         </h3>
-        <p>As informações necessárias para o planejamento estão dispersas.</p>
+        <p>As informações necessárias para o planejamento de aulas estão dispersas.</p>
       </div>
     </td>
     <!-- Coluna 2 -->
@@ -110,13 +111,17 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 
 | Sprint | Período | Docs |
 | :----: | :-----: | :---: |
-| 1 | 08/09 - 28/09 | [Sprint 1 Docs](docs/sprints/sprint-01) |
-| 2 | 06/10 - 26/10 | [Sprint 2 Docs](docs/sprints/sprint-02) |
-| 3 | 03/11 - 23/11 | [Sprint 3 Docs](docs/sprints/sprint-03) |
+| 1 | 16/03 - 05/04 | [Sprint 1 Docs](docs/sprints/sprint-01) |
+| 2 | 13/04 - 03/05 | [Sprint 2 Docs](docs/sprints/sprint-02) |
+| 3 | 11/05 - 31/05 | [Sprint 3 Docs](docs/sprints/sprint-03) |
 
 </div>
 
-# Instalação
+# Instalação <a id="instalação"></a>
+<details closed>
+<summary>
+ Manual de instalação
+</summary> <br />
 Este guia fornece as instruções necessárias para configurar e executar o projeto da API localmente para desenvolvimento ou avaliação.  
 Para garantir o funcionamento correto da API em seu ambiente, certifique-se de ter os seguintes pré-requisitos instalados:  
 
@@ -150,9 +155,14 @@ db.url=jdbc:postgresql://aws-1-sa-east-1.pooler.supabase.com:6543/postgres?user=
 ```shell
 mvn clean javafx:run 
 ```
-
+</details>
 
 # Estrutura <a id="estrutura"></a>
+<details closed>
+<summary>
+ Estrutura
+</summary> <br />
+    
 ```
 ├── README.md
 ├── .github/
@@ -181,9 +191,22 @@ mvn clean javafx:run
      │   └── sprint-03/
      │         └── README.md
      └── README.md
+
 ```
 
+</details>
 
+# Modelo Entidade Relacionamento <a id="modelo"></a>
+<details closed>
+<summary>
+ Modelo Entidade Relacionamento
+</summary> <br />
+
+<p align="center">
+    <img src=docs/imagens/DER_1.jpeg>
+</p>
+
+</details>
 
 <div align="center">
   <h1 id="equipe">Equipe</h1>
