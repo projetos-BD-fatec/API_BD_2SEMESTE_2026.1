@@ -30,6 +30,13 @@ Priorizamos as funcionalidades essenciais para resolver o problema principal, en
 
 <p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
 
+## BurnDown
+
+<h1 align="center">
+    <a>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/docs/readme/docs/imagens/Burndown_sprint2.jpeg>
+    </a>
+</h1>
 
 ## 🏃‍ DoR - Definition of Ready <a id="dor"></a>
 
