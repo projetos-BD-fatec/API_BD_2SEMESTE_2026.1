@@ -1,12 +1,10 @@
 <a id="readme-top"></a>
 
-
-# 👾 API 2º Semestre BD
-
-<p align="center">
-      <img src="..\..\imagens\logo-bughunters.png" alt="logo da BugHunters" width="200">
-      <h2 align="center">BugHunters</h2>
-</p>
+<h1 align="center">
+    <a>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/docs/readme/docs/imagens/PlanGuide_Banner.png>
+    </a>
+</h1>
 
 # Sprint 1
 
