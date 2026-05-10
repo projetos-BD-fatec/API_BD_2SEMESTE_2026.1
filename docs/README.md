@@ -16,22 +16,18 @@
   <a href ="processos/padrão-de-commit.md"> Commit</a> |
 </p>
 
-# DoR  <a id="DoR"></a>
 
-| DoR                                                | 
-|----------------------------------------------------|
-|✅Histórias bem descritas e compreensíveis|
-|✅Time entende o objetivo e a complexidade|
-|✅Prioridades definidas|
-|✅Metas definidas|
+## 🏃‍ DoR - Definition of Ready <a id="dor"></a>
 
-# DoD <a id="DoD"></a>
+- [x] Histórias bem descritas e compreensíveis
+- [x] Time entende o objetivo e a complexidade
+- [x] Prioridades definidas
+- [x] Metas definidas
 
-| DoD                                               |
-|----------------------------------------------------|
-|✅Código final escrito e funcional|
-|✅Documentação finalizada|
-|✅Code review aprovado|
+## 🏆 DoD - Definition of Done <a id="dod"></a>
+- [ ] Código final escrito e funcional
+- [ ] Documentação finalizada
+- [ ] Code review aprovado
 
 
 ## DoR e DoD Por Sprint<a id="dodedor"></a>
