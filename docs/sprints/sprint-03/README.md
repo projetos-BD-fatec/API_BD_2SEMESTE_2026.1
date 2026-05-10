@@ -41,9 +41,9 @@ Na Sprint 3, nosso foco será a entrega da versão final do PlanGuide, consolida
 - [x] Metas definidas
 
 ## 🏆 DoD - Definition of Done <a id="dod"></a>
-- [x] Código final escrito e funcional
-- [x] Documentação finalizada
-- [x] Code review aprovado
+- [ ] Código final escrito e funcional
+- [ ] Documentação finalizada
+- [ ] Code review aprovado
 
 ## BurnDown
 
