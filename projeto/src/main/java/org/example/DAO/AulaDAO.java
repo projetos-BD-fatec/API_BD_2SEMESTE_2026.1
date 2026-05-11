@@ -53,6 +53,7 @@ public class AulaDAO {
                         rs.getObject("evento", String.class),
                         rs.getObject("topico_id", Long.class)
                 );
+                aula.setAncorada(rs.getBoolean("ancorada"));
                 aulas.add(aula);
             }
         } catch (SQLException e) {
@@ -61,18 +62,8 @@ public class AulaDAO {
         return aulas;
     }
 
-    public void updateTopicoId(Long aulaId, Long topicoId) throws SQLException {
-        String sql = "UPDATE aula SET topico_id = ? WHERE id = ?";
-        try (Connection conn = ConexaoBD.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setObject(1, topicoId);
-            stmt.setObject(2, aulaId);
-            stmt.executeUpdate();
-        }
-    }
-
     public void clearTopicoByDisciplina(Long disciplinaId) throws SQLException {
-        String sql = "UPDATE aula SET topico_id = NULL WHERE disciplina_id = ?";
+        String sql = "UPDATE aula SET topico_id = NULL, ancorada = FALSE WHERE disciplina_id = ?";
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, disciplinaId);
@@ -81,7 +72,7 @@ public class AulaDAO {
     }
 
     public void clearTopicoById(Long topicoId) throws SQLException {
-        String sql = "UPDATE aula SET topico_id = NULL WHERE topico_id = ?";
+        String sql = "UPDATE aula SET topico_id = NULL, ancorada = FALSE WHERE topico_id = ?";
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, topicoId);
@@ -90,12 +81,13 @@ public class AulaDAO {
     }
 
     public void salvarDistribuicao(List<Aula> aulas) throws SQLException {
-        String sql = "UPDATE aula SET topico_id = ? WHERE id = ?";
+        String sql = "UPDATE aula SET topico_id = ?, ancorada = ? WHERE id = ?";
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             for (Aula aula : aulas) {
                 stmt.setObject(1, aula.getTopicoId());
-                stmt.setObject(2, aula.getId());
+                stmt.setBoolean(2, aula.isAncorada());
+                stmt.setObject(3, aula.getId());
                 stmt.addBatch();
             }
             stmt.executeBatch();
