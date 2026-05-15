@@ -42,7 +42,8 @@ public class AulaService {
 
         if (cargaTotal < cargaHoraria) {
             List<Calendario> sabados = calendarioDAO.findByDiaSemana(DiaSemana.SABADO);
-            for (Calendario calendario : sabados) {
+            for (int i = sabados.size() - 1; i >= 0; i--) {
+                Calendario calendario = sabados.get(i);
                 if (cargaTotal >= cargaHoraria) break;
 
                 int aulasDoDia = 0;

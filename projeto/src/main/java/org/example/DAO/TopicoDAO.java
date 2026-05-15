@@ -1,13 +1,9 @@
 package org.example.DAO;
 
 import org.example.infrastructure.ConexaoBD;
-import org.example.model.Aula;
-import org.example.model.DiaSemana;
 import org.example.model.Topico;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 

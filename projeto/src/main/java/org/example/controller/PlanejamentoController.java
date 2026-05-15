@@ -10,7 +10,6 @@ import javafx.scene.control.TableCell;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
@@ -157,19 +156,20 @@ public class PlanejamentoController {
                             .filter(t -> t.getNome().equals(novoValor))
                             .findFirst()
                             .ifPresent(t -> {
-                                long ancorasDessTopico = aulasCronograma.stream()
+                                List<Aula> ancorasDoTopico = aulasCronograma.stream()
                                         .filter(a -> a.isAncorada() && t.getId().equals(a.getTopicoId()) && !a.getId().equals(aula.getId()))
-                                        .count();
+                                        .collect(Collectors.toList());
 
-                                if (ancorasDessTopico >= t.getMaxAulas()) {
-                                    mostrarAlerta("Limite atingido",
-                                            "O tópico \"" + t.getNome() + "\" já atingiu o máximo de " + t.getMaxAulas() + " aulas fixadas manualmente.");
-                                    atualizandoProgramaticamente = true;
-                                    comboTopico.setValue(antigoValor);
-                                    atualizandoProgramaticamente = false;
-                                    return;
+                                if (ancorasDoTopico.size() >= t.getMaxAulas()) {
+                                    Aula ancoraParaLiberar = ancorasDoTopico.stream()
+                                            .min(Comparator.comparing(Aula::getData))
+                                            .orElse(null);
+
+                                    if (ancoraParaLiberar != null) {
+                                        ancoraParaLiberar.setAncorada(false);
+                                        ancoraParaLiberar.setTopicoId(null);
+                                    }
                                 }
-
                                 aula.setTopicoId(t.getId());
                                 aula.setAncorada(true);
                                 redistribuir();
@@ -281,6 +281,16 @@ public class PlanejamentoController {
         atualizarIndicadores();
         limparCampos();
         redistribuir();
+        if (avaliacao && topico.getId() != null) {
+            redistribuir();
+            aulasCronograma.stream()
+                    .filter(a -> topico.getId().equals(a.getTopicoId()))
+                    .forEach(a -> a.setAncorada(true));
+            tabelaCronograma.getItems().setAll(aulasCronograma);
+            atualizarIndicadores();
+        } else {
+            redistribuir();
+        }
         App.setAlteracaoNaoSalva(true);
     }
 
