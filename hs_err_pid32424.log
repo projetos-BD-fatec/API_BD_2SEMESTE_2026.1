@@ -1,0 +1,294 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 4128768 bytes. Error detail: G1 virtual space
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   This process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3766), pid=32424, tid=28884
+#
+# JRE version:  (25.0.2+1) (build )
+# Java VM: OpenJDK 64-Bit Server VM (25.0.2+1-b329.72, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Djava.io.tmpdir=C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\tmp\statistics-uploader com.intellij.internal.statistic.uploader.EventLogUploader --ide-token C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\token --recorders FUS;MP;ML --device-fus 1305251b3b1f8a8-a033-469e-9975-349c44092453 --bucket-fus 155 --machine-fus 377a61cd233394256a510e7bf3906b0b860d8d5af03adee3c7f7da755cc81ab7 --id-revision-fus 0 --files-fus C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\FUS\1875-401c-acef-a692371e20ea-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\FUS\342b-4770-a689-b47e98d2023e-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\FUS\4005-4eee-b152-53e45174b73b-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\FUS\b77f-4f33-8958-5b99e6e8dde2-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\FUS\b854-444a-a213-1402f0d3abdd-261.22158.277-release.log --escape-fus false --device-mp 1305251c0ef97fb-2d29-4eb1-bcbc-9e470c944879 --bucket-mp 215 --machine-mp 1f32265da5c0b5946878e794b030eab8b3b35ed7027dd643aa7cd9a89d607bcc --id-revision-mp 0 --files-mp C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\MP\9d93-4956-9891-6d72e3a385d6-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\MP\c61d-47f7-af17-b176dab2238d-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\MP\cf73-4fad-9146-74df87d0b4b4-261.22158.277-release.log --escape-mp false --device-ml 1305251b3b1f8a8-a033-469e-9975-349c44092453 --bucket-ml 155 --machine-ml 377a61cd233394256a510e7bf3906b0b860d8d5af03adee3c7f7da755cc81ab7 --id-revision-ml 0 --files-ml C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\ML\5d9a-4a64-8492-69ae38b3453d-261.22158.277-release.log --escape-ml false --regional-code not_set --product IU --product-version 2026.1 --baseline-version 261 --user-agent IntelliJ IDEA/261.22158.277 --extra-headers 
+
+Host: 13th Gen Intel(R) Core(TM) i5-13420H, 12 cores, 15G,  Windows 11 , 64 bit Build 26100 (10.0.26100.8328)
+Time: Wed May  6 15:14:47 2026 Hora oficial do Brasil elapsed time: 1.463726 seconds (0d 0h 0m 1s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000025b105257e0):  JavaThread "Unknown thread" [_thread_in_vm, id=28884, stack(0x000000a85ce00000,0x000000a85cf00000) (1024K)]
+
+Stack: [0x000000a85ce00000,0x000000a85cf00000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x7c0b19]  (no source info available)
+V  [jvm.dll+0x78a2ed]  (no source info available)
+V  [jvm.dll+0xa0e563]  (no source info available)
+V  [jvm.dll+0xa10d5c]  (no source info available)
+V  [jvm.dll+0xa11453]  (no source info available)
+V  [jvm.dll+0x307b86]  (no source info available)
+V  [jvm.dll+0x7bcd25]  (no source info available)
+V  [jvm.dll+0x7afce7]  (no source info available)
+V  [jvm.dll+0x4015ce]  (no source info available)
+V  [jvm.dll+0x4093eb]  (no source info available)
+V  [jvm.dll+0x3f5c3e]  (no source info available)
+V  [jvm.dll+0x3f5edb]  (no source info available)
+V  [jvm.dll+0x3cc093]  (no source info available)
+V  [jvm.dll+0x3cccfe]  (no source info available)
+V  [jvm.dll+0x9d48d7]  (no source info available)
+V  [jvm.dll+0x466ce2]  (no source info available)
+V  [jvm.dll+0x9b8019]  (no source info available)
+V  [jvm.dll+0x508951]  (no source info available)
+V  [jvm.dll+0x50a2c1]  (no source info available)
+C  [jli.dll+0x541a]  (no source info available)
+C  [ucrtbase.dll+0x37b0]  (no source info available)
+C  [KERNEL32.DLL+0x2e957]  (no source info available)
+C  [ntdll.dll+0x427c]  (no source info available)
+
+Lock stack of current Java thread (top to bottom):
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00007ffaa8439108, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+Total: 0
+
+Other Threads:
+  0x0000025b129cf9c0 WorkerThread "GC Thread#0"                     [id=29852, stack(0x000000a85cf00000,0x000000a85d000000) (1024K)]
+  0x0000025b129e4930 ConcurrentGCThread "G1 Main Marker"            [id=14856, stack(0x000000a85d000000,0x000000a85d100000) (1024K)]
+  0x0000025b2b1a3870 WorkerThread "G1 Conc#0"                       [id=28812, stack(0x000000a85d100000,0x000000a85d200000) (1024K)]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffaa7a50cea]
+VM state: not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00007ffaa84c1d20] Heap_lock - owner thread: 0x0000025b105257e0
+
+Heap address: 0x0000000704400000, size: 4028 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+
+CDS archive(s) mapped at: [0x0000000000000000-0x0000000000000000-0x0000000000000000), size 0, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 1.
+UseCompressedClassPointers 1, UseCompactObjectHeaders 0
+Narrow klass pointer bits 32, Max shift 3
+Narrow klass base: 0xffffffffffffffff, Narrow klass shift: -1
+Encoding Range: [0xffffffffffffffff - 0x000000007fffffff), (2147483648 bytes)
+Klass Range:    [0x0000000000000000 - 0x0000000000000000), (0 bytes)
+Klass ID Range:  [4294967295 - 0) (1)
+No protection zone.
+
+GC Precious Log:
+ CardTable entry size: 512
+ Card Set container configuration: InlinePtr #cards 4 size 8 Array Of Cards #cards 16 size 48 Howl #buckets 8 coarsen threshold 3686 Howl Bitmap #cards 512 size 80 coarsen threshold 460 Card regions per heap region 1 cards per card region 4096
+
+Heap:
+ garbage-first heap   total reserved 4124672K, committed 0K, used 0K [0x0000000704400000, 0x0000000800000000)
+  region size 2048K, 0 young (0K), 0 survivors (0K)
+
+Heap Regions: E=young(eden), S=young(survivor), O=old, HS=humongous(starts), HC=humongous(continues), CS=collection set, F=free, TAMS=top-at-mark-start, PB=parsable bottom
+
+Card table byte_map: [0x0000025b26a90000,0x0000025b27270000] _byte_map_base: 0x0000025b2326e000
+
+Marking Bits: (CMBitMap*) 0x0000025b129d0150
+ Bits: [0x0000025b27270000, 0x0000025b2b160000)
+
+GC Heap Usage History (0 events):
+No events
+
+Metaspace Usage History (0 events):
+No events
+
+Dll operation events (1 events):
+Event: 0.021 Loaded shared library C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin\java.dll
+
+Deoptimization events (0 events):
+No events
+
+Classes loaded (0 events):
+No events
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+VM Operations (0 events):
+No events
+
+Memory protections (0 events):
+No events
+
+Nmethod flushes (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff7d9b90000 - 0x00007ff7d9b9a000 	C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin\java.exe
+0x00007ffb26f00000 - 0x00007ffb27167000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffb26730000 - 0x00007ffb267f9000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffb23a10000 - 0x00007ffb23e07000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffb24150000 - 0x00007ffb2429b000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffb09610000 - 0x00007ffb09627000 	C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin\jli.dll
+0x00007ffb12260000 - 0x00007ffb1227e000 	C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin\VCRUNTIME140.dll
+0x00007ffb262b0000 - 0x00007ffb26476000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffb23930000 - 0x00007ffb23957000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffafc530000 - 0x00007ffafc7c2000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.8328_none_3e08182ce334b678\COMCTL32.dll
+0x00007ffb26700000 - 0x00007ffb2672b000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffb26a40000 - 0x00007ffb26ae9000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffb24020000 - 0x00007ffb2414c000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffb242a0000 - 0x00007ffb24343000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffb269e0000 - 0x00007ffb26a12000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007ffb12220000 - 0x00007ffb1222c000 	C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin\vcruntime140_1.dll
+0x00007ffafbb30000 - 0x00007ffafbbb9000 	C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin\msvcp140.dll
+0x00007ffaa7670000 - 0x00007ffaa85c2000 	C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin\server\jvm.dll
+0x00007ffb26480000 - 0x00007ffb26536000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffb26650000 - 0x00007ffb266f7000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffb24c80000 - 0x00007ffb24d98000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffb25000000 - 0x00007ffb25080000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffb23790000 - 0x00007ffb237ee000 	C:\WINDOWS\SYSTEM32\POWRPROF.dll
+0x00007ffb1bfc0000 - 0x00007ffb1bff6000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffb08740000 - 0x00007ffb0874b000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffb23770000 - 0x00007ffb23784000 	C:\WINDOWS\SYSTEM32\UMPDC.dll
+0x00007ffb22680000 - 0x00007ffb2269b000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007ffb12210000 - 0x00007ffb1221a000 	C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin\jimage.dll
+0x00007ffb21490000 - 0x00007ffb216d2000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ffb25590000 - 0x00007ffb25913000 	C:\WINDOWS\System32\combase.dll
+0x00007ffb26540000 - 0x00007ffb26619000 	C:\WINDOWS\System32\OLEAUT32.dll
+0x00007ffae9df0000 - 0x00007ffae9e2b000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ffb23960000 - 0x00007ffb23a08000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffb121c0000 - 0x00007ffb121df000 	C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin\java.dll
+0x00007ffb26c60000 - 0x00007ffb26df7000 	C:\WINDOWS\System32\ole32.dll
+0x00007ffb259b0000 - 0x00007ffb2611e000 	C:\WINDOWS\System32\SHELL32.dll
+
+JVMTI agents: none
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.8328_none_3e08182ce334b678;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\jbr\bin\server
+
+VM Arguments:
+jvm_args: -Djava.io.tmpdir=C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\tmp\statistics-uploader 
+java_command: com.intellij.internal.statistic.uploader.EventLogUploader --ide-token C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\token --recorders FUS;MP;ML --device-fus 1305251b3b1f8a8-a033-469e-9975-349c44092453 --bucket-fus 155 --machine-fus 377a61cd233394256a510e7bf3906b0b860d8d5af03adee3c7f7da755cc81ab7 --id-revision-fus 0 --files-fus C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\FUS\1875-401c-acef-a692371e20ea-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\FUS\342b-4770-a689-b47e98d2023e-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\FUS\4005-4eee-b152-53e45174b73b-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\FUS\b77f-4f33-8958-5b99e6e8dde2-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\FUS\b854-444a-a213-1402f0d3abdd-261.22158.277-release.log --escape-fus false --device-mp 1305251c0ef97fb-2d29-4eb1-bcbc-9e470c944879 --bucket-mp 215 --machine-mp 1f32265da5c0b5946878e794b030eab8b3b35ed7027dd643aa7cd9a89d607bcc --id-revision-mp 0 --files-mp C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\MP\9d93-4956-9891-6d72e3a385d6-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\MP\c61d-47f7-af17-b176dab2238d-261.22158.277-release.log;C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\MP\cf73-4fad-9146-74df87d0b4b4-261.22158.277-release.log --escape-mp false --device-ml 1305251b3b1f8a8-a033-469e-9975-349c44092453 --bucket-ml 155 --machine-ml 377a61cd233394256a510e7bf3906b0b860d8d5af03adee3c7f7da755cc81ab7 --id-revision-ml 0 --files-ml C:\Users\LMonteiro\AppData\Local\JetBrains\IntelliJIdea2026.1\event-log-data\logs\ML\5d9a-4a64-8492-69ae38b3453d-261.22158.27
+java_class_path (initial): C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\util-8.jar;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\annotations.jar;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\intellij.libraries.jackson.jar;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\intellij.libraries.jackson.databind.jar;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\intellij.libraries.jackson.module.kotlin.jar;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\intellij.libraries.kotlin.reflect.jar;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\lib.jar;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\stats.jar;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\intellij.libraries.kotlinx.serialization.json.jar;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\intellij.libraries.kotlinx.serialization.core.jar;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\lib\stats.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 3                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 10                                        {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 2097152                                   {product} {ergonomic}
+   size_t InitialHeapSize                          = 264241152                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MarkStackSizeMax                         = 536870912                                 {product} {ergonomic}
+   size_t MaxHeapSize                              = 4223664128                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 2097152                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5832704                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122945536                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122880000                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 4223664128                             {manageable} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags foldmultilines=false
+ #1: stderr all=off uptime,level,tags foldmultilines=false
+
+Release file:
+<release file has not been read>
+Environment Variables:
+PATH=C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Intel\Shared Files\cpp\bin\Intel64;C:\totvs\CorporeRM\API;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files (x86)\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files (x86)\Common Files\Adobe\AGL;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\dotnet\;C:\wamp64\bin\php\php7.4.33;C:\ProgramData\ComposerSetup\bin;C:\Program Files\PuTTY\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Users\LMonteiro\AppData\Local\Programs\Eclipse Adoptium\jdk-25.0.2.10-hotspot\bin;C:\Users\LMonteiro\AppData\Local\Programs\Python\Launcher\;C:\Users\LMonteiro\AppData\Local\Microsoft\WindowsApps;C:\Users\LMonteiro\AppData\Roaming\npm;C:\Users\LMonteiro\AppData\Local\Programs\Python\Python313;C:\Users\LMonteiro\AppData\Local\Programs\Python\Python313\Scripts;C:\Users\LMonteiro\AppData\Roaming\Composer\vendor\bin;C:\Users\LMonteiro\AppData\Local\Programs\Microsoft VS Code\bin;C:\oracle\product\11.1.0\client_1\BIN;C:\oracle_\product\11.1.0\client_1\BIN;C:\Users\LMonteiro\AppData\Local\Programs\IntelliJ IDEA 2026.1\bin;C:\Users\LMonteiro\AppData\Local\Programs\Ollama
+USERNAME=LMonteiro
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 186 Stepping 2, GenuineIntel
+TMP=C:\Users\LMonteiro\AppData\Local\Temp
+TEMP=C:\Users\LMonteiro\AppData\Local\Temp
+
+
+
+
+Compilation memory statistics disabled.
+
+Periodic native trim disabled
+
+JNI global refs:
+JNI global refs: 0, weak refs: 0
+
+JNI global refs memory usage: 0, weak refs: 0
+
+Process memory usage:
+Resident Set Size: 14624K (0% of 16494456K total physical memory with 4646672K free physical memory)
+
+OOME stack traces (most recent first):
+Classloader memory used:
+
+---------------  S Y S T E M  ---------------
+
+OS:
+ Windows 11 , 64 bit Build 26100 (10.0.26100.8328)
+OS uptime: 0 days 18:20 hours
+Hyper-V role detected
+
+CPU: total 12 (initial active 12) (6 cores per cpu, 2 threads per core) family 6 model 186 stepping 2 microcode 0x4128, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, erms, clmul, bmi1, bmi2, adx, sha, fma, vzeroupper, clflush, clflushopt, clwb, hv, serialize, rdtscp, rdpid, fsrm, gfni, f16c, cet_ibt, cet_ss
+Processor Information for processor 0
+  Max Mhz: 2100, Current Mhz: 2100, Mhz Limit: 2100
+Processor Information for processor 1
+  Max Mhz: 2100, Current Mhz: 2100, Mhz Limit: 2100
+Processor Information for processor 2
+  Max Mhz: 2100, Current Mhz: 2100, Mhz Limit: 2100
+Processor Information for processor 3
+  Max Mhz: 2100, Current Mhz: 2100, Mhz Limit: 2100
+Processor Information for processor 4
+  Max Mhz: 2100, Current Mhz: 2100, Mhz Limit: 2100
+Processor Information for processor 5
+  Max Mhz: 2100, Current Mhz: 2100, Mhz Limit: 2100
+Processor Information for processor 6
+  Max Mhz: 2100, Current Mhz: 2100, Mhz Limit: 2100
+Processor Information for processor 7
+  Max Mhz: 2100, Current Mhz: 2100, Mhz Limit: 2100
+Processor Information for processor 8
+  Max Mhz: 2100, Current Mhz: 1500, Mhz Limit: 1491
+Processor Information for processor 9
+  Max Mhz: 2100, Current Mhz: 1500, Mhz Limit: 1491
+Processor Information for processor 10
+  Max Mhz: 2100, Current Mhz: 1500, Mhz Limit: 1491
+Processor Information for processor 11
+  Max Mhz: 2100, Current Mhz: 1500, Mhz Limit: 1491
+
+Memory: 4k page, system-wide physical 16107M (4537M free)
+TotalPageFile size 17131M (AvailPageFile size 8M)
+current process WorkingSet (physical memory assigned to process): 14M, peak: 14M
+current process commit charge ("private bytes"): 317M, peak: 321M
+
+vm_info: OpenJDK 64-Bit Server VM (25.0.2+1-b329.72) for windows-amd64 JRE (25.0.2+1-b329.72), built on 2026-03-02 with MS VC++ 17.14 (VS2022)
+
+END.

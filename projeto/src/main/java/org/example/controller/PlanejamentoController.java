@@ -10,15 +10,14 @@ import javafx.scene.control.TableCell;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
 import org.example.DAO.HorarioDAO;
 import org.example.DAO.TopicoDAO;
 import org.example.model.Aula;
+import org.example.model.DiaSemana;
 import org.example.model.Topico;
-import org.example.model.TopicoOrdenado;
 import org.example.service.AulaService;
 import org.example.service.DistribuicaoService;
 import org.example.util.Toast;
@@ -26,6 +25,7 @@ import org.example.util.Toast;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +50,7 @@ public class PlanejamentoController {
     @FXML private Label lblAulasRestantes;
     @FXML private Label lblTotalTopicos;
     @FXML private Label lblHoraPlanejada;
-    //@FXML private Label lblHoraTotal;
+    @FXML private Label lblHoraTotal;
 
     private Long disciplinaIdAtual;
 
@@ -96,7 +96,6 @@ public class PlanejamentoController {
                         descartarAlteracoes();
                         navegarParaDisciplinas();
                     }
-                    // cancelar: não faz nada
                 });
             } else {
                 navegarParaDisciplinas();
@@ -143,30 +142,38 @@ public class PlanejamentoController {
                     if (atualizandoProgramaticamente) return;
                     if (getTableRow() == null || getTableRow().getItem() == null) return;
 
-                    String selecionado = comboTopico.getSelectionModel().getSelectedItem();
                     Aula aula = getTableRow().getItem();
 
-                    if (selecionado == null || selecionado.equals("Selecionar")) {
+                    if (aula.getDiaSemana() == DiaSemana.SABADO) return;
+                    if (novoValor == null || novoValor.equals("Selecionar")) {
+                        aula.setAncorada(false);
                         aula.setTopicoId(null);
-                        try {
-                            aulaDAO.updateTopicoId(aula.getId(), null);
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
-                        }
-                    } else {
-
-                        topicosCache.stream()
-                                .filter(t -> t.getNome().equals(selecionado))
-                                .findFirst()
-                                .ifPresent(t -> {
-                                    aula.setTopicoId(t.getId());
-                                    try {
-                                        aulaDAO.updateTopicoId(aula.getId(), t.getId());
-                                    } catch (SQLException ex) {
-                                        ex.printStackTrace();
-                                    }
-                                });
+                        redistribuir();
+                        return;
                     }
+
+                    topicosCache.stream()
+                            .filter(t -> t.getNome().equals(novoValor))
+                            .findFirst()
+                            .ifPresent(t -> {
+                                List<Aula> ancorasDoTopico = aulasCronograma.stream()
+                                        .filter(a -> a.isAncorada() && t.getId().equals(a.getTopicoId()) && !a.getId().equals(aula.getId()))
+                                        .collect(Collectors.toList());
+
+                                if (ancorasDoTopico.size() >= t.getMaxAulas()) {
+                                    Aula ancoraParaLiberar = ancorasDoTopico.stream()
+                                            .min(Comparator.comparing(Aula::getData))
+                                            .orElse(null);
+
+                                    if (ancoraParaLiberar != null) {
+                                        ancoraParaLiberar.setAncorada(false);
+                                        ancoraParaLiberar.setTopicoId(null);
+                                    }
+                                }
+                                aula.setTopicoId(t.getId());
+                                aula.setAncorada(true);
+                                redistribuir();
+                            });
                     atualizarIndicadores();
                 });
             }
@@ -179,6 +186,14 @@ public class PlanejamentoController {
                     setText(null);
                 } else {
                     Aula aula = getTableRow().getItem();
+
+                    if (aula.getDiaSemana() == DiaSemana.SABADO) {
+                        Label lblFechamento = new Label("Fechamento");
+                        lblFechamento.setStyle("-fx-font-style: italic;");
+                        setGraphic(lblFechamento);
+                        setText(null);
+                        return;
+                    }
 
                     boolean isEventoReservado = distribuicaoService.isDiaBloqueado(aula);
 
@@ -221,6 +236,13 @@ public class PlanejamentoController {
         });
 
         aulasCronograma = aulaService.buscarAulas(disciplinaId);
+        aulasCronograma.stream()
+                .filter(a -> a.getDiaSemana() == DiaSemana.SABADO)
+                .forEach(a -> {
+                    a.setTopicoId(999L);
+                    a.setAncorada(true);
+                });
+
         tabelaCronograma.getItems().setAll(aulasCronograma);
         containerTopicos.getChildren().clear();
         topicosCache.forEach(this::adicionarLinhaTopico);
@@ -259,6 +281,16 @@ public class PlanejamentoController {
         atualizarIndicadores();
         limparCampos();
         redistribuir();
+        if (avaliacao && topico.getId() != null) {
+            redistribuir();
+            aulasCronograma.stream()
+                    .filter(a -> topico.getId().equals(a.getTopicoId()))
+                    .forEach(a -> a.setAncorada(true));
+            tabelaCronograma.getItems().setAll(aulasCronograma);
+            atualizarIndicadores();
+        } else {
+            redistribuir();
+        }
         App.setAlteracaoNaoSalva(true);
     }
 
@@ -340,6 +372,12 @@ public class PlanejamentoController {
         btnDeletar.setOnAction(e -> {
             try {
                 if (topico.getId() != null) {
+                    aulasCronograma.stream()
+                            .filter(a -> topico.getId().equals(a.getTopicoId()) && a.isAncorada())
+                            .forEach(a -> {
+                                a.setAncorada(false);
+                                a.setTopicoId(null);
+                            });
                     aulaDAO.clearTopicoById(topico.getId());
                     topicoDAO.deletar(topico.getId());
                 } else {
@@ -371,54 +409,28 @@ public class PlanejamentoController {
         if (novoIdx >= 0 && novoIdx < containerTopicos.getChildren().size()) {
             containerTopicos.getChildren().remove(linha);
             containerTopicos.getChildren().add(novoIdx, linha);
+
+            List<String> ordemNomes = containerTopicos.getChildren().stream()
+                    .map(n -> ((Label) ((HBox) n).getChildren().get(1)).getText())
+                    .collect(Collectors.toList());
+
+            topicosCache.sort(Comparator.comparingInt(t -> ordemNomes.indexOf(t.getNome())));
+
             redistribuir();
         }
     }
 
     private void redistribuir() {
         App.setAlteracaoNaoSalva(true);
-        List<TopicoOrdenado> topicosOrdenados = new ArrayList<>();
-        List<javafx.scene.Node> linhas = containerTopicos.getChildren();
-
-        for (int i = 0; i < linhas.size(); i++) {
-            HBox linha = (HBox) linhas.get(i);
-            Label lblNome = (Label) linha.getChildren().get(1);
-            String nome = lblNome.getText();
-
-            topicosCache.stream()
-                    .filter(t -> t.getNome().equals(nome))
-                    .findFirst()
-                    .ifPresent(t -> topicosOrdenados.add(
-                            new TopicoOrdenado(t, topicosOrdenados.size())
-                    ));
-        }
         try {
-            distribuicaoService.distribuir(aulasCronograma, topicosOrdenados);
+            distribuicaoService.distribuir(aulasCronograma, topicosCache);
         } catch (IllegalStateException e) {
             mostrarAlerta("Distribuição impossível", e.getMessage());
         }
         tabelaCronograma.getItems().setAll(aulasCronograma);
         atualizarIndicadores();
-        verificarLacunas();
     }
 
-    private void verificarLacunas() {
-        for (Topico t : topicosCache) {
-            if (!t.isAvaliacao()) continue;
-
-            aulasCronograma.stream()
-                    .filter(a -> t.getId().equals(a.getTopicoId()))
-                    .findFirst()
-                    .ifPresent(aulaAvaliacao -> {
-                        int idx = aulasCronograma.indexOf(aulaAvaliacao);
-                        if (idx > 0 && aulasCronograma.get(idx - 1).getTopicoId() == null) {
-                            Stage stage = (Stage) txtTopico.getScene().getWindow();
-                            Toast.mostrar(stage,
-                                    "Atenção: \"" + t.getNome() + "\" foi alocada após dias bloqueados. Verifique as lacunas no cronograma.");
-                        }
-                    });
-        }
-    }
 
     private void atualizarIndicadores() {
         List<Aula> aulas = tabelaCronograma.getItems();
@@ -432,7 +444,7 @@ public class PlanejamentoController {
         lblAulasRestantes.setText(String.valueOf(totais - planejadas));
         lblTotalTopicos.setText(String.valueOf(containerTopicos.getChildren().size()));
         lblHoraPlanejada.setText(formatarHoras(planejadas * 50));
-        //lblHoraTotal.setText("/ " + formatarHoras(totais * 50));
+        lblHoraTotal.setText("/ " + formatarHoras(totais * 50));
     }
 
     private String formatarHoras(int totalMinutos) {

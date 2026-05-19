@@ -60,7 +60,6 @@ public class DisciplinasController {
             }
         });
 
-        // 4. Configura as colunas da tabela
         colDia.setCellValueFactory(cell ->
                 new SimpleStringProperty(cell.getValue().getDiaSemana().getValorBanco()));
         colInicio.setCellValueFactory(cell ->
