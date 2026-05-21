@@ -5,10 +5,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 import org.example.App;
 import org.example.model.DiaSemana;
 import org.example.model.Horario;
 import org.example.util.DadosFixos;
+import org.example.util.DropdownMenu;
+import org.example.util.Modal;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -26,8 +31,9 @@ public class DisciplinasController {
     @FXML private ComboBox<Integer> cbCargaHoraria;
     @FXML private ComboBox<String> cbCurso;
     @FXML private ComboBox<String> cbSemestre;
+    @FXML private Button btnCalendario;
 
-
+    private Popup dropdown;
     private final ObservableList<Horario> listaHorarios = FXCollections.observableArrayList();
 
     @FXML
@@ -98,6 +104,10 @@ public class DisciplinasController {
         cbSemestre.setEditable(false);
         cbCargaHoraria.setEditable(false);
 
+        dropdown = DropdownMenu.criar(btnCalendario, new String[][]{
+                {"📅 Alterar Semestre", "alterar"},
+                {"🎓 Iniciar Novo Semestre", "novo"}
+        }, this::tratarItemDropdown);
     }
 
     @FXML
@@ -131,5 +141,30 @@ public class DisciplinasController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void tratarItemDropdown(String id) {
+        if ("alterar".equals(id)) {
+            abrirModalAlterar();
+        } else if ("novo".equals(id)) {
+            abrirModalNovo();
+        }
+    }
+
+    private void abrirModalAlterar() {
+        Label conteudo = new Label("Selecione o semestre desejado...");
+        Stage modal = Modal.criar(btnCalendario.getScene().getWindow(), "Alterar Semestre", conteudo);
+        modal.show();
+    }
+
+    private void abrirModalNovo() {
+        Label conteudo = new Label("Ao iniciar um novo semestre, o período atual será sobreposto e todas as disciplinas cadastradas serão deletadas, deseja continuar?");
+        Stage modal = Modal.criar(btnCalendario.getScene().getWindow(), "Iniciar Novo Semestre", conteudo);
+        modal.show();
+    }
+
+    @FXML
+    private void abrirMenu() {
+        DropdownMenu.alternarVisibilidade(dropdown, btnCalendario);
     }
 }

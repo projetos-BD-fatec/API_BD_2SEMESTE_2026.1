@@ -172,8 +172,12 @@
             <HBox id="topBar" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefWidth="1105.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label id="labelUsuario" minHeight="40.0" prefWidth="130.0" text="Emanuel" />
-                  <Label id="labelTitulo" maxWidth="Infinity" text="PlanGuide" HBox.hgrow="ALWAYS" />
-                  <Button id="btnVoltar" minHeight="40.0" mnemonicParsing="false" prefWidth="110.0" text="← Sair" />
+                  <Label id="labelTitulo" maxWidth="Infinity" text="PlanGuide" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets left="110.0" />
+                     </padding></Label>
+                  <Button id="btnVoltar" fx:id="btnCalendario" minHeight="40.0" mnemonicParsing="false" onAction="#abrirMenu" prefWidth="110.0" text="2026.1" />
+                  <Button id="btnVoltar" layoutX="1200.0" layoutY="10.0" minHeight="40.0" mnemonicParsing="false" prefWidth="110.0" text="← Sair" />
                </children>
             </HBox>
          </children>
