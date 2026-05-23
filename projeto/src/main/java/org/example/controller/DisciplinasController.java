@@ -8,7 +8,9 @@ import javafx.scene.control.*;
 import org.example.App;
 import org.example.model.DiaSemana;
 import org.example.model.Horario;
+import org.example.model.Usuario;
 import org.example.util.DadosFixos;
+import org.example.util.UserSession;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -26,12 +28,19 @@ public class DisciplinasController {
     @FXML private ComboBox<Integer> cbCargaHoraria;
     @FXML private ComboBox<String> cbCurso;
     @FXML private ComboBox<String> cbSemestre;
+    @FXML private Label labelUsuario;
 
 
     private final ObservableList<Horario> listaHorarios = FXCollections.observableArrayList();
 
+    public void setUsuarioId(Long usuarioId){
+
+    }
+
     @FXML
     public void initialize() {
+        Usuario usuario = UserSession.getInstance().getUsuarioLogado();
+        labelUsuario.setText(usuario.getNome());
         cbDia.getItems().setAll(DiaSemana.values());
 
         cbInicio.getItems().setAll(DadosFixos.HORARIOS);

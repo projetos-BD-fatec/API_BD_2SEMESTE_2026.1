@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import org.example.controller.DisciplinasController;
 import org.example.controller.PlanejamentoController;
 
 import java.io.IOException;
@@ -72,6 +73,15 @@ public class App extends Application {
 
         PlanejamentoController controller = loader.getController();
         controller.setDisciplinaId(disciplinaId);
+        scene.setRoot(root);
+    }
+
+    public static void navegarParaDisciplinas() throws IOException {
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("TelaDisciplinas.fxml"));
+        Parent root = loader.load();
+
+        DisciplinasController controller = loader.getController();
+        controller.initialize();
         scene.setRoot(root);
     }
 
