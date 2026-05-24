@@ -10,6 +10,7 @@ import javafx.scene.control.TableCell;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
@@ -20,6 +21,7 @@ import org.example.model.DiaSemana;
 import org.example.model.Topico;
 import org.example.service.AulaService;
 import org.example.service.DistribuicaoService;
+import org.example.service.ExportarAulasCSV;
 import org.example.util.Toast;
 
 import java.sql.SQLException;
@@ -28,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.format.DateTimeFormatter;
+
 
 public class PlanejamentoController {
     @FXML private TableView<Aula> tabelaCronograma;
@@ -51,6 +55,8 @@ public class PlanejamentoController {
     @FXML private Label lblTotalTopicos;
     @FXML private Label lblHoraPlanejada;
     @FXML private Label lblHoraTotal;
+    @FXML private Button btnExportar;
+
 
     private Long disciplinaIdAtual;
 
@@ -122,6 +128,21 @@ public class PlanejamentoController {
         this.disciplinaIdAtual = disciplinaId;
 
         colData.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getData()));
+
+        colData.setCellFactory(column -> new TableCell<Aula, LocalDate>() {
+            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            @Override
+            protected void updateItem(LocalDate data, boolean empty) {
+                super.updateItem(data, empty);
+                if (empty || data == null) {
+                    setText(null);
+                } else {
+                    setText(data.format(formatter));
+                }
+            }
+        });
+
         colDia.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getDiaSemana().getValorBanco()));
         colEvento.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getEvento()));
         colHorario.setCellValueFactory(cell -> {
@@ -465,5 +486,12 @@ public class PlanejamentoController {
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void clicarExportar() {
+        Stage stage = (Stage) btnExportar.getScene().getWindow();
+        ExportarAulasCSV exportador = new ExportarAulasCSV(tabelaCronograma);
+        exportador.exportar(stage);
     }
 }
