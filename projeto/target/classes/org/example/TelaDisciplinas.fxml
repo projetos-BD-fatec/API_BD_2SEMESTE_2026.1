@@ -130,45 +130,13 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="600.0">
-               <children>
-                  <HBox alignment="CENTER_LEFT" maxWidth="1300.0" minWidth="1300.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Button maxHeight="250.0" maxWidth="250.0" minHeight="250.0" minWidth="250.0" mnemonicParsing="false" onAction="#clicarDisciplina" styleClass="cardDisciplina">
-                           <graphic>
-                              <VBox alignment="CENTER" prefHeight="285.0" prefWidth="303.0">
-                                 <children>
-                                    <VBox alignment="CENTER" prefHeight="195.0" prefWidth="293.0">
-                                       <children>
-                                          <ImageView fitHeight="157.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../static/imagens/folder.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </VBox>
-                                    <VBox alignment="TOP_CENTER" prefHeight="178.0" prefWidth="333.0" styleClass="cardBgTitulo">
-                                       <children>
-                                          <Label prefHeight="103.0" prefWidth="312.0" styleClass="cardNomeDisciplina" text="Modelagem de Banco de dados" textAlignment="CENTER" wrapText="true">
-                                             <font>
-                                                <Font name="System Bold" size="21.0" />
-                                             </font>
-                                          </Label>
-                                          <Label prefHeight="49.0" prefWidth="273.0" styleClass="cardSubtituloDisciplina" text="Banco de dados - 2º Sem" textAlignment="CENTER" wrapText="true">
-                                             <font>
-                                                <Font size="23.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </VBox>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
+             <HBox alignment="TOP_CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="600.0">
+                 <children>
+                     <HBox fx:id="containerDisciplinas" alignment="CENTER_LEFT" maxWidth="1300.0" minWidth="1300.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                         <!-- os cards serão inseridos aqui pelo controller -->
+                     </HBox>
+                 </children>
+             </HBox>
             <HBox id="topBar" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefWidth="1105.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label id="labelUsuario" fx:id="labelUsuario" minHeight="40.0" prefWidth="130.0" text="Emanuel" />

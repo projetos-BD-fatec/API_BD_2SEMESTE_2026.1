@@ -5,8 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.example.App;
+import org.example.DAO.DisciplinaDAO;
 import org.example.model.DiaSemana;
+import org.example.model.Disciplina;
 import org.example.model.Horario;
 import org.example.model.Usuario;
 import org.example.util.DadosFixos;
@@ -14,6 +20,8 @@ import org.example.util.UserSession;
 
 import java.time.LocalTime;
 import java.util.List;
+
+import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
 public class DisciplinasController {
 
@@ -29,18 +37,26 @@ public class DisciplinasController {
     @FXML private ComboBox<String> cbCurso;
     @FXML private ComboBox<String> cbSemestre;
     @FXML private Label labelUsuario;
+    @FXML private HBox containerDisciplinas;
 
 
     private final ObservableList<Horario> listaHorarios = FXCollections.observableArrayList();
+    private final Image iconeFolder = new Image(
+            getClass().getResource("/static/imagens/folder.png").toExternalForm()
+    );
 
-    public void setUsuarioId(Long usuarioId){
-
-    }
 
     @FXML
     public void initialize() {
         Usuario usuario = UserSession.getInstance().getUsuarioLogado();
         labelUsuario.setText(usuario.getNome());
+        Long usuarioId = UserSession.getInstance().getUsuarioLogado().getId();
+        List<Disciplina> disciplinas = new DisciplinaDAO().findByUsuarioId(usuarioId);
+
+        for (Disciplina disciplina : disciplinas) {
+            Button card = criarCard(disciplina);
+            containerDisciplinas.getChildren().add(card);
+        }
         cbDia.getItems().setAll(DiaSemana.values());
 
         cbInicio.getItems().setAll(DadosFixos.HORARIOS);
@@ -140,5 +156,61 @@ public class DisciplinasController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Button criarCard(Disciplina disciplina) {
+        Label lblNome = new Label(disciplina.getNome());
+        lblNome.setPrefHeight(USE_COMPUTED_SIZE);
+        lblNome.setPrefWidth(312);
+        lblNome.getStyleClass().add("cardNomeDisciplina");
+        lblNome.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        lblNome.setWrapText(true);
+        lblNome.setFont(javafx.scene.text.Font.font("System Bold", 21));
+
+        String subtitulo = disciplina.getCurso() + " - " + disciplina.getSemestre() + "º Sem";
+        Label lblSubtitulo = new Label(subtitulo);
+        lblSubtitulo.setWrapText(true);
+        lblSubtitulo.setMaxWidth(280);
+        lblSubtitulo.setPrefWidth(USE_COMPUTED_SIZE);
+        lblSubtitulo.getStyleClass().add("cardSubtituloDisciplina");
+        lblSubtitulo.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        lblSubtitulo.setFont(javafx.scene.text.Font.font(23));
+
+        VBox cardBg = new VBox(lblNome, lblSubtitulo);
+        cardBg.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+        cardBg.setPrefWidth(333);
+        cardBg.getStyleClass().add("cardBgTitulo");
+
+        ImageView icone = new ImageView(iconeFolder);
+        icone.setFitHeight(157);
+        icone.setFitWidth(90);
+        icone.setPreserveRatio(true);
+
+        VBox iconeContainer = new VBox(icone);
+        iconeContainer.setAlignment(javafx.geometry.Pos.CENTER);
+        iconeContainer.setPrefHeight(USE_COMPUTED_SIZE);
+        iconeContainer.setPrefWidth(293);
+
+        VBox conteudo = new VBox(iconeContainer, cardBg);
+        conteudo.setAlignment(javafx.geometry.Pos.CENTER);
+        conteudo.setPrefHeight(USE_COMPUTED_SIZE);
+        conteudo.setPrefWidth(303);
+
+        Button card = new Button();
+        card.setGraphic(conteudo);
+        card.getStyleClass().add("cardDisciplina");
+        card.setMinHeight(250);
+        card.setMaxHeight(250);
+        card.setMinWidth(250);
+        card.setMaxWidth(250);
+        card.setOnAction(e -> {
+            try {
+                App.navegarParaPlanejamento(disciplina.getId());
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        return card;
     }
 }

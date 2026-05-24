@@ -77,11 +77,7 @@ public class App extends Application {
     }
 
     public static void navegarParaDisciplinas() throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("TelaDisciplinas.fxml"));
-        Parent root = loader.load();
-
-        DisciplinasController controller = loader.getController();
-        controller.initialize();
+        Parent root = new FXMLLoader(App.class.getResource("TelaDisciplinas.fxml")).load();
         scene.setRoot(root);
     }
 
