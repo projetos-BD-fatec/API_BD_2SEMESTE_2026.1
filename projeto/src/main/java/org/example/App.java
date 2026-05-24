@@ -25,7 +25,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("TelaLoginCadastro"), 960, 540);
+        scene = new Scene(loadFXML("TelaDisciplinas"), 960, 540);
         stage.setScene(scene);
 
         stage.setOnCloseRequest(event -> {

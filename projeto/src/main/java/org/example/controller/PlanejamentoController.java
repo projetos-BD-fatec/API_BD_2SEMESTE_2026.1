@@ -10,14 +10,19 @@ import javafx.scene.control.TableCell;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.GridPane;
 import org.example.App;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
 import org.example.DAO.HorarioDAO;
 import org.example.DAO.TopicoDAO;
+import org.example.DAO.DisciplinaDAO;
 import org.example.model.Aula;
 import org.example.model.DiaSemana;
 import org.example.model.Topico;
+import org.example.model.Disciplina;
 import org.example.service.AulaService;
 import org.example.service.DistribuicaoService;
 import org.example.util.Toast;
@@ -53,6 +58,8 @@ public class PlanejamentoController {
     @FXML private Label lblHoraTotal;
 
     private Long disciplinaIdAtual;
+    private final DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+    private Disciplina disciplinaAtual;
 
     private List<Topico> topicosCache = new ArrayList<>();
     private List<Topico> topicosPendentes = new ArrayList<>();
@@ -120,6 +127,7 @@ public class PlanejamentoController {
         App.setSalvarCallback(this::clicarSalvar);
         App.setDescartarCallback(this::descartarAlteracoes);
         this.disciplinaIdAtual = disciplinaId;
+        this.disciplinaAtual = disciplinaDAO.findById(disciplinaId);
 
         colData.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getData()));
         colDia.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getDiaSemana().getValorBanco()));
@@ -369,6 +377,12 @@ public class PlanejamentoController {
 
         Button btnDeletar = new Button("🗑");
         btnDeletar.getStyleClass().add("btn-deletar");
+        // Edit button
+        Button btnEditar = new Button("✎");
+        btnEditar.getStyleClass().add("btn-editar");
+        btnEditar.setOnAction(e -> {
+            abrirDialogEditarTopico(topico, linha);
+        });
         btnDeletar.setOnAction(e -> {
             try {
                 if (topico.getId() != null) {
@@ -399,8 +413,70 @@ public class PlanejamentoController {
             lblAvaliacao.getStyleClass().add("topicoAvaliacao");
             linha.getChildren().add(lblAvaliacao);
         }
-        linha.getChildren().addAll(lblInfo, lblBadge, btnDeletar);
+        linha.getChildren().addAll(lblInfo, lblBadge, btnEditar, btnDeletar);
         containerTopicos.getChildren().add(linha);
+    }
+
+    // Opens a dialog to edit a topic and persists changes
+    private void abrirDialogEditarTopico(Topico topico, HBox linha) {
+        Dialog<Topico> dialog = new Dialog<>();
+        dialog.setTitle("Editar Tópico");
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        // Form fields pre‑filled with current values
+        TextField txtNome = new TextField(topico.getNome());
+        txtNome.setPromptText("Nome");
+        Spinner<Integer> spMin = new Spinner<>(1, 20, topico.getMinAulas());
+        Spinner<Integer> spMax = new Spinner<>(1, 20, topico.getMaxAulas());
+        ComboBox<String> cbPeso = new ComboBox<>();
+        cbPeso.getItems().addAll("Peso 1", "Peso 2", "Peso 3");
+        cbPeso.setValue("Peso " + topico.getPeso());
+        CheckBox chkAvaliacao = new CheckBox("Avaliação");
+        chkAvaliacao.setSelected(topico.isAvaliacao());
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.add(new Label("Nome:"), 0, 0);
+        grid.add(txtNome, 1, 0);
+        grid.add(new Label("Min:"), 0, 1);
+        grid.add(spMin, 1, 1);
+        grid.add(new Label("Max:"), 0, 2);
+        grid.add(spMax, 1, 2);
+        grid.add(new Label("Peso:"), 0, 3);
+        grid.add(cbPeso, 1, 3);
+        grid.add(chkAvaliacao, 1, 4);
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(button -> {
+            if (button == ButtonType.OK) {
+                return new Topico(
+                        topico.getId(),
+                        txtNome.getText(),
+                        spMin.getValue(),
+                        spMax.getValue(),
+                        Integer.parseInt(cbPeso.getValue().replace("Peso ", "")),
+                        topico.getDisciplinaId(),
+                        chkAvaliacao.isSelected(),
+                        topico.getOrdem()
+                );
+            }
+            return null;
+        });
+
+        dialog.showAndWait().ifPresent(atualizado -> {
+            try {
+                topicoDAO.atualizar(atualizado);
+                // Refresh cache and UI
+                topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
+                containerTopicos.getChildren().clear();
+                topicosCache.forEach(this::adicionarLinhaTopico);
+                atualizarIndicadores();
+                redistribuir();
+            } catch (SQLException e) {
+                mostrarAlerta("Erro ao atualizar", e.getMessage());
+            }
+        });
     }
 
     private void moverTopico(HBox linha, int direcao) {
@@ -444,7 +520,9 @@ public class PlanejamentoController {
         lblAulasRestantes.setText(String.valueOf(totais - planejadas));
         lblTotalTopicos.setText(String.valueOf(containerTopicos.getChildren().size()));
         lblHoraPlanejada.setText(formatarHoras(planejadas * 50));
-        lblHoraTotal.setText("/ " + formatarHoras(totais * 50));
+        
+        int cargaHorariaMinutos = (disciplinaAtual != null) ? (disciplinaAtual.getCargaHoraria() * 60) : (totais * 50);
+        lblHoraTotal.setText("/ " + formatarHoras(cargaHorariaMinutos));
     }
 
     private String formatarHoras(int totalMinutos) {
