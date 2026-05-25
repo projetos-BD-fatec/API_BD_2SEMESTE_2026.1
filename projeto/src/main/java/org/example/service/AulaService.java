@@ -23,6 +23,7 @@ public class AulaService {
     }
 
     public void gerarAulas(Long disciplinaId, int cargaHoraria) {
+        cargaHoraria = cargaHoraria * 60;
         List<Horario> horarios = horarioDAO.findByDisciplinaID(disciplinaId);
         Integer cargaTotal = 0;
 
@@ -41,7 +42,10 @@ public class AulaService {
         }
 
         if (cargaTotal < cargaHoraria) {
+            System.out.println("Carga total: " + cargaTotal + " | Carga horária: " + cargaHoraria);
             List<Calendario> sabados = calendarioDAO.findByDiaSemana(DiaSemana.SABADO);
+            System.out.println("Sábados encontrados: " + sabados.size());
+
             for (int i = sabados.size() - 1; i >= 0; i--) {
                 Calendario calendario = sabados.get(i);
                 if (cargaTotal >= cargaHoraria) break;

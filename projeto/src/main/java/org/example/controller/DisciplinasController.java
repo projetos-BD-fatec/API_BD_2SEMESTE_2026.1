@@ -20,7 +20,6 @@ import org.example.util.UserSession;
 
 import java.time.LocalTime;
 import java.util.List;
-
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
 public class DisciplinasController {
