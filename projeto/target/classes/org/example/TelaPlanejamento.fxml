@@ -220,7 +220,7 @@
         <HBox id="topBar" alignment="CENTER" prefWidth="1105.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
             <children>
-                <Label id="labelUsuario" minHeight="40.0" prefWidth="130.0" text="👤 Emanuel" />
+                <Label id="labelUsuario" fx:id="labelUsuario" minHeight="40.0" prefWidth="130.0" text="👤 Emanuel" />
 
                 <Label id="labelTitulo" maxWidth="Infinity" text="PlanGuide" HBox.hgrow="ALWAYS" />
             <Button id="btnSalvar" minHeight="40.0" mnemonicParsing="false" onAction="#clicarSalvar" text="💾 Salvar" />

@@ -167,15 +167,6 @@
     -fx-font-size:20px;
 }
 
-.table-row-cell {
-    -fx-background-color: transparent;
-    -fx-alignment: CENTER;
-    -fx-padding: 0;
-}
-
-.table-row-cell:filled:selected {
-    -fx-background-color: transparent;
-}
 
 /* ============================================================
    ITENS DA TABELA DE HORÁRIO

@@ -23,6 +23,7 @@ import org.example.service.AulaService;
 import org.example.service.DistribuicaoService;
 import org.example.service.ExportarAulasCSV;
 import org.example.util.Toast;
+import org.example.util.UserSession;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -57,6 +58,7 @@ public class PlanejamentoController {
     @FXML private Label lblHoraTotal;
     @FXML private Button btnExportar;
 
+    @FXML private Label labelUsuario;
 
     private Long disciplinaIdAtual;
 
@@ -73,6 +75,7 @@ public class PlanejamentoController {
 
     @FXML
     public void initialize() {
+        labelUsuario.setText(UserSession.getInstance().getUsuarioLogado().getNome());
         spinnerMin.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
         spinnerMax.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 2));
 

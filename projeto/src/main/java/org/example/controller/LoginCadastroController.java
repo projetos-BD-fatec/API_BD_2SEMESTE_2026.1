@@ -5,8 +5,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.example.App;
 import org.example.DAO.UsuarioDAO;
 import org.example.model.Usuario;
+import org.example.util.UserSession;
 
 public class LoginCadastroController {
 
@@ -42,7 +44,13 @@ public class LoginCadastroController {
         Usuario usuarioLogado = usuarioDAO.login(email, senha);
 
         if (usuarioLogado != null) {
+            UserSession.iniciarSessao(usuarioLogado);
             mostrarAlerta(Alert.AlertType.INFORMATION, "Login Aprovado", null, "Seja bem-vindo(a), " + usuarioLogado.getNome() + "!");
+            try {
+            App.navegarParaDisciplinas();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         } else {
             mostrarAlerta(Alert.AlertType.ERROR, "Acesso Negado", null, "Usuário ou Senha incorretos. Tente novamente.");
             campoLoginSenha.clear();

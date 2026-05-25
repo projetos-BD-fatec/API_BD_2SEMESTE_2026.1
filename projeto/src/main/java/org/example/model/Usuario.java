@@ -2,16 +2,16 @@ package org.example.model;
 
 public class Usuario {
 
- public long id;
+ public Long id;
  public String nome;
  public String email;
  public String cpf;
 
- public Usuario(long id, String nome, String email, String cpf) {
+ public Usuario(Long id, String nome, String email, String cpf) {
   this.id = id;
   this.nome = nome;
   this.email = email;
-  this.cpf = cpf; // Corrigido de += para =
+  this.cpf = cpf;
  }
 
  public Usuario(String nome, String email, String cpf) {
@@ -24,7 +24,7 @@ public class Usuario {
     return id;
  }
 
- public void setId(long id) {
+ public void setId(Long id) {
   this.id = id;
  }
 
