@@ -1,6 +1,11 @@
 package org.example.model;
 
+import org.example.infrastructure.ICalendarClient;
+import org.example.service.EventoAcadClassificador;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResumoPeriodo {
     private String periodo;
@@ -15,8 +20,12 @@ public class ResumoPeriodo {
     private Periodo reviewPlanning2;
     private Periodo review;
     private LocalDate feira;
+    private List<EventoIcal> eventosIgnorar;;
 
-    public ResumoPeriodo(String periodo, LocalDate inicioAulas, LocalDate fimAulas, Periodo kickoff, Periodo planning, Periodo sprint1, Periodo sprint2, Periodo sprint3, Periodo reviewPlanning1, Periodo reviewPlanning2, Periodo review, LocalDate feira) {
+    public ResumoPeriodo(String periodo, LocalDate inicioAulas, LocalDate fimAulas,
+                         Periodo kickoff, Periodo planning, Periodo sprint1, Periodo sprint2,
+                         Periodo sprint3, Periodo reviewPlanning1, Periodo reviewPlanning2,
+                         Periodo review, LocalDate feira, List<EventoIcal> eventosIgnorar) {
         this.periodo = periodo;
         this.inicioAulas = inicioAulas;
         this.fimAulas = fimAulas;
@@ -29,6 +38,7 @@ public class ResumoPeriodo {
         this.reviewPlanning2 = reviewPlanning2;
         this.review = review;
         this.feira = feira;
+        this.eventosIgnorar = eventosIgnorar;
     }
 
     public String getPeriodo() {
@@ -77,5 +87,13 @@ public class ResumoPeriodo {
 
     public LocalDate getFeira() {
         return feira;
+    }
+
+    public List<EventoIcal> getEventosIgnorar() {
+        return eventosIgnorar;
+    }
+
+    public void setEventosIgnorar(List<EventoIcal> eventosIgnorar) {
+        this.eventosIgnorar = eventosIgnorar;
     }
 }

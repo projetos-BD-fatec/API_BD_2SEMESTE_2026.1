@@ -1,5 +1,7 @@
 package org.example.model;
 
+import java.time.DayOfWeek;
+
 public enum DiaSemana {
     SEGUNDA("Segunda"),
     TERCA("Terça"),
@@ -30,6 +32,18 @@ public enum DiaSemana {
     @Override
     public String toString() {
         return valorBanco;
+    }
+
+    public static DiaSemana fromDayOfWeek(DayOfWeek dow) {
+        return switch (dow) {
+            case MONDAY    -> DiaSemana.SEGUNDA;
+            case TUESDAY   -> DiaSemana.TERCA;
+            case WEDNESDAY -> DiaSemana.QUARTA;
+            case THURSDAY  -> DiaSemana.QUINTA;
+            case FRIDAY    -> DiaSemana.SEXTA;
+            case SATURDAY  -> DiaSemana.SABADO;
+            default        -> throw new IllegalArgumentException("Dia não letivo: " + dow);
+        };
     }
 
 }
