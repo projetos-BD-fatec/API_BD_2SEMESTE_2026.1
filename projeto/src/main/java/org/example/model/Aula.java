@@ -12,6 +12,7 @@ public class Aula {
     private LocalTime horaFim;
     private String evento;
     private Long topicoId;
+    private boolean ancorada = false;
 
     public Aula(Long id, Long disciplinaId, LocalDate data, DiaSemana diaSemana, LocalTime horaInicio, LocalTime horaFim, String evento, Long topicoId) {
         this.id = id;
@@ -22,6 +23,14 @@ public class Aula {
         this.horaFim = horaFim;
         this.evento = evento;
         this.topicoId = topicoId;
+    }
+
+    public boolean isAncorada() {
+        return ancorada;
+    }
+
+    public void setAncorada(boolean ancorada) {
+        this.ancorada = ancorada;
     }
 
     public Long getId() {

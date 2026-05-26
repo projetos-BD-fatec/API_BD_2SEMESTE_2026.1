@@ -27,7 +27,6 @@ public class DadosFixos {
             "Manutenção de Aeronaves",
             "Manufatura Avançada",
             "Gestão Empresaral EAD"
-            // consultar site da instituição para lista completa
     );
 
     public static final List<String> SEMESTRES = List.of(
