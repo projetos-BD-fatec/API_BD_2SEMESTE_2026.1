@@ -67,7 +67,8 @@ public class UsuarioDAO {
                         rs.getLong("id"),
                         rs.getString("nome"),
                         rs.getString("email"),
-                        rs.getString("cpf")
+                        rs.getString("cpf"),
+                        rs.getString("periodo_atual")
                 );
                 System.out.println("Login realizado com sucesso para: " + usuarioLogado.getNome() + "!");
             } else {
@@ -83,5 +84,17 @@ public class UsuarioDAO {
         }
 
         return usuarioLogado;
+    }
+
+    public void atualizarPeriodo(Long usuarioId, String periodo) {
+        String sql = "UPDATE usuario SET periodo_atual = ? WHERE id = ?";
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, periodo);
+            stmt.setLong(2, usuarioId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar período do usuário", e);
+        }
     }
 }

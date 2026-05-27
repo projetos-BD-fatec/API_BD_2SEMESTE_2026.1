@@ -4,8 +4,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
@@ -14,15 +17,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.App;
 import org.example.DAO.DisciplinaDAO;
-import org.example.model.DiaSemana;
-import org.example.model.Disciplina;
-import org.example.model.Horario;
-import org.example.model.Usuario;
+import org.example.DAO.UsuarioDAO;
+import org.example.model.*;
+import org.example.service.CalendarioService;
 import org.example.util.DadosFixos;
 import org.example.util.DropdownMenu;
 import org.example.util.Modal;
 import org.example.util.UserSession;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
@@ -49,12 +52,15 @@ public class DisciplinasController {
     private final Image iconeFolder = new Image(
             getClass().getResource("/static/imagens/folder.png").toExternalForm()
     );
-
+    private Usuario usuario = UserSession.getInstance().getUsuarioLogado();
+    private CalendarioService calendarioService = new CalendarioService();
+    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @FXML
     public void initialize() {
         Usuario usuario = UserSession.getInstance().getUsuarioLogado();
         labelUsuario.setText(usuario.getNome());
+        btnCalendario.setText(usuario.getPeriodoAtual());
         Long usuarioId = UserSession.getInstance().getUsuarioLogado().getId();
         List<Disciplina> disciplinas = new DisciplinaDAO().findByUsuarioId(usuarioId);
 
@@ -182,8 +188,97 @@ public class DisciplinasController {
     }
 
     private void abrirModalNovo() {
-        Label conteudo = new Label("Ao iniciar um novo semestre, o período atual será sobreposto e todas as disciplinas cadastradas serão deletadas, deseja continuar?");
-        Stage modal = Modal.criar(btnCalendario.getScene().getWindow(), "Iniciar Novo Semestre", conteudo);
+        String periodoAtual = usuario.getPeriodoAtual();
+        String[] partes = periodoAtual.split("\\.");
+        int ano = Integer.parseInt(partes[0]);
+        int semestre = Integer.parseInt(partes[1]);
+        int proximoAno = semestre == 1 ? ano : ano + 1;
+        int proximoSemestre = semestre == 1 ? 2 : 1;
+        String proximoPeriodo = proximoAno + "." + proximoSemestre;
+
+        Stage modal = new Stage();
+        modal.initModality(Modality.APPLICATION_MODAL);
+        modal.initOwner(btnCalendario.getScene().getWindow());
+        modal.setTitle("Iniciar Novo Semestre");
+        modal.setResizable(false);
+
+        Label lblAtual = new Label("Semestre atual: " + periodoAtual);
+        Label lblProximo = new Label("Próximo semestre: " + proximoPeriodo);
+
+        Button btnConfirmar = new Button("Iniciar semestre " + proximoPeriodo);
+        Button btnCancelar = new Button("Cancelar");
+
+        btnCancelar.setOnAction(e -> modal.close());
+
+        btnConfirmar.setOnAction(e -> {
+            try {
+                ResumoPeriodo resumo = calendarioService.buscarResumo(proximoAno, proximoSemestre);
+                if (resumo == null) {
+                    mostrarAlerta("Indisponível", "Nenhuma informação encontrada para este semestre. Tente novamente mais tarde.");
+                    return;
+                }
+                modal.close();
+                abrirModalConfirmar(resumo);
+            } catch (IOException ex) {
+                mostrarAlerta("Erro", "Não foi possível buscar o calendário.");
+            }
+        });
+
+        HBox rodape = new HBox(10, btnCancelar, btnConfirmar);
+        rodape.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox layout = new VBox(20, lblAtual, lblProximo, rodape);
+        layout.setStyle("-fx-background-color: white; -fx-padding: 30; -fx-min-width: 400;");
+
+        modal.setScene(new Scene(layout));
+        modal.show();
+    }
+
+    private void abrirModalConfirmar(ResumoPeriodo resumo) {
+        Stage modal = new Stage();
+        modal.initModality(Modality.APPLICATION_MODAL);
+        modal.initOwner(btnCalendario.getScene().getWindow());
+        modal.setTitle("Confirmar Semestre");
+        modal.setResizable(false);
+
+        VBox lista = new VBox(8);
+        lista.getChildren().addAll(
+                new Label("Início das aulas: " + resumo.getInicioAulas()),
+                new Label("Kickoff: " + resumo.getKickoff().getInicio() + " a " + resumo.getKickoff().getFim()),
+                new Label("Planning: " + resumo.getPlanning().getInicio() + " a " + resumo.getPlanning().getFim()),
+                new Label("Sprint 1: " + resumo.getSprint1().getInicio() + " a " + resumo.getSprint1().getFim()),
+                new Label("Review/Planning 1: " + resumo.getReviewPlanning1().getInicio() + " a " + resumo.getReviewPlanning1().getFim()),
+                new Label("Sprint 2: " + resumo.getSprint2().getInicio() + " a " + resumo.getSprint2().getFim()),
+                new Label("Review/Planning 2: " + resumo.getReviewPlanning2().getInicio() + " a " + resumo.getReviewPlanning2().getFim()),
+                new Label("Sprint 3: " + resumo.getSprint3().getInicio() + " a " + resumo.getSprint3().getFim()),
+                new Label("Review Final: " + resumo.getReview().getInicio() + " a " + resumo.getReview().getFim()),
+                new Label("Fim das aulas: " + resumo.getFimAulas())
+        );
+
+        if (resumo.getFeira() != null) {
+            lista.getChildren().add(new Label("Feira de Soluções: " + resumo.getFeira()));
+        }
+
+        Button btnConfirmar = new Button("Confirmar");
+        Button btnCancelar = new Button("Cancelar");
+
+        btnCancelar.setOnAction(e -> modal.close());
+
+        btnConfirmar.setOnAction(e -> {
+            calendarioService.iniciarSemestre(resumo);
+            usuarioDAO.atualizarPeriodo(usuario.getId(), resumo.getPeriodo());
+            usuario.setPeriodoAtual(resumo.getPeriodo());
+            modal.close();
+            mostrarAlerta("Sucesso", "Semestre " + resumo.getPeriodo() + " iniciado com sucesso!");
+        });
+
+        HBox rodape = new HBox(10, btnCancelar, btnConfirmar);
+        rodape.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox layout = new VBox(20, lista, rodape);
+        layout.setStyle("-fx-background-color: white; -fx-padding: 30; -fx-min-width: 400;");
+
+        modal.setScene(new Scene(layout));
         modal.show();
     }
 
@@ -246,5 +341,13 @@ public class DisciplinasController {
         });
 
         return card;
+    }
+
+    private void mostrarAlerta(String titulo, String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

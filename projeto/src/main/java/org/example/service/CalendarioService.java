@@ -91,6 +91,7 @@ public class CalendarioService {
             if (evento.getDataInicio().isBefore(filtroInicio) ||
                     evento.getDataInicio().isAfter(filtroFim)) continue;
             EventoCalendario classificado = EventoAcadClassificador.classificar(evento.getSummary());
+            System.out.println(evento.getSummary() + " → " + classificado);
 
             if (classificado == EventoCalendario.SPRINT_1) sprintUm = evento;
             if (classificado == EventoCalendario.INICIO_AULAS) inicioAulasEvento = evento;

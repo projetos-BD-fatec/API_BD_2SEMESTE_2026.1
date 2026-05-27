@@ -73,6 +73,9 @@ public class ICalendarClient {
 
     private LocalDate extrairData(String linha) {
         String valor = linha.substring(linha.indexOf(":") + 1).trim();
+        if (valor.contains("T")) {
+            valor = valor.substring(0, 8);
+        }
         return LocalDate.parse(valor, DateTimeFormatter.BASIC_ISO_DATE);
     }
 }
