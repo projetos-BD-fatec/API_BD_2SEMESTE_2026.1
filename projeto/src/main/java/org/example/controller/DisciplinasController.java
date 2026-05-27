@@ -134,7 +134,9 @@ public class DisciplinasController {
         if (!fim.isAfter(inicio)) return;
 
         boolean diaJaCadastrado = listaHorarios.stream()
-                        .anyMatch(h -> h.getDiaSemana() == dia);
+                .filter(h -> h.getDiaSemana().equals(dia))
+                .anyMatch(h -> inicio.isBefore(h.getHoraFim()) && fim.isAfter(h.getHoraInicio()));
+
         if (diaJaCadastrado) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Dia duplicado");
