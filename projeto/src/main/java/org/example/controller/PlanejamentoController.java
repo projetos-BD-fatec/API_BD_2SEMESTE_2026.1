@@ -29,9 +29,7 @@ import org.example.util.Toast;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PlanejamentoController {
@@ -71,6 +69,8 @@ public class PlanejamentoController {
     private final DistribuicaoService distribuicaoService = new DistribuicaoService();
 
     private List<Aula> aulasCronograma = new ArrayList<>();
+    private List<Topico> topicosEditadosPendentes = new ArrayList<>();
+    private Map<Long, Topico> estadoOriginalTopicos = new HashMap<>();
 
     @FXML
     public void initialize() {
@@ -321,6 +321,11 @@ public class PlanejamentoController {
                 topicoDAO.atualizarOrdens(topicosCache);
             }
 
+            for (Topico t : topicosEditadosPendentes) {
+                topicoDAO.atualizar(t);
+            }
+            topicosEditadosPendentes.clear();
+            estadoOriginalTopicos.clear();
             aulaDAO.clearTopicoByDisciplina(disciplinaIdAtual);
             aulaDAO.salvarDistribuicao(aulasCronograma);
 
@@ -343,6 +348,21 @@ public class PlanejamentoController {
                 mostrarAlerta("Erro ao descartar", "Não foi possível reverter o tópico: " + topico.getNome());
             }
         }
+        for (Map.Entry<Long, Topico> entry : estadoOriginalTopicos.entrySet()) {
+            Topico original = entry.getValue();
+            topicosCache.stream()
+                    .filter(t -> t.getId().equals(original.getId()))
+                    .findFirst()
+                    .ifPresent(t -> {
+                        t.setNome(original.getNome());
+                        t.setMinAulas(original.getMinAulas());
+                        t.setMaxAulas(original.getMaxAulas());
+                        t.setPeso(original.getPeso());
+                        t.setAvaliacao(original.isAvaliacao());
+                    });
+        }
+        topicosEditadosPendentes.clear();
+        estadoOriginalTopicos.clear();
         topicosPendentes.clear();
     }
 
@@ -465,17 +485,28 @@ public class PlanejamentoController {
         });
 
         dialog.showAndWait().ifPresent(atualizado -> {
-            try {
-                topicoDAO.atualizar(atualizado);
-                // Refresh cache and UI
-                topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
-                containerTopicos.getChildren().clear();
-                topicosCache.forEach(this::adicionarLinhaTopico);
-                atualizarIndicadores();
-                redistribuir();
-            } catch (SQLException e) {
-                mostrarAlerta("Erro ao atualizar", e.getMessage());
+            estadoOriginalTopicos.putIfAbsent(topico.getId(), new Topico(
+                    topico.getId(), topico.getNome(), topico.getMinAulas(),
+                    topico.getMaxAulas(), topico.getPeso(), topico.getDisciplinaId(),
+                    topico.isAvaliacao(), topico.getOrdem()
+            ));
+
+
+            topico.setNome(atualizado.getNome());
+            topico.setMinAulas(atualizado.getMinAulas());
+            topico.setMaxAulas(atualizado.getMaxAulas());
+            topico.setPeso(atualizado.getPeso());
+            topico.setAvaliacao(atualizado.isAvaliacao());
+
+            if (!topicosEditadosPendentes.contains(topico)) {
+                topicosEditadosPendentes.add(topico);
             }
+
+            containerTopicos.getChildren().clear();
+            topicosCache.forEach(this::adicionarLinhaTopico);
+            atualizarIndicadores();
+            redistribuir();
+            App.setAlteracaoNaoSalva(true);
         });
     }
 
