@@ -11,14 +11,19 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.GridPane;
 import org.example.App;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
 import org.example.DAO.HorarioDAO;
 import org.example.DAO.TopicoDAO;
+import org.example.DAO.DisciplinaDAO;
 import org.example.model.Aula;
 import org.example.model.DiaSemana;
 import org.example.model.Topico;
+import org.example.model.Disciplina;
 import org.example.service.AulaService;
 import org.example.service.DistribuicaoService;
 import org.example.service.ExportarAulasCSV;
@@ -27,9 +32,7 @@ import org.example.util.UserSession;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.time.format.DateTimeFormatter;
 
@@ -61,6 +64,8 @@ public class PlanejamentoController {
     @FXML private Label labelUsuario;
 
     private Long disciplinaIdAtual;
+    private final DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+    private Disciplina disciplinaAtual;
 
     private List<Topico> topicosCache = new ArrayList<>();
     private List<Topico> topicosPendentes = new ArrayList<>();
@@ -72,6 +77,8 @@ public class PlanejamentoController {
     private final DistribuicaoService distribuicaoService = new DistribuicaoService();
 
     private List<Aula> aulasCronograma = new ArrayList<>();
+    private List<Topico> topicosEditadosPendentes = new ArrayList<>();
+    private Map<Long, Topico> estadoOriginalTopicos = new HashMap<>();
 
     @FXML
     public void initialize() {
@@ -129,6 +136,7 @@ public class PlanejamentoController {
         App.setSalvarCallback(this::clicarSalvar);
         App.setDescartarCallback(this::descartarAlteracoes);
         this.disciplinaIdAtual = disciplinaId;
+        this.disciplinaAtual = disciplinaDAO.findById(disciplinaId);
 
         colData.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getData()));
 
@@ -337,6 +345,11 @@ public class PlanejamentoController {
                 topicoDAO.atualizarOrdens(topicosCache);
             }
 
+            for (Topico t : topicosEditadosPendentes) {
+                topicoDAO.atualizar(t);
+            }
+            topicosEditadosPendentes.clear();
+            estadoOriginalTopicos.clear();
             aulaDAO.clearTopicoByDisciplina(disciplinaIdAtual);
             aulaDAO.salvarDistribuicao(aulasCronograma);
 
@@ -359,6 +372,21 @@ public class PlanejamentoController {
                 mostrarAlerta("Erro ao descartar", "Não foi possível reverter o tópico: " + topico.getNome());
             }
         }
+        for (Map.Entry<Long, Topico> entry : estadoOriginalTopicos.entrySet()) {
+            Topico original = entry.getValue();
+            topicosCache.stream()
+                    .filter(t -> t.getId().equals(original.getId()))
+                    .findFirst()
+                    .ifPresent(t -> {
+                        t.setNome(original.getNome());
+                        t.setMinAulas(original.getMinAulas());
+                        t.setMaxAulas(original.getMaxAulas());
+                        t.setPeso(original.getPeso());
+                        t.setAvaliacao(original.isAvaliacao());
+                    });
+        }
+        topicosEditadosPendentes.clear();
+        estadoOriginalTopicos.clear();
         topicosPendentes.clear();
     }
 
@@ -393,6 +421,11 @@ public class PlanejamentoController {
 
         Button btnDeletar = new Button("🗑");
         btnDeletar.getStyleClass().add("btn-deletar");
+        Button btnEditar = new Button("✎");
+        btnEditar.getStyleClass().add("btn-editar");
+        btnEditar.setOnAction(e -> {
+            abrirDialogEditarTopico(topico, linha);
+        });
         btnDeletar.setOnAction(e -> {
             try {
                 if (topico.getId() != null) {
@@ -423,8 +456,81 @@ public class PlanejamentoController {
             lblAvaliacao.getStyleClass().add("topicoAvaliacao");
             linha.getChildren().add(lblAvaliacao);
         }
-        linha.getChildren().addAll(lblInfo, lblBadge, btnDeletar);
+        linha.getChildren().addAll(lblInfo, lblBadge, btnEditar, btnDeletar);
         containerTopicos.getChildren().add(linha);
+    }
+
+    // Opens a dialog to edit a topic and persists changes
+    private void abrirDialogEditarTopico(Topico topico, HBox linha) {
+        Dialog<Topico> dialog = new Dialog<>();
+        dialog.setTitle("Editar Tópico");
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        // Form fields pre‑filled with current values
+        TextField txtNome = new TextField(topico.getNome());
+        txtNome.setPromptText("Nome");
+        Spinner<Integer> spMin = new Spinner<>(1, 20, topico.getMinAulas());
+        Spinner<Integer> spMax = new Spinner<>(1, 20, topico.getMaxAulas());
+        ComboBox<String> cbPeso = new ComboBox<>();
+        cbPeso.getItems().addAll("Peso 1", "Peso 2", "Peso 3");
+        cbPeso.setValue("Peso " + topico.getPeso());
+        CheckBox chkAvaliacao = new CheckBox("Avaliação");
+        chkAvaliacao.setSelected(topico.isAvaliacao());
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.add(new Label("Nome:"), 0, 0);
+        grid.add(txtNome, 1, 0);
+        grid.add(new Label("Min:"), 0, 1);
+        grid.add(spMin, 1, 1);
+        grid.add(new Label("Max:"), 0, 2);
+        grid.add(spMax, 1, 2);
+        grid.add(new Label("Peso:"), 0, 3);
+        grid.add(cbPeso, 1, 3);
+        grid.add(chkAvaliacao, 1, 4);
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(button -> {
+            if (button == ButtonType.OK) {
+                return new Topico(
+                        topico.getId(),
+                        txtNome.getText(),
+                        spMin.getValue(),
+                        spMax.getValue(),
+                        Integer.parseInt(cbPeso.getValue().replace("Peso ", "")),
+                        topico.getDisciplinaId(),
+                        chkAvaliacao.isSelected(),
+                        topico.getOrdem()
+                );
+            }
+            return null;
+        });
+
+        dialog.showAndWait().ifPresent(atualizado -> {
+            estadoOriginalTopicos.putIfAbsent(topico.getId(), new Topico(
+                    topico.getId(), topico.getNome(), topico.getMinAulas(),
+                    topico.getMaxAulas(), topico.getPeso(), topico.getDisciplinaId(),
+                    topico.isAvaliacao(), topico.getOrdem()
+            ));
+
+
+            topico.setNome(atualizado.getNome());
+            topico.setMinAulas(atualizado.getMinAulas());
+            topico.setMaxAulas(atualizado.getMaxAulas());
+            topico.setPeso(atualizado.getPeso());
+            topico.setAvaliacao(atualizado.isAvaliacao());
+
+            if (!topicosEditadosPendentes.contains(topico)) {
+                topicosEditadosPendentes.add(topico);
+            }
+
+            containerTopicos.getChildren().clear();
+            topicosCache.forEach(this::adicionarLinhaTopico);
+            atualizarIndicadores();
+            redistribuir();
+            App.setAlteracaoNaoSalva(true);
+        });
     }
 
     private void moverTopico(HBox linha, int direcao) {
@@ -468,7 +574,9 @@ public class PlanejamentoController {
         lblAulasRestantes.setText(String.valueOf(totais - planejadas));
         lblTotalTopicos.setText(String.valueOf(containerTopicos.getChildren().size()));
         lblHoraPlanejada.setText(formatarHoras(planejadas * 50));
-        lblHoraTotal.setText("/ " + formatarHoras(totais * 50));
+
+        int cargaHorariaMinutos = (disciplinaAtual != null) ? (disciplinaAtual.getCargaHoraria() * 60) : (totais * 50);
+        lblHoraTotal.setText("/ " + formatarHoras(cargaHorariaMinutos));
     }
 
     private String formatarHoras(int totalMinutos) {

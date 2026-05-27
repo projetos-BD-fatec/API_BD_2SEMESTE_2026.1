@@ -11,6 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DisciplinaDAO {
+    public Disciplina findById(Long id) {
+        String sql = "SELECT * FROM disciplina WHERE id = ?";
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Disciplina(
+                            rs.getLong("id"),
+                            rs.getString("nome"),
+                            rs.getInt("carga_horaria"),
+                            rs.getString("curso"),
+                            rs.getInt("semestre")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar a disciplina", e);
+        }
+        return null;
+    }
 
     public List<Disciplina> findByUsuarioId(Long usuarioId) {
         List<Disciplina> disciplinas = new ArrayList<>();
