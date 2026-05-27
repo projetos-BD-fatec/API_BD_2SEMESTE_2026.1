@@ -99,7 +99,7 @@
                                           </font>
                                        </Label>
 
-                                       <TableView id="tableHorarios" fx:id="tabelaHorarios" cacheShape="false" centerShape="false" focusTraversable="false" scaleShape="false" VBox.vgrow="ALWAYS">
+                                       <TableView id="tableHorarios" fx:id="tabelaHorarios" VBox.vgrow="ALWAYS">
                                           <columns>
                                              <TableColumn fx:id="colDia" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" />
                                              <TableColumn fx:id="colInicio" maxWidth="-1.0" minWidth="160.0" prefWidth="-1.0" />
@@ -116,7 +116,7 @@
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Button id="btnSalvarDisciplina" fx:id="btnSalvarDisciplina" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" stylesheets="@../../static/css/disciplina.css" text="Salvar Disciplina" textAlignment="CENTER" />
+                                    <Button id="btnSalvarDisciplina" fx:id="btnSalvarDisciplina" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#SalvarDisciplina" stylesheets="@../../static/css/disciplina.css" text="Salvar Disciplina" textAlignment="CENTER" />
                                  </children>
                               </VBox>
                            </children>

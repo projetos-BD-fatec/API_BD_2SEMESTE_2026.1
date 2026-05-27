@@ -44,7 +44,11 @@ public class DisciplinasController {
             getClass().getResource("/static/imagens/folder.png").toExternalForm()
     );
 
+    @FXML
+    void SalvarDisciplina() {
 
+
+    }
     @FXML
     public void initialize() {
         Usuario usuario = UserSession.getInstance().getUsuarioLogado();
@@ -134,9 +138,7 @@ public class DisciplinasController {
         if (!fim.isAfter(inicio)) return;
 
         boolean diaJaCadastrado = listaHorarios.stream()
-                .filter(h -> h.getDiaSemana().equals(dia))
-                .anyMatch(h -> inicio.isBefore(h.getHoraFim()) && fim.isAfter(h.getHoraInicio()));
-
+                        .anyMatch(h -> h.getDiaSemana() == dia);
         if (diaJaCadastrado) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Dia duplicado");
