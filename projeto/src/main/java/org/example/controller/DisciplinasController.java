@@ -26,7 +26,9 @@ import org.example.util.Modal;
 import org.example.util.UserSession;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
@@ -135,7 +137,7 @@ public class DisciplinasController {
         cbCargaHoraria.setEditable(false);
 
         dropdown = DropdownMenu.criar(btnCalendario, new String[][]{
-                {"📅 Alterar Semestre", "alterar"},
+                {"📅 Resumo Semestre Atual", "atual"},
                 {"🎓 Iniciar Novo Semestre", "novo"}
         }, this::tratarItemDropdown);
     }
@@ -150,7 +152,7 @@ public class DisciplinasController {
         if (!fim.isAfter(inicio)) return;
 
         boolean diaJaCadastrado = listaHorarios.stream()
-                        .anyMatch(h -> h.getDiaSemana() == dia);
+                .anyMatch(h -> h.getDiaSemana() == dia);
         if (diaJaCadastrado) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Dia duplicado");
@@ -164,26 +166,65 @@ public class DisciplinasController {
         listaHorarios.add(horario);
     }
 
-    @FXML
-    private void clicarDisciplina() {
-        try {
-            App.navegarParaPlanejamento(1L);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private void tratarItemDropdown(String id) {
-        if ("alterar".equals(id)) {
-            abrirModalAlterar();
+        if ("atual".equals(id)) {
+            String periodoAtual = usuario.getPeriodoAtual();
+            String[] partes = periodoAtual.split("\\.");
+            int ano = Integer.parseInt(partes[0]);
+            int semestre = Integer.parseInt(partes[1]);
+            try {
+                ResumoPeriodo resumo = calendarioService.buscarResumo(ano, semestre);
+                if (resumo == null) {
+                    mostrarAlerta("Indisponível", "Nenhuma informação encontrada para este semestre.");
+                    return;
+                }
+                abrirModalResumo(resumo);
+            } catch (IOException ex) {
+                mostrarAlerta("Erro", "Não foi possível buscar o calendário.");
+            }
         } else if ("novo".equals(id)) {
             abrirModalNovo();
         }
     }
 
-    private void abrirModalAlterar() {
-        Label conteudo = new Label("Selecione o semestre desejado...");
-        Stage modal = Modal.criar(btnCalendario.getScene().getWindow(), "Alterar Semestre", conteudo);
+    private void abrirModalResumo(ResumoPeriodo resumo) {
+        Stage modal = new Stage();
+        modal.initModality(Modality.APPLICATION_MODAL);
+        modal.initOwner(btnCalendario.getScene().getWindow());
+        modal.setTitle("Confirmar Semestre");
+        modal.setResizable(false);
+
+        new Label("Verifique todas as datas antes de confirmar:");
+
+        VBox lista = new VBox(8);
+        lista.getChildren().addAll(
+                new Label("Início das aulas: " + formatarData(resumo.getInicioAulas())),
+                new Label("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim())),
+                new Label("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim())),
+                new Label("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim())),
+                new Label("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim())),
+                new Label("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim())),
+                new Label("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim())),
+                new Label("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim())),
+                new Label("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim())),
+                new Label("Fim das aulas: " + formatarData(resumo.getFimAulas()))
+        );
+
+        if (resumo.getFeira() != null) {
+            lista.getChildren().add(new Label("Feira de Soluções: " + resumo.getFeira()));
+        }
+
+        Button btnFechar = new Button("Fechar");
+
+        btnFechar.setOnAction(e -> modal.close());
+
+        HBox rodape = new HBox(10, btnFechar);
+        rodape.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox layout = new VBox(20, lista, rodape);
+        layout.setStyle("-fx-background-color: white; -fx-padding: 30; -fx-min-width: 400;");
+
+        modal.setScene(new Scene(layout));
         modal.show();
     }
 
@@ -241,18 +282,20 @@ public class DisciplinasController {
         modal.setTitle("Confirmar Semestre");
         modal.setResizable(false);
 
+        new Label("Verifique todas as datas antes de confirmar:");
+
         VBox lista = new VBox(8);
         lista.getChildren().addAll(
-                new Label("Início das aulas: " + resumo.getInicioAulas()),
-                new Label("Kickoff: " + resumo.getKickoff().getInicio() + " a " + resumo.getKickoff().getFim()),
-                new Label("Planning: " + resumo.getPlanning().getInicio() + " a " + resumo.getPlanning().getFim()),
-                new Label("Sprint 1: " + resumo.getSprint1().getInicio() + " a " + resumo.getSprint1().getFim()),
-                new Label("Review/Planning 1: " + resumo.getReviewPlanning1().getInicio() + " a " + resumo.getReviewPlanning1().getFim()),
-                new Label("Sprint 2: " + resumo.getSprint2().getInicio() + " a " + resumo.getSprint2().getFim()),
-                new Label("Review/Planning 2: " + resumo.getReviewPlanning2().getInicio() + " a " + resumo.getReviewPlanning2().getFim()),
-                new Label("Sprint 3: " + resumo.getSprint3().getInicio() + " a " + resumo.getSprint3().getFim()),
-                new Label("Review Final: " + resumo.getReview().getInicio() + " a " + resumo.getReview().getFim()),
-                new Label("Fim das aulas: " + resumo.getFimAulas())
+                new Label("Início das aulas: " + formatarData(resumo.getInicioAulas())),
+                new Label("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim())),
+                new Label("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim())),
+                new Label("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim())),
+                new Label("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim())),
+                new Label("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim())),
+                new Label("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim())),
+                new Label("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim())),
+                new Label("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim())),
+                new Label("Fim das aulas: " + formatarData(resumo.getFimAulas()))
         );
 
         if (resumo.getFeira() != null) {
@@ -285,6 +328,10 @@ public class DisciplinasController {
     @FXML
     private void abrirMenu() {
         DropdownMenu.alternarVisibilidade(dropdown, btnCalendario);
+    }
+
+    private String formatarData(LocalDate data) {
+        return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     private Button criarCard(Disciplina disciplina) {
