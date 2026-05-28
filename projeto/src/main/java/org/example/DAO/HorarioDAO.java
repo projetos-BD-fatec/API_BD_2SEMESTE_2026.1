@@ -2,7 +2,9 @@ package org.example.DAO;
 
 import org.example.infrastructure.ConexaoBD;
 import org.example.model.DiaSemana;
+import org.example.model.Disciplina;
 import org.example.model.Horario;
+import org.example.util.UserSession;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,5 +39,28 @@ public class HorarioDAO {
             throw new RuntimeException("Erro ao buscar os horários", e);
         }
         return horarios;
+    }
+
+    public void SalvarHorario(List<Horario> horarios) throws SQLException {
+        String sql = "INSERT INTO horario (id, disciplina_id, hora_inicio, hora_fim, dia_semana) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            for (Horario horario : horarios) {
+                stmt.setLong(1, horario.getId());
+                stmt.setObject(2, horario.getDisciplinaId());
+                stmt.setObject(3, horario.getHoraInicio());
+                stmt.setObject(4, horario.getHoraFim());
+                stmt.setString(5, horario.getDiaSemana().getValorBanco());
+
+                stmt.addBatch();
+            }
+
+            stmt.executeBatch();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao salvar horario", e);
+        }
     }
 }

@@ -4,7 +4,6 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.model.Aula;
-import org.example.model.Topico;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,20 +11,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class ExportarAulasCSV {
 
     private final TableView<Aula> tableView;
-    private final List<Topico> topicosCache;
 
     private static final DateTimeFormatter FMT_HORA = DateTimeFormatter.ofPattern("HH:mm");
 
-    public ExportarAulasCSV(TableView<Aula> tableView, List<Topico> topicosCache) {
+    public ExportarAulasCSV(TableView<Aula> tableView) {
         this.tableView = tableView;
-        this.topicosCache = topicosCache;
     }
 
+    // -------------------------------------------------------
+
+    // -------------------------------------------------------
     public void exportar(Stage stage) {
 
         // 1. Diálogo "Salvar como"
@@ -37,30 +36,33 @@ public class ExportarAulasCSV {
         );
 
         File arquivo = fileChooser.showSaveDialog(stage);
-        if (arquivo == null) return;
+        if (arquivo == null) return; // usuário cancelou
 
-        // 2. Grava o arquivo em UTF-8 com BOM (corrige acentos no Excel)
+        // 2. Grava o arquivo em UTF-8
         try (PrintWriter pw = new PrintWriter(new FileWriter(arquivo, StandardCharsets.UTF_8))) {
-
-            // BOM — faz o Excel reconhecer UTF-8 corretamente
-            pw.print('\uFEFF');
 
             // Cabeçalho
             pw.println("Data;Dia da Semana;Evento;Horário;Conteúdo");
 
+            // Uma linha por Aula
             for (Aula aula : tableView.getItems()) {
 
                 // Data: já formatada pela tabela (dd/MM/yyyy)
-                String data = aula.getData() != null ? aula.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+                String data = "";
+                for (TableColumn<Aula, ?> col : tableView.getColumns()) {
+                    if (col.getText().equalsIgnoreCase("Data")) {
+                        Object valor = col.getCellData(aula);
+                        data = valor != null ? valor.toString() : "";
+                        break;
+                    }
+                }
 
-                // Dia da semana
                 String diaSemana = aula.getDiaSemana() != null
-                        ? aula.getDiaSemana().getValorBanco() : "";
+                        ? aula.getDiaSemana().toString() : "";
 
-                // Evento
                 String evento = aula.getEvento() != null ? aula.getEvento() : "";
 
-                // Horário
+                // Horário: une horaInicio e horaFim → "18:45 - 19:35"
                 String horario = "";
                 if (aula.getHoraInicio() != null && aula.getHoraFim() != null) {
                     horario = aula.getHoraInicio().format(FMT_HORA)
@@ -68,14 +70,14 @@ public class ExportarAulasCSV {
                             + aula.getHoraFim().format(FMT_HORA);
                 }
 
-                // Conteúdo: busca o nome do tópico pelo topicoId
+                // Conteúdo: lê o valor exibido na coluna "Conteúdo" da TableView
                 String conteudo = "";
-                if (aula.getTopicoId() != null && topicosCache != null) {
-                    conteudo = topicosCache.stream()
-                            .filter(t -> t.getId().equals(aula.getTopicoId()))
-                            .map(Topico::getNome)
-                            .findFirst()
-                            .orElse("");
+                for (TableColumn<Aula, ?> col : tableView.getColumns()) {
+                    if (col.getText().equalsIgnoreCase("Conteúdo")) {
+                        Object valor = col.getCellData(aula);
+                        conteudo = valor != null ? valor.toString() : "";
+                        break;
+                    }
                 }
 
                 pw.println(String.join(";",
