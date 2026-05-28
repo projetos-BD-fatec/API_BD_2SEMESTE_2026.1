@@ -269,4 +269,6 @@
     -fx-background-color: #F5E6CF;
     -fx-border-color: #000000;
     -fx-border-width: 2 0 0 0;
+    -fx-alignment: center;
+    -fx-padding: 12 8 12 8;
 }

@@ -51,7 +51,8 @@ public class DisciplinasController {
     @FXML private ComboBox<String> cbSemestre;
     @FXML private Button btnCalendario;
     @FXML private Label labelUsuario;
-    @FXML private HBox containerDisciplinas;
+    @FXML private javafx.scene.layout.TilePane containerDisciplinas;
+    @FXML private TextField tfNomeDisciplina;
 
     private Popup dropdown;
     private final ObservableList<Horario> listaHorarios = FXCollections.observableArrayList();
@@ -63,7 +64,7 @@ public class DisciplinasController {
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @FXML
-    void SalvarDisciplina() {
+    void salvarDisciplina() {
         String nome = tfNomeDisciplina.getText();
         String curso = cbCurso.getValue();
         String semestreStr = cbSemestre.getValue();
@@ -86,15 +87,10 @@ public class DisciplinasController {
         Disciplina disciplina = new Disciplina(null, nome, cargaHoraria, curso, semestre);
 
         try {
-            // Tarefa 1: persiste disciplina + horários via DisciplinaService
             Long disciplinaId = new DisciplinaService()
                     .salvar(disciplina, new ArrayList<>(listaHorarios), UserSession.getInstance());
-
-            // Tarefa 2: gera aulas cruzando horários com o calendário
             new AulaService(new HorarioDAO(), new CalendarioDAO(), new AulaDAO())
                     .gerarAulas(disciplinaId, cargaHoraria);
-
-            // Recarrega a tela — initialize() reconstrói todos os cards do banco
             App.navegarParaDisciplinas();
 
         } catch (Exception e) {
@@ -191,6 +187,15 @@ public class DisciplinasController {
         }, this::tratarItemDropdown);
     }
 
+    @FXML void clicarSair() {
+        usuario = null;
+        try {
+            App.sairParaLogin();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @FXML
     private void clicarBtnAdicionar() {
         DiaSemana dia = cbDia.getValue();
@@ -252,25 +257,25 @@ public class DisciplinasController {
 
         VBox lista = new VBox(8);
         lista.getChildren().addAll(
-                criarLabel("Início das aulas: " + formatarData(resumo.getInicioAulas()), "#2C2C2C"),
-                criarLabel("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim()), "#666666"),
-                criarLabel("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim()), "#E6AF8E"),
-                criarLabel("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim()), "#8ECAE6"),
-                criarLabel("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim()), "#E6C98E"),
-                criarLabel("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim()), "#8ECAE6"),
-                criarLabel("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim()), "#E6C98E"),
-                criarLabel("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim()), "#8ECAE6"),
-                criarLabel("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim()), "#E6C98E")
+                criarLabel("Início das aulas: " + formatarData(resumo.getInicioAulas()), "#DCCFB8"),
+                criarLabel("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim()), "#C9B99D"),
+                criarLabel("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim()), "#E8D7B7"),
+                criarLabel("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim()), "#B8CBB8"),
+                criarLabel("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim()), "#E8D7B7"),
+                criarLabel("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim()), "#B8CBB8"),
+                criarLabel("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim()), "#E8D7B7"),
+                criarLabel("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim()), "#B8CBB8"),
+                criarLabel("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim()), "#E8D7B7")
         );
 
         if (resumo.getFeira() != null) {
-            lista.getChildren().add(criarLabel("Feira de Soluções: " + formatarData(resumo.getFeira()), "#455C66"));
+            lista.getChildren().add(criarLabel("Feira de Soluções: " + formatarData(resumo.getFeira()), "#C9B99D"));
         }
 
         lista.getChildren().add(
                 criarLabel(
                         "Fim das aulas: " + formatarData(resumo.getFimAulas()),
-                        "#2C2C2C"
+                        "#DCCFB8"
                 )
         );
 
@@ -283,7 +288,7 @@ public class DisciplinasController {
         rodape.setAlignment(Pos.CENTER_RIGHT);
 
         VBox layout = new VBox(20, titulo, lista, rodape);
-        layout.setStyle("-fx-background-color: white; -fx-padding: 30; -fx-min-width: 400;");
+        layout.setStyle("-fx-background-color: white; -fx-padding: 30; -fx-min-width: 500;");
 
         modal.setScene(new Scene(layout));
         modal.show();
@@ -454,8 +459,10 @@ public class DisciplinasController {
         lblSubtitulo.setFont(javafx.scene.text.Font.font(23));
 
         VBox cardBg = new VBox(lblNome, lblSubtitulo);
-        cardBg.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+        cardBg.setAlignment(javafx.geometry.Pos.CENTER);
         cardBg.setPrefWidth(333);
+        cardBg.setMaxWidth(Double.MAX_VALUE);
+        cardBg.setMaxHeight(Double.MAX_VALUE);
         cardBg.getStyleClass().add("cardBgTitulo");
 
         ImageView icone = new ImageView(iconeFolder);
@@ -465,13 +472,16 @@ public class DisciplinasController {
 
         VBox iconeContainer = new VBox(icone);
         iconeContainer.setAlignment(javafx.geometry.Pos.CENTER);
-        iconeContainer.setPrefHeight(USE_COMPUTED_SIZE);
+        iconeContainer.setPrefHeight(130);
+        iconeContainer.setPadding(
+                new javafx.geometry.Insets(12, 0, 12, 0)
+        );
         iconeContainer.setPrefWidth(293);
 
         VBox conteudo = new VBox(iconeContainer, cardBg);
-        conteudo.setAlignment(javafx.geometry.Pos.CENTER);
-        conteudo.setPrefHeight(USE_COMPUTED_SIZE);
         conteudo.setPrefWidth(303);
+        conteudo.setPrefHeight(250);
+        VBox.setVgrow(cardBg, javafx.scene.layout.Priority.ALWAYS);
 
         Button card = new Button();
         card.getStyleClass().add("cardDisciplina");

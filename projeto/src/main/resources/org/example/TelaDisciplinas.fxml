@@ -13,8 +13,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.TilePane?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.DisciplinasController">
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.DisciplinasController">
    <content>
       <AnchorPane fx:id="root" styleClass="root" stylesheets="@../../static/css/disciplina.css">
          <children>
@@ -116,7 +117,7 @@
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Button id="btnSalvarDisciplina" fx:id="btnSalvarDisciplina" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#SalvarDisciplina" stylesheets="@../../static/css/disciplina.css" text="Salvar Disciplina" textAlignment="CENTER" />
+                                    <Button id="btnSalvarDisciplina" fx:id="btnSalvarDisciplina" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#salvarDisciplina" stylesheets="@../../static/css/disciplina.css" text="Salvar Disciplina" textAlignment="CENTER" />
                                  </children>
                               </VBox>
                            </children>
@@ -130,9 +131,17 @@
             </HBox>
              <HBox alignment="TOP_CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="600.0">
                  <children>
-                     <HBox fx:id="containerDisciplinas" alignment="CENTER_LEFT" maxWidth="1300.0" minWidth="1300.0" spacing="20.0" HBox.hgrow="ALWAYS">
-                         <!-- os cards serão inseridos aqui pelo controller -->
-                     </HBox>
+                    <TilePane
+                            fx:id="containerDisciplinas"
+                            prefColumns="4"
+                            hgap="24"
+                            vgap="24"
+                            prefTileWidth="250"
+                            prefTileHeight="250"
+                            alignment="TOP_LEFT"
+                            prefWidth="1300">
+                       <!-- Aqui vai cada disciplina cadastrada -->
+                    </TilePane>
                  </children>
              </HBox>
             <HBox id="topBar" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefWidth="1105.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -143,7 +152,7 @@
                         <Insets left="110.0" />
                      </padding></Label>
                   <Button id="btnVoltar" fx:id="btnCalendario" minHeight="40.0" mnemonicParsing="false" onAction="#abrirMenu" prefWidth="110.0" text="2026.1" />
-                  <Button id="btnVoltar" layoutX="1200.0" layoutY="10.0" minHeight="40.0" mnemonicParsing="false" prefWidth="110.0" text="← Sair" />
+                  <Button id="btnVoltar" fx:id="btnSair" layoutX="1200.0" layoutY="10.0" minHeight="40.0" mnemonicParsing="false" onAction="#clicarSair" prefWidth="110.0" text="← Sair" />
                </children>
             </HBox>
          </children>

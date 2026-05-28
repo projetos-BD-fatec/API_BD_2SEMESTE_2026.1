@@ -1,7 +1,6 @@
 package org.example.DAO;
 
 import org.example.infrastructure.ConexaoBD;
-import org.example.model.Aula;
 import org.example.model.Disciplina;
 import org.example.util.UserSession;
 import java.sql.Statement;
@@ -16,7 +15,7 @@ public class DisciplinaDAO {
 
     public List<Disciplina> findByUsuarioId(Long usuarioId, String periodo) {
         List<Disciplina> disciplinas = new ArrayList<>();
-        String sql = "SELECT id, nome, carga_horaria, curso, semestre FROM disciplina WHERE usuario_id = ?";
+        String sql = "SELECT id, nome, carga_horaria, curso, semestre FROM disciplina WHERE usuario_id = ? AND periodo = ?";
 
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -43,7 +42,7 @@ public class DisciplinaDAO {
         return disciplinas;
     }
     public Long salvarDisciplina(Disciplina disciplina, UserSession userSession) {
-        String sql = "INSERT INTO disciplina (nome, carga_horaria, curso, semestre, usuario_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO disciplina (nome, carga_horaria, curso, semestre, usuario_id, periodo) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -53,7 +52,7 @@ public class DisciplinaDAO {
             stmt.setString(3, disciplina.getCurso());
             stmt.setInt(4, disciplina.getSemestre());
             stmt.setLong(5, userSession.getUsuarioLogado().getId());
-
+            stmt.setString(6, userSession.getUsuarioLogado().getPeriodoAtual());
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
