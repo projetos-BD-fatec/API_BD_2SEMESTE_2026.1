@@ -14,7 +14,7 @@ import java.util.List;
 public class CalendarioDAO {
     public List<Calendario> findByDiaSemana(DiaSemana diaSemanaCD) {
         List<Calendario> diasCalendario = new ArrayList<>();
-        String sql = "SELECT * FROM calendario WHERE dia_semana = ?::dia_semana";
+        String sql = "SELECT * FROM calendario WHERE dia_semana = ?::dia_semana ORDER BY data ASC";
 
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -51,7 +51,7 @@ public class CalendarioDAO {
     }
 
     public void salvarDias(LocalDate dia, EventoCalendario evento, String periodo) {
-        String sql = "INSERT INTO calendario (data, dia_semana, evento, periodo) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO calendario (data, dia_semana, evento, periodo) VALUES (?, ?::dia_semana, ?, ?)";
 
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

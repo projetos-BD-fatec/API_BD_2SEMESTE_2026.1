@@ -89,7 +89,8 @@ public class PlanejamentoController {
         cbPeso.setValue("Peso 1");
 
         Long usuarioId = UserSession.getInstance().getUsuarioLogado().getId();
-        disciplinasDoUsuario = disciplinaDAO.findByUsuarioId(usuarioId);
+        String usuarioPeriodo = UserSession.getInstance().getUsuarioLogado().getPeriodoAtual();
+        disciplinasDoUsuario = disciplinaDAO.findByUsuarioId(usuarioId, usuarioPeriodo);
 
         trocandoProgramaticamente = true;
         btnTrocarDisciplina.getItems().setAll(

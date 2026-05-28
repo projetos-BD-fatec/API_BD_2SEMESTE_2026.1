@@ -41,7 +41,7 @@ public class HorarioDAO {
         return horarios;
     }
 
-    public void SalvarHorario(List<Horario> horarios) throws SQLException {
+    public void salvarHorario(List<Horario> horarios) throws SQLException {
         String sql = "INSERT INTO horario (id, disciplina_id, hora_inicio, hora_fim, dia_semana) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = ConexaoBD.conectar();

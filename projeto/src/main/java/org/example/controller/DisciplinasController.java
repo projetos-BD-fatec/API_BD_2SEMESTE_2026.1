@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import org.example.App;
 import org.example.DAO.DisciplinaDAO;
 import org.example.DAO.UsuarioDAO;
@@ -22,7 +21,6 @@ import org.example.model.*;
 import org.example.service.CalendarioService;
 import org.example.util.DadosFixos;
 import org.example.util.DropdownMenu;
-import org.example.util.Modal;
 import org.example.util.UserSession;
 
 import java.io.IOException;
@@ -64,7 +62,8 @@ public class DisciplinasController {
         labelUsuario.setText(usuario.getNome());
         btnCalendario.setText(usuario.getPeriodoAtual());
         Long usuarioId = UserSession.getInstance().getUsuarioLogado().getId();
-        List<Disciplina> disciplinas = new DisciplinaDAO().findByUsuarioId(usuarioId);
+        String usuarioPeriodo = UserSession.getInstance().getUsuarioLogado().getPeriodoAtual();
+        List<Disciplina> disciplinas = new DisciplinaDAO().findByUsuarioId(usuarioId, usuarioPeriodo);
 
         for (Disciplina disciplina : disciplinas) {
             Button card = criarCard(disciplina);
@@ -191,41 +190,70 @@ public class DisciplinasController {
         Stage modal = new Stage();
         modal.initModality(Modality.APPLICATION_MODAL);
         modal.initOwner(btnCalendario.getScene().getWindow());
-        modal.setTitle("Confirmar Semestre");
+        modal.setTitle("Resumo do semestre");
         modal.setResizable(false);
 
-        new Label("Verifique todas as datas antes de confirmar:");
+        Label titulo = new Label("Resumo das datas do semestre atual:");
+        titulo.setStyle(
+                "-fx-font-size: 18px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: #2C2C2C;"
+        );
 
         VBox lista = new VBox(8);
         lista.getChildren().addAll(
-                new Label("Início das aulas: " + formatarData(resumo.getInicioAulas())),
-                new Label("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim())),
-                new Label("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim())),
-                new Label("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim())),
-                new Label("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim())),
-                new Label("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim())),
-                new Label("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim())),
-                new Label("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim())),
-                new Label("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim())),
-                new Label("Fim das aulas: " + formatarData(resumo.getFimAulas()))
+                criarLabel("Início das aulas: " + formatarData(resumo.getInicioAulas()), "#2C2C2C"),
+                criarLabel("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim()), "#666666"),
+                criarLabel("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim()), "#E6AF8E"),
+                criarLabel("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim()), "#8ECAE6"),
+                criarLabel("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim()), "#E6C98E"),
+                criarLabel("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim()), "#8ECAE6"),
+                criarLabel("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim()), "#E6C98E"),
+                criarLabel("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim()), "#8ECAE6"),
+                criarLabel("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim()), "#E6C98E")
         );
 
         if (resumo.getFeira() != null) {
-            lista.getChildren().add(new Label("Feira de Soluções: " + resumo.getFeira()));
+            lista.getChildren().add(criarLabel("Feira de Soluções: " + formatarData(resumo.getFeira()), "#455C66"));
         }
+
+        lista.getChildren().add(
+                criarLabel(
+                        "Fim das aulas: " + formatarData(resumo.getFimAulas()),
+                        "#2C2C2C"
+                )
+        );
 
         Button btnFechar = new Button("Fechar");
 
         btnFechar.setOnAction(e -> modal.close());
+        btnFechar.setStyle("-fx-background-color: #F25958; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 6; -fx-cursor: hand");
 
         HBox rodape = new HBox(10, btnFechar);
         rodape.setAlignment(Pos.CENTER_RIGHT);
 
-        VBox layout = new VBox(20, lista, rodape);
+        VBox layout = new VBox(20, titulo, lista, rodape);
         layout.setStyle("-fx-background-color: white; -fx-padding: 30; -fx-min-width: 400;");
 
         modal.setScene(new Scene(layout));
         modal.show();
+    }
+
+    private Label criarLabel(String texto, String corFundo) {
+        Label label = new Label(texto);
+
+        label.setStyle(
+                "-fx-font-size: 14px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-background-color: " + corFundo + ";" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 8 12;"
+        );
+
+        label.setMaxWidth(Double.MAX_VALUE);
+
+        return label;
     }
 
     private void abrirModalNovo() {
@@ -247,7 +275,9 @@ public class DisciplinasController {
         Label lblProximo = new Label("Próximo semestre: " + proximoPeriodo);
 
         Button btnConfirmar = new Button("Iniciar semestre " + proximoPeriodo);
+        btnConfirmar.setStyle(" -fx-background-color: #6D9D7B; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 6; -fx-cursor: hand");
         Button btnCancelar = new Button("Cancelar");
+        btnCancelar.setStyle(" -fx-background-color: #F25958; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 6; -fx-cursor: hand");
 
         btnCancelar.setOnAction(e -> modal.close());
 
@@ -282,28 +312,41 @@ public class DisciplinasController {
         modal.setTitle("Confirmar Semestre");
         modal.setResizable(false);
 
-        new Label("Verifique todas as datas antes de confirmar:");
+        Label titulo = new Label("Verifique todas as datas antes de confirmar:");
+        titulo.setStyle(
+                "-fx-font-size: 18px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: #2C2C2C;"
+        );
 
         VBox lista = new VBox(8);
         lista.getChildren().addAll(
-                new Label("Início das aulas: " + formatarData(resumo.getInicioAulas())),
-                new Label("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim())),
-                new Label("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim())),
-                new Label("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim())),
-                new Label("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim())),
-                new Label("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim())),
-                new Label("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim())),
-                new Label("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim())),
-                new Label("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim())),
-                new Label("Fim das aulas: " + formatarData(resumo.getFimAulas()))
+                criarLabel("Início das aulas: " + formatarData(resumo.getInicioAulas()), "#2C2C2C"),
+                criarLabel("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim()), "#666666"),
+                criarLabel("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim()), "#E6AF8E"),
+                criarLabel("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim()), "#8ECAE6"),
+                criarLabel("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim()), "#E6C98E"),
+                criarLabel("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim()), "#8ECAE6"),
+                criarLabel("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim()), "#E6C98E"),
+                criarLabel("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim()), "#8ECAE6"),
+                criarLabel("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim()), "#E6C98E")
         );
 
         if (resumo.getFeira() != null) {
-            lista.getChildren().add(new Label("Feira de Soluções: " + resumo.getFeira()));
+            lista.getChildren().add(criarLabel("Feira de Soluções: " + formatarData(resumo.getFeira()), "#455C66"));
         }
 
+        lista.getChildren().add(
+                criarLabel(
+                        "Fim das aulas: " + formatarData(resumo.getFimAulas()),
+                        "#2C2C2C"
+                )
+        );
+
         Button btnConfirmar = new Button("Confirmar");
+        btnConfirmar.setStyle(" -fx-background-color: #6D9D7B; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 6; -fx-cursor: hand");
         Button btnCancelar = new Button("Cancelar");
+        btnCancelar.setStyle(" -fx-background-color: #F25958; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 6; -fx-cursor: hand");
 
         btnCancelar.setOnAction(e -> modal.close());
 
@@ -318,7 +361,7 @@ public class DisciplinasController {
         HBox rodape = new HBox(10, btnCancelar, btnConfirmar);
         rodape.setAlignment(Pos.CENTER_RIGHT);
 
-        VBox layout = new VBox(20, lista, rodape);
+        VBox layout = new VBox(20, titulo, lista, rodape);
         layout.setStyle("-fx-background-color: white; -fx-padding: 30; -fx-min-width: 400;");
 
         modal.setScene(new Scene(layout));

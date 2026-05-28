@@ -116,7 +116,7 @@
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Button id="btnSalvarDisciplina" fx:id="btnSalvarDisciplina" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#SalvarDisciplina" stylesheets="@../../static/css/disciplina.css" text="Salvar Disciplina" textAlignment="CENTER" />
+                                    <Button id="btnSalvarDisciplina" fx:id="btnSalvarDisciplina" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" stylesheets="@../../static/css/disciplina.css" text="Salvar Disciplina" textAlignment="CENTER" />
                                  </children>
                               </VBox>
                            </children>

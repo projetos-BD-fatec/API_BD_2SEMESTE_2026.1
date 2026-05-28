@@ -2,10 +2,7 @@ package org.example.service;
 
 import org.example.DAO.CalendarioDAO;
 import org.example.infrastructure.ICalendarClient;
-import org.example.model.EventoCalendario;
-import org.example.model.EventoIcal;
-import org.example.model.Periodo;
-import org.example.model.ResumoPeriodo;
+import org.example.model.*;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
@@ -91,7 +88,6 @@ public class CalendarioService {
             if (evento.getDataInicio().isBefore(filtroInicio) ||
                     evento.getDataInicio().isAfter(filtroFim)) continue;
             EventoCalendario classificado = EventoAcadClassificador.classificar(evento.getSummary());
-            System.out.println(evento.getSummary() + " → " + classificado);
 
             if (classificado == EventoCalendario.SPRINT_1) sprintUm = evento;
             if (classificado == EventoCalendario.INICIO_AULAS) inicioAulasEvento = evento;
