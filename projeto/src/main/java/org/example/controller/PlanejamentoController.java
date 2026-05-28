@@ -24,7 +24,6 @@ import org.example.model.Topico;
 import org.example.service.AulaService;
 import org.example.service.DistribuicaoService;
 import org.example.service.ExportarAulasCSV;
-import org.example.util.Toast;
 import org.example.util.UserSession;
 
 import java.io.IOException;
@@ -62,12 +61,13 @@ public class PlanejamentoController {
     @FXML private Button btnExportar;
 
     @FXML private Label labelUsuario;
-    @FXML private Label labelDisciplinaAtual;
     @FXML private ComboBox<String> btnTrocarDisciplina;
 
     private Long disciplinaIdAtual;
     private List<Disciplina> disciplinasDoUsuario = new ArrayList<>();
     private final DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+
+    private boolean trocandoProgramaticamente = false;
 
     private List<Topico> topicosCache = new ArrayList<>();
     private List<Topico> topicosPendentes = new ArrayList<>();
@@ -90,14 +90,21 @@ public class PlanejamentoController {
 
         Long usuarioId = UserSession.getInstance().getUsuarioLogado().getId();
         disciplinasDoUsuario = disciplinaDAO.findByUsuarioId(usuarioId);
-        btnTrocarDisciplina.getItems().setAll(disciplinasDoUsuario.stream().map(Disciplina::getNome).collect(Collectors.toList()));
-        btnTrocarDisciplina.setOnAction(e -> {
-            String nomeSelecionado = btnTrocarDisciplina.getValue();
-            if (nomeSelecionado == null) return;
+
+        trocandoProgramaticamente = true;
+        btnTrocarDisciplina.getItems().setAll(
+                disciplinasDoUsuario.stream().map(Disciplina::getNome).collect(Collectors.toList())
+        );
+        trocandoProgramaticamente = false;
+
+        btnTrocarDisciplina.valueProperty().addListener((obs, antigo, novo) -> {
+            if (trocandoProgramaticamente) return;
+            if (novo == null || novo.equals(antigo)) return;
             disciplinasDoUsuario.stream()
-                    .filter(d -> d.getNome().equals(nomeSelecionado))
+                    .filter(d -> d.getNome().equals(novo))
                     .findFirst()
                     .ifPresent(d -> {
+                        if (d.getId().equals(disciplinaIdAtual)) return;
                         try {
                             App.navegarParaPlanejamento(d.getId());
                         } catch (IOException ex) {
@@ -107,37 +114,10 @@ public class PlanejamentoController {
         });
     }
 
-    private void trocarParaDisciplina(Disciplina disciplina) {
-        if (disciplina.getId().equals(disciplinaIdAtual)) return;
-
-        if (App.isAlteracaoNaoSalva()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Alterações não salvas");
-            alert.setHeaderText("Você tem alterações não salvas em \"" + labelDisciplinaAtual.getText() + "\".");
-            alert.setContentText("O que deseja fazer?");
-
-            ButtonType salvar    = new ButtonType("Salvar");
-            ButtonType descartar = new ButtonType("Descartar alterações");
-            ButtonType cancelar  = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
-            alert.getButtonTypes().setAll(salvar, descartar, cancelar);
-
-            alert.showAndWait().ifPresent(resposta -> {
-                if (resposta == salvar) {
-                    clicarSalvar();
-                    carregarDisciplina(disciplina);
-                } else if (resposta == descartar) {
-                    descartarAlteracoes();
-                    carregarDisciplina(disciplina);
-                }
-            });
-        } else {
-            carregarDisciplina(disciplina);
-        }
-    }
-
     private void carregarDisciplina(Disciplina disciplina) {
-        labelDisciplinaAtual.setText(disciplina.getNome());
+        trocandoProgramaticamente = true;
         btnTrocarDisciplina.setValue(disciplina.getNome());
+        trocandoProgramaticamente = false;
         setDisciplinaId(disciplina.getId());
     }
 
@@ -187,6 +167,17 @@ public class PlanejamentoController {
         App.setSalvarCallback(this::clicarSalvar);
         App.setDescartarCallback(this::descartarAlteracoes);
         this.disciplinaIdAtual = disciplinaId;
+
+        disciplinasDoUsuario.stream()
+                .filter(d -> d.getId().equals(disciplinaId))
+                .findFirst()
+                .ifPresent(d -> {
+                    javafx.application.Platform.runLater(() -> {
+                        trocandoProgramaticamente = true;
+                        btnTrocarDisciplina.setValue(d.getNome());
+                        trocandoProgramaticamente = false;
+                    });
+                });
 
         colData.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getData()));
         colData.setCellFactory(column -> new TableCell<Aula, LocalDate>() {
