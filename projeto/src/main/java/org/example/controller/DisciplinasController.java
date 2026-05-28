@@ -17,26 +17,48 @@ import org.example.model.Horario;
 import org.example.model.Usuario;
 import org.example.util.DadosFixos;
 import org.example.util.UserSession;
+import org.example.DAO.AulaDAO;
+import org.example.DAO.CalendarioDAO;
+import org.example.DAO.HorarioDAO;
+import org.example.service.AulaService;
+import org.example.service.DisciplinaService;
 
+import java.util.ArrayList;
 import java.time.LocalTime;
 import java.util.List;
+
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
 public class DisciplinasController {
 
-    @FXML private ComboBox<DiaSemana> cbDia;
-    @FXML private ComboBox<LocalTime> cbInicio;
-    @FXML private ComboBox<LocalTime> cbFim;
-    @FXML private TableView<Horario> tabelaHorarios;
-    @FXML private TableColumn<Horario, String> colDia;
-    @FXML private TableColumn<Horario, String> colInicio;
-    @FXML private TableColumn<Horario, String> colFim;
-    @FXML private TableColumn<Horario, Void> colExcluir;
-    @FXML private ComboBox<Integer> cbCargaHoraria;
-    @FXML private ComboBox<String> cbCurso;
-    @FXML private ComboBox<String> cbSemestre;
-    @FXML private Label labelUsuario;
-    @FXML private HBox containerDisciplinas;
+    @FXML
+    private TextField tfNomeDisciplina;
+    @FXML
+    private ComboBox<DiaSemana> cbDia;
+    @FXML
+    private ComboBox<LocalTime> cbInicio;
+    @FXML
+    private ComboBox<LocalTime> cbFim;
+    @FXML
+    private TableView<Horario> tabelaHorarios;
+    @FXML
+    private TableColumn<Horario, String> colDia;
+    @FXML
+    private TableColumn<Horario, String> colInicio;
+    @FXML
+    private TableColumn<Horario, String> colFim;
+    @FXML
+    private TableColumn<Horario, Void> colExcluir;
+    @FXML
+    private ComboBox<Integer> cbCargaHoraria;
+    @FXML
+    private ComboBox<String> cbCurso;
+    @FXML
+    private ComboBox<String> cbSemestre;
+    @FXML
+    private Label labelUsuario;
+    @FXML
+    private HBox containerDisciplinas;
 
 
     private final ObservableList<Horario> listaHorarios = FXCollections.observableArrayList();
@@ -46,9 +68,48 @@ public class DisciplinasController {
 
     @FXML
     void SalvarDisciplina() {
+        String nome = tfNomeDisciplina.getText();
+        String curso = cbCurso.getValue();
+        String semestreStr = cbSemestre.getValue();
+        Integer cargaHoraria = cbCargaHoraria.getValue();
 
+        if (nome == null || nome.isBlank()) {
+            new Alert(Alert.AlertType.WARNING, "Preencha o nome da disciplina.").showAndWait();
+            return;
+        }
+        if (curso == null || semestreStr == null || cargaHoraria == null) {
+            new Alert(Alert.AlertType.WARNING, "Preencha todos os campos (curso, semestre e carga horária).").showAndWait();
+            return;
+        }
+        if (listaHorarios.isEmpty()) {
+            new Alert(Alert.AlertType.WARNING, "Adicione ao menos um horário.").showAndWait();
+            return;
+        }
 
+        Integer semestre = Integer.parseInt(semestreStr.replace("º Sem", "").trim());
+        Disciplina disciplina = new Disciplina(null, nome, cargaHoraria, curso, semestre);
+
+        try {
+            // Tarefa 1: persiste disciplina + horários via DisciplinaService
+            Long disciplinaId = new DisciplinaService()
+                    .salvar(disciplina, new ArrayList<>(listaHorarios), UserSession.getInstance());
+
+            // Tarefa 2: gera aulas cruzando horários com o calendário
+            new AulaService(new HorarioDAO(), new CalendarioDAO(), new AulaDAO())
+                    .gerarAulas(disciplinaId, cargaHoraria);
+
+            // Recarrega a tela — initialize() reconstrói todos os cards do banco
+            App.navegarParaDisciplinas();
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro ao salvar");
+            alert.setHeaderText(null);
+            alert.setContentText("Erro: " + e.getMessage());
+            alert.showAndWait();
+        }
     }
+
     @FXML
     public void initialize() {
         Usuario usuario = UserSession.getInstance().getUsuarioLogado();
@@ -94,18 +155,20 @@ public class DisciplinasController {
                 new SimpleStringProperty(cell.getValue().getHoraInicio().toString()));
         colFim.setCellValueFactory(cell ->
                 new SimpleStringProperty(cell.getValue().getHoraFim().toString()));
-        colExcluir.setCellFactory(col -> new TableCell<>(){
+        colExcluir.setCellFactory(col -> new TableCell<>() {
             private final Button btnExcluir = new Button("x");
+
             {
-                btnExcluir.setOnAction(e ->{
+                btnExcluir.setOnAction(e -> {
                     Horario horario = getTableView().getItems().get(getIndex());
                     listaHorarios.remove(horario);
                 });
             }
+
             @Override
-            protected void updateItem(Void item, boolean empty){
+            protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty){
+                if (empty) {
                     setGraphic(null);
                 } else {
                     setGraphic(btnExcluir);
@@ -138,7 +201,7 @@ public class DisciplinasController {
         if (!fim.isAfter(inicio)) return;
 
         boolean diaJaCadastrado = listaHorarios.stream()
-                        .anyMatch(h -> h.getDiaSemana() == dia);
+                .anyMatch(h -> h.getDiaSemana() == dia);
         if (diaJaCadastrado) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Dia duplicado");
@@ -210,7 +273,11 @@ public class DisciplinasController {
             try {
                 App.navegarParaPlanejamento(disciplina.getId());
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erro ao abrir planejamento");
+                alert.setHeaderText(null);
+                alert.setContentText("Erro: " + ex.getMessage());
+                alert.showAndWait();
             }
         });
 
