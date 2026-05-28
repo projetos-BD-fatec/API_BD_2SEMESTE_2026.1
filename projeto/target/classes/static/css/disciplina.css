@@ -34,7 +34,7 @@
     -fx-alignment: center;
 }
 
-#btnVoltar {
+#btnVoltar, #btnCalendario {
     -fx-background-color: transparent;
     -fx-font-weight: bold;
     -fx-font-size: 15px;
@@ -165,6 +165,11 @@
 .table-cell{
     -fx-alignment: CENTER;
     -fx-font-size:20px;
+}
+
+.table-row-cell {
+    -fx-alignment: CENTER;
+    -fx-padding: 0;
 }
 
 

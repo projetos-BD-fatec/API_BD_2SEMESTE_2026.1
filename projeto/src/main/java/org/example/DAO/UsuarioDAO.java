@@ -9,39 +9,37 @@ import java.sql.SQLException;
 
 public class UsuarioDAO {
 
-    // Método para cadastrar um novo usuário com verificação de duplicidade
     public boolean cadastrar(Usuario usuario) {
-        // SQL 1: Verifica se já existe o email ou cpf
+
         String sqlVerificacao = "SELECT id FROM usuario WHERE email = ? OR cpf = ?";
-        // SQL 2: Insere o novo usuário
-        String sqlInsert = "INSERT INTO usuario (nome, email, cpf) VALUES (?, ?, ?)";
+        String sqlInsert = "INSERT INTO usuario (nome, email, cpf, periodo_atual) VALUES (?, ?, ?, ?)";
+        String sqlSemestre = "SELECT periodo FROM semestre ORDER BY data_inicio DESC LIMIT 1";
 
         try (Connection conn = ConexaoBD.conectar()) {
-            if (conn == null) {
-                System.out.println("Erro: Falha na conexão com o banco.");
-                return false;
-            }
+            if (conn == null) return false;
 
-            // Checar duplicidade
             try (PreparedStatement stmtVerifica = conn.prepareStatement(sqlVerificacao)) {
                 stmtVerifica.setString(1, usuario.getEmail());
                 stmtVerifica.setString(2, usuario.getCpf());
-
                 try (ResultSet rs = stmtVerifica.executeQuery()) {
-                    if (rs.next()) { // Se achou alguma linha, significa que já existe!
-                        return false; // Retorna falso para avisar a tela que deu erro
-                    }
+                    if (rs.next()) return false;
                 }
             }
 
-            // Se não existe, prossegue com o cadastro
+            String periodoAtual = null;
+            try (PreparedStatement stmtSemestre = conn.prepareStatement(sqlSemestre);
+                ResultSet rs = stmtSemestre.executeQuery()) {
+                if (rs.next()) {
+                    periodoAtual = rs.getString("periodo");
+                }
+            }
             try (PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
                 stmtInsert.setString(1, usuario.getNome());
                 stmtInsert.setString(2, usuario.getEmail());
                 stmtInsert.setString(3, usuario.getCpf());
-
+                stmtInsert.setString(4, periodoAtual);
                 stmtInsert.executeUpdate();
-                return true; // Retorna verdadeiro indicando sucesso!
+                return true;
             }
 
         } catch (SQLException e) {
@@ -67,7 +65,8 @@ public class UsuarioDAO {
                         rs.getLong("id"),
                         rs.getString("nome"),
                         rs.getString("email"),
-                        rs.getString("cpf")
+                        rs.getString("cpf"),
+                        rs.getString("periodo_atual")
                 );
                 System.out.println("Login realizado com sucesso para: " + usuarioLogado.getNome() + "!");
             } else {
@@ -83,5 +82,17 @@ public class UsuarioDAO {
         }
 
         return usuarioLogado;
+    }
+
+    public void atualizarPeriodo(Long usuarioId, String periodo) {
+        String sql = "UPDATE usuario SET periodo_atual = ? WHERE id = ?";
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, periodo);
+            stmt.setLong(2, usuarioId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar período do usuário", e);
+        }
     }
 }

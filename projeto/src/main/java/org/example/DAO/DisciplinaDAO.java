@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DisciplinaDAO {
 
-    public List<Disciplina> findByUsuarioId(Long usuarioId) {
+    public List<Disciplina> findByUsuarioId(Long usuarioId, String periodo) {
         List<Disciplina> disciplinas = new ArrayList<>();
         String sql = "SELECT id, nome, carga_horaria, curso, semestre FROM disciplina WHERE usuario_id = ?";
 
@@ -22,6 +22,7 @@ public class DisciplinaDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, usuarioId);
+            stmt.setString(2, periodo);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {

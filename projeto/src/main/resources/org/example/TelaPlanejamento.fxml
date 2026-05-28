@@ -34,7 +34,7 @@
                <children>
       
                       <!-- COMBO DISCIPLINA -->
-                      <ComboBox id="comboDisciplina" fx:id="cbEscolherDisciplina" prefHeight="42.0" prefWidth="400.0" promptText="Modelagem de Banco de Dados – BD 2º Sem." />
+                      <ComboBox id="comboDisciplina" fx:id="btnTrocarDisciplina" prefHeight="42.0" prefWidth="400.0" promptText="Modelagem de Banco de Dados – BD 2º Sem." />
                </children>
             </HBox>
 

@@ -13,9 +13,6 @@ import org.example.controller.PlanejamentoController;
 
 import java.io.IOException;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
     private static Scene scene;
@@ -69,9 +66,13 @@ public class App extends Application {
     public static void navegarParaPlanejamento(Long disciplinaId) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("TelaPlanejamento.fxml"));
         Parent root = loader.load();
-
+        scene.setRoot(root);
         PlanejamentoController controller = loader.getController();
         controller.setDisciplinaId(disciplinaId);
+    }
+
+    public static void navegarParaDisciplinas() throws IOException {
+        Parent root = new FXMLLoader(App.class.getResource("TelaDisciplinas.fxml")).load();
         scene.setRoot(root);
     }
 

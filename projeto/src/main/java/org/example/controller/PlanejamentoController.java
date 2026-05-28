@@ -14,25 +14,26 @@ import javafx.stage.Stage;
 import org.example.App;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
+import org.example.DAO.DisciplinaDAO;
 import org.example.DAO.HorarioDAO;
 import org.example.DAO.TopicoDAO;
 import org.example.model.Aula;
 import org.example.model.DiaSemana;
+import org.example.model.Disciplina;
 import org.example.model.Topico;
 import org.example.service.AulaService;
 import org.example.service.DistribuicaoService;
 import org.example.service.ExportarAulasCSV;
-import org.example.util.Toast;
 import org.example.util.UserSession;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.time.format.DateTimeFormatter;
-
 
 public class PlanejamentoController {
     @FXML private TableView<Aula> tabelaCronograma;
@@ -59,8 +60,13 @@ public class PlanejamentoController {
     @FXML private Button btnExportar;
 
     @FXML private Label labelUsuario;
+    @FXML private ComboBox<String> btnTrocarDisciplina;
 
     private Long disciplinaIdAtual;
+    private List<Disciplina> disciplinasDoUsuario = new ArrayList<>();
+    private final DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+
+    private boolean trocandoProgramaticamente = false;
 
     private List<Topico> topicosCache = new ArrayList<>();
     private List<Topico> topicosPendentes = new ArrayList<>();
@@ -81,6 +87,39 @@ public class PlanejamentoController {
 
         cbPeso.getItems().addAll("Peso 1", "Peso 2", "Peso 3");
         cbPeso.setValue("Peso 1");
+
+        Long usuarioId = UserSession.getInstance().getUsuarioLogado().getId();
+        String usuarioPeriodo = UserSession.getInstance().getUsuarioLogado().getPeriodoAtual();
+        disciplinasDoUsuario = disciplinaDAO.findByUsuarioId(usuarioId, usuarioPeriodo);
+
+        trocandoProgramaticamente = true;
+        btnTrocarDisciplina.getItems().setAll(
+                disciplinasDoUsuario.stream().map(Disciplina::getNome).collect(Collectors.toList())
+        );
+        trocandoProgramaticamente = false;
+
+        btnTrocarDisciplina.valueProperty().addListener((obs, antigo, novo) -> {
+            if (trocandoProgramaticamente) return;
+            if (novo == null || novo.equals(antigo)) return;
+            disciplinasDoUsuario.stream()
+                    .filter(d -> d.getNome().equals(novo))
+                    .findFirst()
+                    .ifPresent(d -> {
+                        if (d.getId().equals(disciplinaIdAtual)) return;
+                        try {
+                            App.navegarParaPlanejamento(d.getId());
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    });
+        });
+    }
+
+    private void carregarDisciplina(Disciplina disciplina) {
+        trocandoProgramaticamente = true;
+        btnTrocarDisciplina.setValue(disciplina.getNome());
+        trocandoProgramaticamente = false;
+        setDisciplinaId(disciplina.getId());
     }
 
     @FXML
@@ -130,6 +169,17 @@ public class PlanejamentoController {
         App.setDescartarCallback(this::descartarAlteracoes);
         this.disciplinaIdAtual = disciplinaId;
 
+        disciplinasDoUsuario.stream()
+                .filter(d -> d.getId().equals(disciplinaId))
+                .findFirst()
+                .ifPresent(d -> {
+                    javafx.application.Platform.runLater(() -> {
+                        trocandoProgramaticamente = true;
+                        btnTrocarDisciplina.setValue(d.getNome());
+                        trocandoProgramaticamente = false;
+                    });
+                });
+
         colData.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getData()));
 
         colData.setCellFactory(column -> new TableCell<Aula, LocalDate>() {
@@ -166,6 +216,7 @@ public class PlanejamentoController {
                     if (atualizandoProgramaticamente) return;
                     if (getTableRow() == null || getTableRow().getItem() == null) return;
 
+                    String selecionado = comboTopico.getSelectionModel().getSelectedItem();
                     Aula aula = getTableRow().getItem();
 
                     if (aula.getDiaSemana() == DiaSemana.SABADO) return;
@@ -208,53 +259,50 @@ public class PlanejamentoController {
                 if (empty || getTableRow() == null || getTableRow().getItem() == null) {
                     setGraphic(null);
                     setText(null);
+                    return;
+                }
+
+                Aula aula = getTableRow().getItem();
+                if (aula.getDiaSemana() == DiaSemana.SABADO) {
+                    Label lblFechamento = new Label("Fechamento");
+                    lblFechamento.setStyle("-fx-font-style: italic;");
+                    setGraphic(lblFechamento);
+                    setText(null);
+                    return;
+                }
+
+                boolean isEventoReservado = distribuicaoService.isDiaBloqueado(aula);
+                List<String> nomesFiltrados;
+
+                if (isEventoReservado) {
+                    nomesFiltrados = topicosCache.stream()
+                            .filter(t -> !t.isAvaliacao())
+                            .map(Topico::getNome)
+                            .collect(Collectors.toList());
                 } else {
-                    Aula aula = getTableRow().getItem();
+                    nomesFiltrados = topicosCache.stream()
+                            .map(Topico::getNome)
+                            .collect(Collectors.toList());
+                }
 
-                    if (aula.getDiaSemana() == DiaSemana.SABADO) {
-                        Label lblFechamento = new Label("Fechamento");
-                        lblFechamento.setStyle("-fx-font-style: italic;");
-                        setGraphic(lblFechamento);
-                        setText(null);
-                        return;
-                    }
-
-                    boolean isEventoReservado = distribuicaoService.isDiaBloqueado(aula);
-
-                    List<Topico> todosTopicos = topicosCache;
-                    List<String> nomesFiltrados;
-
-                    if (isEventoReservado) {
-                        nomesFiltrados = todosTopicos.stream()
-                                .filter(t -> !t.isAvaliacao())
-                                .map(Topico::getNome)
-                                .collect(Collectors.toList());
+                if (nomesFiltrados.isEmpty()) {
+                    setGraphic(null);
+                    setText(isEventoReservado ? "Sem tópicos comuns" : "Sem tópicos cadastrados");
+                } else {
+                    atualizandoProgramaticamente = true;
+                    nomesFiltrados.add(0, "Selecionar");
+                    comboTopico.getItems().setAll(nomesFiltrados);
+                    if (aula.getTopicoId() != null) {
+                        topicosCache.stream()
+                                .filter(t -> t.getId().equals(aula.getTopicoId()))
+                                .findFirst()
+                                .ifPresent(t -> comboTopico.setValue(t.getNome()));
                     } else {
-                        nomesFiltrados = todosTopicos.stream()
-                                .map(Topico::getNome)
-                                .collect(Collectors.toList());
+                        comboTopico.setValue("Selecionar");
                     }
-
-                    if (nomesFiltrados.isEmpty()) {
-                        setGraphic(null);
-
-                        setText(isEventoReservado ? "Sem tópicos comuns" : "Sem tópicos cadastrados");
-                    } else {
-                        atualizandoProgramaticamente = true;
-                        nomesFiltrados.add(0, "Selecionar");
-                        comboTopico.getItems().setAll(nomesFiltrados);
-                        if (aula.getTopicoId() != null) {
-                            topicosCache.stream()
-                                    .filter(t -> t.getId().equals(aula.getTopicoId()))
-                                    .findFirst()
-                                    .ifPresent(t -> comboTopico.setValue(t.getNome()));
-                        } else {
-                            comboTopico.setValue("Selecionar");
-                        }
-                        atualizandoProgramaticamente = false;
-                        setGraphic(comboTopico);
-                        setText(null);
-                    }
+                    atualizandoProgramaticamente = false;
+                    setGraphic(comboTopico);
+                    setText(null);
                 }
             }
         });
@@ -271,6 +319,7 @@ public class PlanejamentoController {
         containerTopicos.getChildren().clear();
         topicosCache.forEach(this::adicionarLinhaTopico);
         atualizarIndicadores();
+        App.setAlteracaoNaoSalva(false);
     }
 
 
@@ -286,7 +335,6 @@ public class PlanejamentoController {
             mostrarAlerta("Campo obrigatório", "O nome do tópico não pode estar vazio.");
             return;
         }
-
         if (max < min) {
             mostrarAlerta("Valores inválidos", "O máximo de aulas não pode ser menor que o mínimo.");
             return;
@@ -439,7 +487,6 @@ public class PlanejamentoController {
                     .collect(Collectors.toList());
 
             topicosCache.sort(Comparator.comparingInt(t -> ordemNomes.indexOf(t.getNome())));
-
             redistribuir();
         }
     }
@@ -454,7 +501,6 @@ public class PlanejamentoController {
         tabelaCronograma.getItems().setAll(aulasCronograma);
         atualizarIndicadores();
     }
-
 
     private void atualizarIndicadores() {
         List<Aula> aulas = tabelaCronograma.getItems();
@@ -494,7 +540,7 @@ public class PlanejamentoController {
     @FXML
     private void clicarExportar() {
         Stage stage = (Stage) btnExportar.getScene().getWindow();
-        ExportarAulasCSV exportador = new ExportarAulasCSV(tabelaCronograma);
+        ExportarAulasCSV exportador = new ExportarAulasCSV(tabelaCronograma, topicosCache);
         exportador.exportar(stage);
     }
 }
