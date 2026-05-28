@@ -530,7 +530,7 @@ public class PlanejamentoController {
     @FXML
     private void clicarExportar() {
         Stage stage = (Stage) btnExportar.getScene().getWindow();
-        ExportarAulasCSV exportador = new ExportarAulasCSV(tabelaCronograma);
+        ExportarAulasCSV exportador = new ExportarAulasCSV(tabelaCronograma, topicosCache);
         exportador.exportar(stage);
     }
 }
