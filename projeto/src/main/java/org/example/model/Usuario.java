@@ -6,18 +6,28 @@ public class Usuario {
  public String nome;
  public String email;
  public String cpf;
+ public String periodoAtual;
 
- public Usuario(Long id, String nome, String email, String cpf) {
+ public Usuario(Long id, String nome, String email, String cpf, String periodoAtual) {
   this.id = id;
   this.nome = nome;
   this.email = email;
   this.cpf = cpf;
+  this.periodoAtual = periodoAtual;
  }
 
  public Usuario(String nome, String email, String cpf) {
   this.nome = nome;
   this.email = email;
   this.cpf = cpf;
+ }
+
+ public String getPeriodoAtual() {
+  return periodoAtual;
+ }
+
+ public void setPeriodoAtual(String periodoAtual) {
+  this.periodoAtual = periodoAtual;
  }
 
  public long getId() {

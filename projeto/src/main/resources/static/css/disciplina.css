@@ -34,7 +34,7 @@
     -fx-alignment: center;
 }
 
-#btnVoltar {
+#btnVoltar, #btnCalendario {
     -fx-background-color: transparent;
     -fx-font-weight: bold;
     -fx-font-size: 15px;
@@ -167,6 +167,11 @@
     -fx-font-size:20px;
 }
 
+.table-row-cell {
+    -fx-alignment: CENTER;
+    -fx-padding: 0;
+}
+
 
 /* ============================================================
    ITENS DA TABELA DE HORÁRIO
@@ -264,4 +269,6 @@
     -fx-background-color: #F5E6CF;
     -fx-border-color: #000000;
     -fx-border-width: 2 0 0 0;
+    -fx-alignment: center;
+    -fx-padding: 12 8 12 8;
 }

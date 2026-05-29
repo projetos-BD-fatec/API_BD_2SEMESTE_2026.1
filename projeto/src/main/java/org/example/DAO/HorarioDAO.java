@@ -41,18 +41,17 @@ public class HorarioDAO {
         return horarios;
     }
 
-    public void SalvarHorario(List<Horario> horarios) throws SQLException {
-        String sql = "INSERT INTO horario (id, disciplina_id, hora_inicio, hora_fim, dia_semana) VALUES (?, ?, ?, ?, ?)";
+    public void salvarHorario(List<Horario> horarios) throws SQLException {
+        String sql = "INSERT INTO horario (disciplina_id, hora_inicio, hora_fim, dia_semana) VALUES (?, ?, ?, ?::dia_semana)";
 
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             for (Horario horario : horarios) {
-                stmt.setLong(1, horario.getId());
-                stmt.setObject(2, horario.getDisciplinaId());
-                stmt.setObject(3, horario.getHoraInicio());
-                stmt.setObject(4, horario.getHoraFim());
-                stmt.setString(5, horario.getDiaSemana().getValorBanco());
+                stmt.setObject(1, horario.getDisciplinaId());
+                stmt.setObject(2, horario.getHoraInicio());
+                stmt.setObject(3, horario.getHoraFim());
+                stmt.setString(4, horario.getDiaSemana().getValorBanco());
 
                 stmt.addBatch();
             }

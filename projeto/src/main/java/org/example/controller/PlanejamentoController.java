@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PlanejamentoController {
-
     @FXML private TableView<Aula> tabelaCronograma;
     @FXML private TableColumn<Aula, LocalDate> colData;
     @FXML private TableColumn<Aula, String> colDia;
@@ -85,11 +84,13 @@ public class PlanejamentoController {
         labelUsuario.setText(UserSession.getInstance().getUsuarioLogado().getNome());
         spinnerMin.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
         spinnerMax.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 2));
+
         cbPeso.getItems().addAll("Peso 1", "Peso 2", "Peso 3");
         cbPeso.setValue("Peso 1");
 
         Long usuarioId = UserSession.getInstance().getUsuarioLogado().getId();
-        disciplinasDoUsuario = disciplinaDAO.findByUsuarioId(usuarioId);
+        String usuarioPeriodo = UserSession.getInstance().getUsuarioLogado().getPeriodoAtual();
+        disciplinasDoUsuario = disciplinaDAO.findByUsuarioId(usuarioId, usuarioPeriodo);
 
         trocandoProgramaticamente = true;
         btnTrocarDisciplina.getItems().setAll(
@@ -130,9 +131,9 @@ public class PlanejamentoController {
                 alert.setHeaderText("Você tem alterações não salvas.");
                 alert.setContentText("O que deseja fazer?");
 
-                ButtonType salvar    = new ButtonType("Salvar");
+                ButtonType salvar = new ButtonType("Salvar");
                 ButtonType descartar = new ButtonType("Descartar alterações");
-                ButtonType cancelar  = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+                ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
                 alert.getButtonTypes().setAll(salvar, descartar, cancelar);
 
                 alert.showAndWait().ifPresent(resposta -> {
@@ -180,13 +181,18 @@ public class PlanejamentoController {
                 });
 
         colData.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getData()));
+
         colData.setCellFactory(column -> new TableCell<Aula, LocalDate>() {
             private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
             @Override
             protected void updateItem(LocalDate data, boolean empty) {
                 super.updateItem(data, empty);
-                if (empty || data == null) setText(null);
-                else setText(data.format(formatter));
+                if (empty || data == null) {
+                    setText(null);
+                } else {
+                    setText(data.format(formatter));
+                }
             }
         });
 
@@ -210,7 +216,9 @@ public class PlanejamentoController {
                     if (atualizandoProgramaticamente) return;
                     if (getTableRow() == null || getTableRow().getItem() == null) return;
 
+                    String selecionado = comboTopico.getSelectionModel().getSelectedItem();
                     Aula aula = getTableRow().getItem();
+
                     if (aula.getDiaSemana() == DiaSemana.SABADO) return;
                     if (novoValor == null || novoValor.equals("Selecionar")) {
                         aula.setAncorada(false);
@@ -231,6 +239,7 @@ public class PlanejamentoController {
                                     Aula ancoraParaLiberar = ancorasDoTopico.stream()
                                             .min(Comparator.comparing(Aula::getData))
                                             .orElse(null);
+
                                     if (ancoraParaLiberar != null) {
                                         ancoraParaLiberar.setAncorada(false);
                                         ancoraParaLiberar.setTopicoId(null);
@@ -312,6 +321,7 @@ public class PlanejamentoController {
         atualizarIndicadores();
         App.setAlteracaoNaoSalva(false);
     }
+
 
     @FXML
     private void clicarIncluir() {

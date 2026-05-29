@@ -76,6 +76,12 @@ public class App extends Application {
         scene.setRoot(root);
     }
 
+    public static void sairParaLogin() throws IOException {
+        Parent root = new FXMLLoader(App.class.getResource("TelaLoginCadastro.fxml")).load();
+        scene.setRoot(root);
+    }
+
+
     public static void setAlteracaoNaoSalva(boolean value) {
         alteracaoNaoSalva = value;
     }
