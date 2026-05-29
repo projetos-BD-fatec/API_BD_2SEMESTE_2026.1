@@ -17,13 +17,14 @@ import org.example.model.Horario;
 import org.example.model.Usuario;
 import org.example.util.DadosFixos;
 import org.example.util.UserSession;
-
+import org.example.model.Turno;
 import java.time.LocalTime;
 import java.util.List;
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
 public class DisciplinasController {
 
+    @FXML private ComboBox<Turno> cbPeriodo;
     @FXML private ComboBox<DiaSemana> cbDia;
     @FXML private ComboBox<LocalTime> cbInicio;
     @FXML private ComboBox<LocalTime> cbFim;
@@ -60,29 +61,45 @@ public class DisciplinasController {
             Button card = criarCard(disciplina);
             containerDisciplinas.getChildren().add(card);
         }
+
         cbDia.getItems().setAll(DiaSemana.values());
 
-        cbInicio.getItems().setAll(DadosFixos.HORARIOS);
+        cbPeriodo.getItems().setAll(Turno.values());
+        cbPeriodo.setPromptText("Período");
 
-        cbFim.getItems().setAll(DadosFixos.HORARIOS);
+        cbDia.setDisable(true);
+        cbInicio.setDisable(true);
+        cbFim.setDisable(true);
 
+        cbInicio.getItems().setAll(DadosFixos.HORARIOS_NOITE);
+        cbFim.getItems().setAll(DadosFixos.HORARIOS_NOITE);
+
+        cbPeriodo.valueProperty().addListener((obs, antigo, novo) -> {
+            ObservableList<LocalTime> horarios = novo == Turno.MANHA
+                    ? DadosFixos.HORARIOS_MANHA
+                    : DadosFixos.HORARIOS_NOITE;
+
+            cbInicio.setItems(horarios);
+            cbFim.setItems(horarios);
+            cbInicio.setValue(null);
+            cbFim.setValue(null);
+
+            cbDia.setDisable(false);
+            cbInicio.setDisable(false);
+            cbFim.setDisable(false);
+        });
 
         cbInicio.valueProperty().addListener((obs, antigo, novo) -> {
-
             if (novo != null) {
+                ObservableList<LocalTime> turnoAtual = cbPeriodo.getValue() == Turno.MANHA
+                        ? DadosFixos.HORARIOS_MANHA
+                        : DadosFixos.HORARIOS_NOITE;
 
-                ObservableList<LocalTime> horariosFiltrados =
-                        FXCollections.observableArrayList(
-                                DadosFixos.HORARIOS.filtered(
-                                        h -> h.isAfter(novo)
-                                )
-                        );
+                cbFim.setItems(FXCollections.observableArrayList(
+                        turnoAtual.filtered(h -> h.isAfter(novo))
+                ));
 
-                cbFim.setItems(horariosFiltrados);
-
-                if (cbFim.getValue() != null &&
-                        !cbFim.getValue().isAfter(novo)) {
-
+                if (cbFim.getValue() != null && !cbFim.getValue().isAfter(novo)) {
                     cbFim.setValue(null);
                 }
             }
@@ -94,38 +111,32 @@ public class DisciplinasController {
                 new SimpleStringProperty(cell.getValue().getHoraInicio().toString()));
         colFim.setCellValueFactory(cell ->
                 new SimpleStringProperty(cell.getValue().getHoraFim().toString()));
-        colExcluir.setCellFactory(col -> new TableCell<>(){
+        colExcluir.setCellFactory(col -> new TableCell<>() {
             private final Button btnExcluir = new Button("x");
+
             {
-                btnExcluir.setOnAction(e ->{
+                btnExcluir.setOnAction(e -> {
                     Horario horario = getTableView().getItems().get(getIndex());
                     listaHorarios.remove(horario);
                 });
             }
+
             @Override
-            protected void updateItem(Void item, boolean empty){
+            protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty){
-                    setGraphic(null);
-                } else {
-                    setGraphic(btnExcluir);
-                }
+                setGraphic(empty ? null : btnExcluir);
             }
         });
 
-
         tabelaHorarios.setItems(listaHorarios);
-
 
         cbCurso.getItems().setAll(DadosFixos.CURSOS);
         cbSemestre.getItems().setAll(DadosFixos.SEMESTRES);
         cbCargaHoraria.getItems().setAll(DadosFixos.CARGAS_HORARIAS);
 
-
         cbCurso.setEditable(false);
         cbSemestre.setEditable(false);
         cbCargaHoraria.setEditable(false);
-
     }
 
     @FXML
@@ -138,7 +149,8 @@ public class DisciplinasController {
         if (!fim.isAfter(inicio)) return;
 
         boolean diaJaCadastrado = listaHorarios.stream()
-                        .anyMatch(h -> h.getDiaSemana() == dia);
+                .filter(h ->h.getDiaSemana().equals(dia))
+                        .anyMatch(h -> inicio.isBefore(h.getHoraFim()) && fim.isAfter(h.getHoraInicio()));
         if (diaJaCadastrado) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Dia duplicado");
