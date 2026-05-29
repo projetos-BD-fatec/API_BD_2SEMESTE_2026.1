@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.example.App;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
@@ -332,11 +333,11 @@ public class PlanejamentoController {
         Boolean avaliacao = chkAvaliacao.isSelected();
 
         if (nome.isEmpty()) {
-            mostrarAlerta("Campo obrigatório", "O nome do tópico não pode estar vazio.");
+            mostrarAlerta(Alert.AlertType.WARNING,"Campo obrigatório", null, "O nome do tópico não pode estar vazio.");
             return;
         }
         if (max < min) {
-            mostrarAlerta("Valores inválidos", "O máximo de aulas não pode ser menor que o mínimo.");
+            mostrarAlerta(Alert.AlertType.WARNING,"Valores inválidos", null, "O máximo de aulas não pode ser menor que o mínimo.");
             return;
         }
 
@@ -344,7 +345,7 @@ public class PlanejamentoController {
         try {
             topicoDAO.salvar(topico);
         } catch (SQLException e) {
-            mostrarAlerta("Erro no banco", "Não foi possível salvar o tópico: " + e.getMessage());
+            mostrarAlerta(Alert.AlertType.ERROR, "Erro no banco", null, "Não foi possível salvar o tópico: " + e.getMessage());
             return;
         }
         topicosCache.add(topico);
@@ -388,11 +389,11 @@ public class PlanejamentoController {
             aulaDAO.clearTopicoByDisciplina(disciplinaIdAtual);
             aulaDAO.salvarDistribuicao(aulasCronograma);
 
-            mostrarAlerta("Sucesso", "Planejamento salvo com sucesso!");
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Sucesso", null,"Planejamento salvo com sucesso!");
             App.setAlteracaoNaoSalva(false);
             topicosPendentes.clear();
         } catch (SQLException e) {
-            mostrarAlerta("Erro ao salvar", e.getMessage());
+            mostrarAlerta(Alert.AlertType.ERROR, "Erro ao salvar", null, e.getMessage());
         }
     }
 
@@ -404,7 +405,7 @@ public class PlanejamentoController {
                     topicoDAO.deletar(topico.getId());
                 }
             } catch (SQLException e) {
-                mostrarAlerta("Erro ao descartar", "Não foi possível reverter o tópico: " + topico.getNome());
+                mostrarAlerta(Alert.AlertType.ERROR,"Erro ao descartar", null,"Não foi possível reverter o tópico: " + topico.getNome());
             }
         }
         topicosPendentes.clear();
@@ -461,7 +462,7 @@ public class PlanejamentoController {
                 atualizarIndicadores();
                 redistribuir();
             } catch (SQLException ex) {
-                mostrarAlerta("Erro ao deletar", "Não foi possível deletar o tópico: " + ex.getMessage());
+                mostrarAlerta(Alert.AlertType.ERROR,"Erro ao deletar", null,"Não foi possível deletar o tópico: " + ex.getMessage());
             }
         });
 
@@ -496,7 +497,7 @@ public class PlanejamentoController {
         try {
             distribuicaoService.distribuir(aulasCronograma, topicosCache);
         } catch (IllegalStateException e) {
-            mostrarAlerta("Distribuição impossível", e.getMessage());
+            mostrarAlerta(Alert.AlertType.WARNING,"Distribuição impossível", null, e.getMessage());
         }
         tabelaCronograma.getItems().setAll(aulasCronograma);
         atualizarIndicadores();
@@ -529,12 +530,87 @@ public class PlanejamentoController {
         chkAvaliacao.setSelected(false);
     }
 
-    private void mostrarAlerta(String titulo, String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String cabecalho, String mensagem) {
+        javafx.stage.Stage modal = new javafx.stage.Stage();
+        modal.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+        modal.initStyle(StageStyle.UNDECORATED);
+        modal.setResizable(false);
+
+        String corBotao = "#F25958";
+        String icone = "⚠";
+
+        if (tipo == Alert.AlertType.ERROR) {
+            corBotao = "#C62828";
+            icone = "✖";
+        } else if (tipo == Alert.AlertType.INFORMATION) {
+            corBotao = "#6D9D7B";
+            icone = "✓";
+        }
+
+        javafx.scene.control.Label lblTitulo = new javafx.scene.control.Label(icone + " " + titulo);
+        lblTitulo.setMaxWidth(Double.MAX_VALUE);
+        lblTitulo.setAlignment(Pos.CENTER_LEFT);
+        lblTitulo.setStyle("-fx-font-size: 20px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-text-fill: #000000;" +
+                "-fx-background-color: #F5E6CF;" +
+                "-fx-border-color: #000000;" +
+                "-fx-border-width: 0 0 2 0;" +
+                "-fx-padding: 12 18;" +
+                "-fx-background-radius: 8 8 0 0;"
+        );
+
+        VBox corpo = new VBox();
+        if (cabecalho != null && !cabecalho.isBlank()) {
+            Label lblCabecalho = new Label(cabecalho);
+            lblCabecalho.setStyle(
+                    "-fx-font-size: 15px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-padding: 12 18 0 18;"
+            );
+            corpo.getChildren().add(lblCabecalho);
+        }
+
+        Label lblMensagem = new Label(mensagem);
+        lblMensagem.setWrapText(true);
+        lblMensagem.setStyle(
+                "-fx-font-size: 15px;" +
+                        "-fx-padding: 12 18 18 18;"
+        );
+        corpo.getChildren().add(lblMensagem);
+        Button btnOk = new Button("OK");
+        btnOk.setStyle(
+                "-fx-background-color: " +
+                        corBotao +
+                        ";" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-border-color: #000000;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-border-radius: 30;" +
+                        "-fx-background-radius: 30;" +
+                        "-fx-padding: 8 22;" +
+                        "-fx-cursor: hand;"
+        );
+        btnOk.setOnAction(e -> modal.close());
+
+        HBox rodape = new HBox(btnOk);
+
+        rodape.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+
+        rodape.setPadding(new javafx.geometry.Insets(0, 18, 18, 18));
+
+        VBox layout = new VBox(lblTitulo, corpo, rodape);
+        layout.setStyle(
+                "-fx-background-color: white;" +
+                        "-fx-border-color: black;" +
+                        "-fx-border-width: 2 5 5 2;" +
+                        "-fx-border-radius: 10;" +
+                        "-fx-background-radius: 10;"
+        );
+        modal.setScene(new javafx.scene.Scene(layout));
+        modal.showAndWait();
     }
 
     @FXML

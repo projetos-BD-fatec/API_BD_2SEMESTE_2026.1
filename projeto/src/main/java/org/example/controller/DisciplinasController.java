@@ -4,16 +4,19 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.example.App;
 import org.example.DAO.DisciplinaDAO;
 import org.example.DAO.UsuarioDAO;
@@ -34,6 +37,8 @@ import java.util.ArrayList;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javafx.concurrent.Task;
+import javafx.application.Platform;
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
 public class DisciplinasController {
@@ -86,20 +91,42 @@ public class DisciplinasController {
         Integer semestre = Integer.parseInt(semestreStr.replace("º Sem", "").trim());
         Disciplina disciplina = new Disciplina(null, nome, cargaHoraria, curso, semestre);
 
-        try {
-            Long disciplinaId = new DisciplinaService()
-                    .salvar(disciplina, new ArrayList<>(listaHorarios), UserSession.getInstance());
-            new AulaService(new HorarioDAO(), new CalendarioDAO(), new AulaDAO())
-                    .gerarAulas(disciplinaId, cargaHoraria);
-            App.navegarParaDisciplinas();
+        Stage loading = criarModalCarregando("Criando disciplina...");
 
-        } catch (Exception e) {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+            Long disciplinaId = new DisciplinaService().salvar(disciplina, new ArrayList<>(listaHorarios), UserSession.getInstance());
+            new AulaService(new HorarioDAO(), new CalendarioDAO(), new AulaDAO()).gerarAulas(disciplinaId, cargaHoraria);
+            return null;
+            }
+        };
+
+        task.setOnRunning(e -> {
+            loading.show();
+        });
+
+        task.setOnSucceeded(e -> {
+            loading.close();
+            try {
+                App.navegarParaDisciplinas();
+            } catch (Exception ex) {
+                mostrarAlerta(Alert.AlertType.ERROR,"Erro", null, ex.getMessage());
+            }
+        });
+
+        task.setOnFailed(e -> {
+            loading.close();
+            Throwable erro = task.getException();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro ao salvar");
             alert.setHeaderText(null);
-            alert.setContentText("Erro: " + e.getMessage());
+            alert.setContentText("Erro: " + erro.getMessage());
             alert.showAndWait();
-        }
+        });
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @FXML
@@ -112,7 +139,7 @@ public class DisciplinasController {
         List<Disciplina> disciplinas = new DisciplinaDAO().findByUsuarioId(usuarioId, usuarioPeriodo);
 
         for (Disciplina disciplina : disciplinas) {
-            Button card = criarCard(disciplina);
+            StackPane card = criarCard(disciplina);
             containerDisciplinas.getChildren().add(card);
         }
         cbDia.getItems().setAll(DiaSemana.values());
@@ -229,12 +256,12 @@ public class DisciplinasController {
             try {
                 ResumoPeriodo resumo = calendarioService.buscarResumo(ano, semestre);
                 if (resumo == null) {
-                    mostrarAlerta("Indisponível", "Nenhuma informação encontrada para este semestre.");
+                    mostrarAlerta(Alert.AlertType.WARNING, "Indisponível", null,"Nenhuma informação encontrada para este semestre.");
                     return;
                 }
                 abrirModalResumo(resumo);
             } catch (IOException ex) {
-                mostrarAlerta("Erro", "Não foi possível buscar o calendário.");
+                mostrarAlerta(Alert.AlertType.ERROR,"Erro", null, "Não foi possível buscar o calendário.");
             }
         } else if ("novo".equals(id)) {
             abrirModalNovo();
@@ -257,25 +284,25 @@ public class DisciplinasController {
 
         VBox lista = new VBox(8);
         lista.getChildren().addAll(
-                criarLabel("Início das aulas: " + formatarData(resumo.getInicioAulas()), "#DCCFB8"),
-                criarLabel("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim()), "#C9B99D"),
-                criarLabel("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim()), "#E8D7B7"),
-                criarLabel("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim()), "#B8CBB8"),
-                criarLabel("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim()), "#E8D7B7"),
-                criarLabel("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim()), "#B8CBB8"),
-                criarLabel("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim()), "#E8D7B7"),
-                criarLabel("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim()), "#B8CBB8"),
-                criarLabel("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim()), "#E8D7B7")
+                criarLabel("Início das aulas: " + formatarData(resumo.getInicioAulas()), "#16344B"),
+                criarLabel("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim()), "#755C36"),
+                criarLabel("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim()), "#B5A081"),
+                criarLabel("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim()), "#6486A0"),
+                criarLabel("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim()), "#B5A081"),
+                criarLabel("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim()), "#6486A0"),
+                criarLabel("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim()), "#B5A081"),
+                criarLabel("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim()), "#6486A0"),
+                criarLabel("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim()), "#B5A081")
         );
 
         if (resumo.getFeira() != null) {
-            lista.getChildren().add(criarLabel("Feira de Soluções: " + formatarData(resumo.getFeira()), "#C9B99D"));
+            lista.getChildren().add(criarLabel("Feira de Soluções: " + formatarData(resumo.getFeira()), "#755C36"));
         }
 
         lista.getChildren().add(
                 criarLabel(
                         "Fim das aulas: " + formatarData(resumo.getFimAulas()),
-                        "#DCCFB8"
+                        "#16344B"
                 )
         );
 
@@ -340,13 +367,13 @@ public class DisciplinasController {
             try {
                 ResumoPeriodo resumo = calendarioService.buscarResumo(proximoAno, proximoSemestre);
                 if (resumo == null) {
-                    mostrarAlerta("Indisponível", "Nenhuma informação encontrada para este semestre. Tente novamente mais tarde.");
+                    mostrarAlerta(Alert.AlertType.WARNING,"Indisponível", null, "Nenhuma informação encontrada para este semestre. Tente novamente mais tarde.");
                     return;
                 }
                 modal.close();
                 abrirModalConfirmar(resumo);
             } catch (IOException ex) {
-                mostrarAlerta("Erro", "Não foi possível buscar o calendário.");
+                mostrarAlerta(Alert.AlertType.ERROR,"Erro", null,"Não foi possível buscar o calendário.");
             }
         });
 
@@ -376,25 +403,25 @@ public class DisciplinasController {
 
         VBox lista = new VBox(8);
         lista.getChildren().addAll(
-                criarLabel("Início das aulas: " + formatarData(resumo.getInicioAulas()), "#2C2C2C"),
-                criarLabel("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim()), "#666666"),
-                criarLabel("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim()), "#E6AF8E"),
-                criarLabel("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim()), "#8ECAE6"),
-                criarLabel("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim()), "#E6C98E"),
-                criarLabel("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim()), "#8ECAE6"),
-                criarLabel("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim()), "#E6C98E"),
-                criarLabel("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim()), "#8ECAE6"),
-                criarLabel("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim()), "#E6C98E")
+                criarLabel("Início das aulas: " + formatarData(resumo.getInicioAulas()), "#16344B"),
+                criarLabel("Kickoff: " + formatarData(resumo.getKickoff().getInicio()) + " a " + formatarData(resumo.getKickoff().getFim()), "#755C36"),
+                criarLabel("Planning: " + formatarData(resumo.getPlanning().getInicio()) + " a " + formatarData(resumo.getPlanning().getFim()), "#B5A081"),
+                criarLabel("Sprint 1: " + formatarData(resumo.getSprint1().getInicio()) + " a " + formatarData(resumo.getSprint1().getFim()), "#6486A0"),
+                criarLabel("Review/Planning 1: " + formatarData(resumo.getReviewPlanning1().getInicio()) + " a " + formatarData(resumo.getReviewPlanning1().getFim()), "#B5A081"),
+                criarLabel("Sprint 2: " + formatarData(resumo.getSprint2().getInicio()) + " a " + formatarData(resumo.getSprint2().getFim()), "#6486A0"),
+                criarLabel("Review/Planning 2: " + formatarData(resumo.getReviewPlanning2().getInicio()) + " a " + formatarData(resumo.getReviewPlanning2().getFim()), "#B5A081"),
+                criarLabel("Sprint 3: " + formatarData(resumo.getSprint3().getInicio()) + " a " + formatarData(resumo.getSprint3().getFim()), "#6486A0"),
+                criarLabel("Review Final: " + formatarData(resumo.getReview().getInicio()) + " a " + formatarData(resumo.getReview().getFim()), "#B5A081")
         );
 
         if (resumo.getFeira() != null) {
-            lista.getChildren().add(criarLabel("Feira de Soluções: " + formatarData(resumo.getFeira()), "#455C66"));
+            lista.getChildren().add(criarLabel("Feira de Soluções: " + formatarData(resumo.getFeira()), "#755C36"));
         }
 
         lista.getChildren().add(
                 criarLabel(
                         "Fim das aulas: " + formatarData(resumo.getFimAulas()),
-                        "#2C2C2C"
+                        "#16344B"
                 )
         );
 
@@ -410,7 +437,7 @@ public class DisciplinasController {
             usuarioDAO.atualizarPeriodo(usuario.getId(), resumo.getPeriodo());
             usuario.setPeriodoAtual(resumo.getPeriodo());
             modal.close();
-            mostrarAlerta("Sucesso", "Semestre " + resumo.getPeriodo() + " iniciado com sucesso!");
+            mostrarAlerta(Alert.AlertType.INFORMATION,"Sucesso", null,"Semestre " + resumo.getPeriodo() + " iniciado com sucesso!");
         });
 
         HBox rodape = new HBox(10, btnCancelar, btnConfirmar);
@@ -432,15 +459,133 @@ public class DisciplinasController {
         return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
-    private void mostrarAlerta(String titulo, String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String cabecalho, String mensagem) {
+
+        javafx.stage.Stage modal = new javafx.stage.Stage();
+        modal.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+        modal.initStyle(StageStyle.UNDECORATED);
+        modal.setResizable(false);
+
+        String corBotao = "#F25958";
+        String icone = "⚠";
+
+        if (tipo == Alert.AlertType.ERROR) {
+            corBotao = "#C62828";
+            icone = "✖";
+        } else if (tipo == Alert.AlertType.INFORMATION) {
+            corBotao = "#6D9D7B";
+            icone = "✓";
+        }
+
+        javafx.scene.control.Label lblTitulo = new javafx.scene.control.Label(icone + " " + titulo);
+        lblTitulo.setMaxWidth(Double.MAX_VALUE);
+        lblTitulo.setAlignment(Pos.CENTER_LEFT);
+        lblTitulo.setStyle("-fx-font-size: 20px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-text-fill: #000000;" +
+                "-fx-background-color: #F5E6CF;" +
+                "-fx-border-color: #000000;" +
+                "-fx-border-width: 0 0 2 0;" +
+                "-fx-padding: 12 18;" +
+                "-fx-background-radius: 8 8 0 0;"
+        );
+
+        VBox corpo = new VBox();
+        if (cabecalho != null && !cabecalho.isBlank()) {
+            Label lblCabecalho = new Label(cabecalho);
+            lblCabecalho.setStyle(
+                    "-fx-font-size: 15px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-padding: 12 18 0 18;"
+            );
+            corpo.getChildren().add(lblCabecalho);
+        }
+
+        Label lblMensagem = new Label(mensagem);
+        lblMensagem.setWrapText(true);
+        lblMensagem.setStyle(
+                "-fx-font-size: 15px;" +
+                        "-fx-padding: 12 18 18 18;"
+        );
+        corpo.getChildren().add(lblMensagem);
+        Button btnOk = new Button("OK");
+        btnOk.setStyle(
+                "-fx-background-color: " +
+                        corBotao +
+                        ";" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-border-color: #000000;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-border-radius: 30;" +
+                        "-fx-background-radius: 30;" +
+                        "-fx-padding: 8 22;" +
+                        "-fx-cursor: hand;"
+        );
+        btnOk.setOnAction(e -> modal.close());
+
+        HBox rodape = new HBox(btnOk);
+
+        rodape.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+
+        rodape.setPadding(new javafx.geometry.Insets(0, 18, 18, 18));
+
+        VBox layout = new VBox(lblTitulo, corpo, rodape);
+        layout.setStyle(
+                "-fx-background-color: white;" +
+                        "-fx-border-color: black;" +
+                        "-fx-border-width: 2 5 5 2;" +
+                        "-fx-border-radius: 10;" +
+                        "-fx-background-radius: 10;"
+        );
+        modal.setScene(new javafx.scene.Scene(layout));
+        modal.showAndWait();
     }
 
-    private Button criarCard(Disciplina disciplina) {
+    private Stage criarModalCarregando(String mensagem) {
+        Stage modal = new Stage();
+        modal.initModality(Modality.APPLICATION_MODAL);
+        modal.initOwner(
+                tfNomeDisciplina
+                        .getScene()
+                        .getWindow()
+        );
+
+        modal.setResizable(false);
+        ProgressIndicator loading =
+                new ProgressIndicator();
+
+        Label texto =
+                new Label(mensagem);
+
+        texto.setStyle(
+                "-fx-font-size: 15px;" +
+                        "-fx-font-weight: bold;"
+        );
+
+        VBox layout =
+                new VBox(
+                        15,
+                        loading,
+                        texto
+                );
+
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(
+                new Insets(25)
+        );
+        layout.setStyle(
+                "-fx-background-color: white;" +
+                        "-fx-background-radius: 10;"
+        );
+        modal.setScene(
+                new Scene(layout)
+        );
+        return modal;
+    }
+
+    private StackPane criarCard(Disciplina disciplina) {
         Label lblNome = new Label(disciplina.getNome());
         lblNome.setPrefHeight(USE_COMPUTED_SIZE);
         lblNome.setPrefWidth(312);
@@ -483,25 +628,49 @@ public class DisciplinasController {
         conteudo.setPrefHeight(250);
         VBox.setVgrow(cardBg, javafx.scene.layout.Priority.ALWAYS);
 
-        Button card = new Button();
+        Button btnDeletar = new Button("X");
+        btnDeletar.setStyle(
+                "-fx-background-color: #F25958;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 12px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-background-radius: 50%;" +
+                        "-fx-alignment: center;" +
+                        "-fx-padding: 0;" +
+                        "-fx-min-width: 20px;" +
+                        "-fx-min-height: 20px;" +
+                        "-fx-max-width: 20px;" +
+                        "-fx-max-height: 20px;" +
+                        "-fx-cursor: hand;"
+        );
+
+        StackPane card = new StackPane();
+        card.getChildren().addAll(conteudo, btnDeletar);
+
         card.getStyleClass().add("cardDisciplina");
-        card.setGraphic(conteudo);
-        card.setMinHeight(250);
-        card.setMaxHeight(250);
-        card.setMinWidth(250);
-        card.setMaxWidth(250);
-        card.setOnAction(e -> {
+        card.setPrefSize(250, 250);
+        StackPane.setAlignment(btnDeletar, Pos.TOP_RIGHT);
+
+        StackPane.setMargin(btnDeletar, new Insets(6, 6, 0, 0));
+
+        card.setOnMouseClicked(e -> {
             try {
                 App.navegarParaPlanejamento(disciplina.getId());
             } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro ao abrir planejamento");
-                alert.setHeaderText(null);
-                alert.setContentText("Erro: " + ex.getMessage());
-                alert.showAndWait();
+                mostrarAlerta(Alert.AlertType.ERROR,"Erro", null,"Não foi possível abrir.");
             }
         });
 
+        btnDeletar.setOnAction(e -> {
+            e.consume();
+
+            try {
+                new DisciplinaDAO().deletarDisciplina(disciplina.getId());
+                containerDisciplinas.getChildren().remove(card);
+            } catch (Exception ex) {
+                mostrarAlerta(Alert.AlertType.ERROR,"Erro", null,"Não foi possível excluir.");
+            }
+        });
         return card;
     }
 }

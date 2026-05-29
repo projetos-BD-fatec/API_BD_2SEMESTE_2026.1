@@ -2,9 +2,7 @@ package org.example.DAO;
 
 import org.example.infrastructure.ConexaoBD;
 import org.example.model.DiaSemana;
-import org.example.model.Disciplina;
 import org.example.model.Horario;
-import org.example.util.UserSession;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

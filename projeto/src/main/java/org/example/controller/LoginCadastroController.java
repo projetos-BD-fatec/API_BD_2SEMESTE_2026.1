@@ -1,10 +1,11 @@
 package org.example.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.StageStyle;
 import org.example.App;
 import org.example.DAO.UsuarioDAO;
 import org.example.model.Usuario;
@@ -109,11 +110,87 @@ public class LoginCadastroController {
             return cpfLimpo.length() == 11;
         }
 
-        private void mostrarAlerta (Alert.AlertType tipo, String titulo, String cabecalho, String mensagem){
-            Alert alerta = new Alert(tipo);
-            alerta.setTitle(titulo);
-            alerta.setHeaderText(cabecalho);
-            alerta.setContentText(mensagem);
-            alerta.showAndWait();
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String cabecalho, String mensagem) {
+
+        javafx.stage.Stage modal = new javafx.stage.Stage();
+        modal.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+        modal.initStyle(StageStyle.UNDECORATED);
+        modal.setResizable(false);
+
+        String corBotao = "#F25958";
+        String icone = "⚠";
+
+        if (tipo == Alert.AlertType.ERROR) {
+            corBotao = "#C62828";
+            icone = "✖";
+        } else if (tipo == Alert.AlertType.INFORMATION) {
+            corBotao = "#6D9D7B";
+            icone = "✓";
         }
+
+        javafx.scene.control.Label lblTitulo = new javafx.scene.control.Label(icone + " " + titulo);
+        lblTitulo.setMaxWidth(Double.MAX_VALUE);
+        lblTitulo.setAlignment(Pos.CENTER_LEFT);
+        lblTitulo.setStyle("-fx-font-size: 20px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: #000000;" +
+                        "-fx-background-color: #F5E6CF;" +
+                        "-fx-border-color: #000000;" +
+                        "-fx-border-width: 0 0 2 0;" +
+                        "-fx-padding: 12 18;" +
+                        "-fx-background-radius: 8 8 0 0;"
+        );
+
+        VBox corpo = new VBox();
+        if (cabecalho != null && !cabecalho.isBlank()) {
+            Label lblCabecalho = new Label(cabecalho);
+            lblCabecalho.setStyle(
+                    "-fx-font-size: 15px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-padding: 12 18 0 18;"
+            );
+            corpo.getChildren().add(lblCabecalho);
+        }
+
+        Label lblMensagem = new Label(mensagem);
+        lblMensagem.setWrapText(true);
+        lblMensagem.setStyle(
+                "-fx-font-size: 15px;" +
+                        "-fx-padding: 12 18 18 18;"
+        );
+        corpo.getChildren().add(lblMensagem);
+        Button btnOk = new Button("OK");
+        btnOk.setStyle(
+                "-fx-background-color: " +
+                        corBotao +
+                        ";" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-border-color: #000000;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-border-radius: 30;" +
+                        "-fx-background-radius: 30;" +
+                        "-fx-padding: 8 22;" +
+                        "-fx-cursor: hand;"
+        );
+        btnOk.setOnAction(e -> modal.close());
+
+        HBox rodape = new HBox(btnOk);
+
+        rodape.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+
+        rodape.setPadding(new javafx.geometry.Insets(0, 18, 18, 18));
+
+        VBox layout = new VBox(lblTitulo, corpo, rodape);
+        layout.setStyle(
+                "-fx-background-color: white;" +
+                        "-fx-border-color: black;" +
+                        "-fx-border-width: 2 5 5 2;" +
+                        "-fx-border-radius: 10;" +
+                        "-fx-background-radius: 10;"
+        );
+        modal.setScene(new javafx.scene.Scene(layout));
+        modal.showAndWait();
+    }
     }
