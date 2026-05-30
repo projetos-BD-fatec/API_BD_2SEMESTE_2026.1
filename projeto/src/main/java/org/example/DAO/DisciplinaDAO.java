@@ -67,4 +67,17 @@ public class DisciplinaDAO {
             throw new RuntimeException("Erro ao salvar disciplina", e);
         }
     }
+
+    public void deletarDisciplina(Long disciplinaId) throws SQLException {
+        String sql = "DELETE FROM disciplina WHERE id = ?";
+
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, disciplinaId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao excluir a disciplina", e);
+        }
+    }
 }
