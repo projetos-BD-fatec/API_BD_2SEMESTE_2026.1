@@ -71,17 +71,22 @@
                                  <children>
                                     <HBox spacing="10.0">
                                        <children>
+                                          <ComboBox id="cbDia" fx:id="cbPeriodo" minWidth="132.0" prefHeight="47.0" prefWidth="132.0" promptText="Período" styleClass="combo-box" stylesheets="@../../static/css/disciplina.css">
+                                             <effect>
+                                                <Bloom threshold="1.0" />
+                                             </effect>
+                                          </ComboBox>
                                           <ComboBox id="cbDia" fx:id="cbDia" minWidth="160.0" promptText="Dia" styleClass="combo-box" stylesheets="@../../static/css/disciplina.css">
                                              <effect>
                                                 <Bloom threshold="1.0" />
                                              </effect>
                                           </ComboBox>
-                                          <ComboBox id="cbInicio" fx:id="cbInicio" minWidth="145.0" promptText="Início" styleClass="combo-box" stylesheets="@../../static/css/disciplina.css">
+                                          <ComboBox id="cbInicio" fx:id="cbInicio" minWidth="113.0" prefHeight="47.0" prefWidth="131.0" promptText="Início" styleClass="combo-box" stylesheets="@../../static/css/disciplina.css">
                                              <effect>
                                                 <Bloom threshold="1.0" />
                                              </effect>
                                           </ComboBox>
-                                          <ComboBox id="cbFim" fx:id="cbFim" minWidth="145.0" promptText="Fim" styleClass="combo-box">
+                                          <ComboBox id="cbFim" fx:id="cbFim" minWidth="103.0" prefHeight="47.0" prefWidth="122.0" promptText="Fim" styleClass="combo-box">
                                              <effect>
                                                 <Bloom threshold="1.0" />
                                              </effect>
@@ -94,17 +99,17 @@
                                        </children>
                                     </HBox>
                                     <VBox id="painelHorarios" fx:id="painelHorarios" minHeight="100.0" prefHeight="100.0" VBox.vgrow="ALWAYS">
-                                       <Label id="labelHorarios" fx:id="labelHorarios" prefHeight="48.0" prefWidth="579.0" text="Horários da disciplina">
+                                       <Label id="labelHorarios" fx:id="labelHorarios" prefHeight="35.0" prefWidth="684.0" text="Horários da disciplina">
                                           <font>
                                              <Font size="24.0" />
                                           </font>
                                        </Label>
 
-                                       <TableView id="tableHorarios" fx:id="tabelaHorarios" VBox.vgrow="ALWAYS">
+                                          <TableView id="tableHorarios" fx:id="tabelaHorarios" VBox.vgrow="ALWAYS">
                                           <columns>
-                                             <TableColumn fx:id="colDia" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" />
-                                             <TableColumn fx:id="colInicio" maxWidth="-1.0" minWidth="160.0" prefWidth="-1.0" />
-                                             <TableColumn fx:id="colFim" maxWidth="-1.0" minWidth="160.0" prefWidth="-1.0" />
+                                             <TableColumn fx:id="colDia" maxWidth="-1.0" minWidth="205.0" prefWidth="-1.0" />
+                                             <TableColumn fx:id="colInicio" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" />
+                                             <TableColumn fx:id="colFim" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" />
                                              <TableColumn fx:id="colExcluir" maxWidth="-1.0" minWidth="50.0" prefWidth="-1.0" text="Column X" />
                                           </columns>
                                        </TableView>
