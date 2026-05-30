@@ -79,15 +79,15 @@ public class DisciplinasController {
         Integer cargaHoraria = cbCargaHoraria.getValue();
 
         if (nome == null || nome.isBlank()) {
-            new Alert(Alert.AlertType.WARNING, "Preencha o nome da disciplina.").showAndWait();
+            mostrarAlerta(Alert.AlertType.WARNING,"Aviso", null, "Preencha o nome da disciplina.");
             return;
         }
         if (curso == null || semestreStr == null || cargaHoraria == null) {
-            new Alert(Alert.AlertType.WARNING, "Preencha todos os campos (curso, semestre e carga horária).").showAndWait();
+            mostrarAlerta(Alert.AlertType.WARNING,"Aviso", null, "Preencha todos os campos (curso, semestre e carga horária).");
             return;
         }
         if (listaHorarios.isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Adicione ao menos um horário.").showAndWait();
+            mostrarAlerta(Alert.AlertType.WARNING,"Aviso", null, "Adicione ao menos um horário.");
             return;
         }
 
@@ -134,7 +134,7 @@ public class DisciplinasController {
     @FXML
     public void initialize() {
         Usuario usuario = UserSession.getInstance().getUsuarioLogado();
-        labelUsuario.setText(usuario.getNome());
+        labelUsuario.setText("\uD83D\uDC64" + usuario.getNome());
         btnCalendario.setText(usuario.getPeriodoAtual());
         Long usuarioId = UserSession.getInstance().getUsuarioLogado().getId();
         String usuarioPeriodo = UserSession.getInstance().getUsuarioLogado().getPeriodoAtual();

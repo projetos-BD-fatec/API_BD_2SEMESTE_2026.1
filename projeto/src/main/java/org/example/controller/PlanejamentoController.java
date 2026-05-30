@@ -82,7 +82,7 @@ public class PlanejamentoController {
 
     @FXML
     public void initialize() {
-        labelUsuario.setText(UserSession.getInstance().getUsuarioLogado().getNome());
+        labelUsuario.setText("\uD83D\uDC64" + UserSession.getInstance().getUsuarioLogado().getNome());
         spinnerMin.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
         spinnerMax.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 2));
 
