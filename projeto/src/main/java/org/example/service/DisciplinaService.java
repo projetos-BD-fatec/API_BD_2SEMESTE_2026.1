@@ -4,6 +4,7 @@ import org.example.DAO.DisciplinaDAO;
 import org.example.DAO.HorarioDAO;
 import org.example.model.Disciplina;
 import org.example.model.Horario;
+import org.example.model.Usuario;
 import org.example.util.UserSession;
 
 import java.sql.SQLException;
@@ -21,5 +22,16 @@ public class DisciplinaService {
         horarioDAO.salvarHorario(horarios);
 
         return disciplinaId;
+    }
+
+    public void deletarDisciplinas(Usuario user) {
+        try {
+            List<Disciplina> disciplinas = disciplinaDAO.disciplinasDoUsuario(user);
+            for (Disciplina disciplina : disciplinas) {
+                disciplinaDAO.deletarDisciplina(disciplina.getId());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao deletar disciplinas", e);
+        }
     }
 }

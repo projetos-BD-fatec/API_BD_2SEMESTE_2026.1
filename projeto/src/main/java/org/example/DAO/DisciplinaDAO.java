@@ -2,6 +2,8 @@ package org.example.DAO;
 
 import org.example.infrastructure.ConexaoBD;
 import org.example.model.Disciplina;
+import org.example.model.Topico;
+import org.example.model.Usuario;
 import org.example.util.UserSession;
 import java.sql.Statement;
 import java.sql.Connection;
@@ -79,5 +81,31 @@ public class DisciplinaDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao excluir a disciplina", e);
         }
+    }
+
+    public List<Disciplina> disciplinasDoUsuario(Usuario user) {
+        List<Disciplina> disciplinas = new ArrayList<>();
+        String sql = "SELECT * FROM disciplina WHERE usuario_id = ?";
+
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, user.getId());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Disciplina disciplina = new Disciplina(
+                        rs.getLong("id"),
+                        rs.getObject("nome", String.class),
+                        rs.getObject("carga_horaria", Integer.class),
+                        rs.getObject("curso", String.class),
+                        rs.getObject("semestre", Integer.class),
+                        rs.getLong("usuario_id"),
+                        rs.getObject("periodo", String.class)
+                );
+                disciplinas.add(disciplina);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar disciplinas", e);
+        }
+        return disciplinas;
     }
 }

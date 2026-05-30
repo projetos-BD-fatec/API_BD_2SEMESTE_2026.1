@@ -6,6 +6,8 @@ public class Disciplina {
     private Integer cargaHoraria;
     private String curso;
     private Integer semestre;
+    private Long usuarioId;
+    private String periodo;
 
     public Disciplina(Long id, String nome, Integer cargaHoraria, String curso, Integer semestre) {
         this.id = id;
@@ -13,6 +15,16 @@ public class Disciplina {
         this.cargaHoraria = cargaHoraria;
         this.curso = curso;
         this.semestre = semestre;
+    }
+
+    public Disciplina(Long id, String nome, Integer cargaHoraria, String curso, Integer semestre, Long usuarioId, String periodo) {
+        this.id = id;
+        this.nome = nome;
+        this.cargaHoraria = cargaHoraria;
+        this.curso = curso;
+        this.semestre = semestre;
+        this.usuarioId = usuarioId;
+        this.periodo = periodo;
     }
 
     public Long getId() {

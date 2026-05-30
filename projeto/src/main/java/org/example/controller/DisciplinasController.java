@@ -68,6 +68,8 @@ public class DisciplinasController {
     private Usuario usuario = UserSession.getInstance().getUsuarioLogado();
     private CalendarioService calendarioService = new CalendarioService();
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private final DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+    private DisciplinaService disciplinaService = new DisciplinaService();
 
     @FXML
     void salvarDisciplina() {
@@ -443,6 +445,7 @@ public class DisciplinasController {
 
         btnConfirmar.setOnAction(e -> {
             calendarioService.iniciarSemestre(resumo);
+            disciplinaService.deletarDisciplinas(usuario);
             usuarioDAO.atualizarPeriodo(usuario.getId(), resumo.getPeriodo());
             usuario.setPeriodoAtual(resumo.getPeriodo());
             modal.close();
@@ -539,7 +542,6 @@ public class DisciplinasController {
         rodape.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
 
         rodape.setPadding(new javafx.geometry.Insets(0, 18, 18, 18));
-
         VBox layout = new VBox(lblTitulo, corpo, rodape);
         layout.setStyle(
                 "-fx-background-color: white;" +
@@ -555,42 +557,23 @@ public class DisciplinasController {
     private Stage criarModalCarregando(String mensagem) {
         Stage modal = new Stage();
         modal.initModality(Modality.APPLICATION_MODAL);
-        modal.initOwner(
-                tfNomeDisciplina
-                        .getScene()
-                        .getWindow()
-        );
-
+        modal.initOwner(tfNomeDisciplina.getScene().getWindow());
         modal.setResizable(false);
-        ProgressIndicator loading =
-                new ProgressIndicator();
-
-        Label texto =
-                new Label(mensagem);
+        ProgressIndicator loading = new ProgressIndicator();
+        Label texto = new Label(mensagem);
 
         texto.setStyle(
                 "-fx-font-size: 15px;" +
                         "-fx-font-weight: bold;"
         );
-
-        VBox layout =
-                new VBox(
-                        15,
-                        loading,
-                        texto
-                );
-
+        VBox layout = new VBox(15, loading, texto);
         layout.setAlignment(Pos.CENTER);
-        layout.setPadding(
-                new Insets(25)
-        );
+        layout.setPadding(new Insets(25));
         layout.setStyle(
                 "-fx-background-color: white;" +
                         "-fx-background-radius: 10;"
         );
-        modal.setScene(
-                new Scene(layout)
-        );
+        modal.setScene(new Scene(layout));
         return modal;
     }
 
@@ -674,7 +657,7 @@ public class DisciplinasController {
             e.consume();
 
             try {
-                new DisciplinaDAO().deletarDisciplina(disciplina.getId());
+                disciplinaDAO.deletarDisciplina(disciplina.getId());
                 containerDisciplinas.getChildren().remove(card);
             } catch (Exception ex) {
                 mostrarAlerta(Alert.AlertType.ERROR,"Erro", null,"Não foi possível excluir.");
