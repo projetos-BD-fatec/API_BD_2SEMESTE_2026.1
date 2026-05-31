@@ -145,37 +145,74 @@ mvn clean javafx:run
 <summary>
  Estrutura
 </summary> <br />
-    
-```
+
+```text
 ├── README.md
 ├── .github/
-│    └── pull_request_template.md
+│   └── pull_request_template.md
+├── .idea/
 ├── projeto/
-│    ├── .idea/
-│    ├── src/
-│    ├── target/
-│    ├── pom.xml
-│    └── .gitignore
+│   ├── .idea/
+│   ├── META-INF/
+│   ├── src/
+│   │   └── main/
+│   │       ├── java/
+│   │       └── resources/
+│   ├── .gitignore
+│   ├── dependency-reduced-pom.xml
+│   └── pom.xml
 └── docs/
-     ├── processos/
-     │   ├── estratégia-de-branch.md
-     │   ├── padrão-de-commit.md
-     │   ├── guia-estrutura-projeto.md
-     │   ├── guia-de-pull-requests.md
-     │   └── aceitação-e-permanência.md
-     ├── imagens/
-     │   ├── fluxograma-branches.png
-     │   └── logo-bughunters.png
-     ├── sprints/
-     │   ├── sprint-01/
-     │   │   └── README.md
-     │   ├── sprint-02/
-     │   │   └── README.md
-     │   └── sprint-03/
-     │         └── README.md
-     └── README.md
-
+    ├── User_Stories/
+    │   ├── US01.md
+    │   ├── US02.md
+    │   ├── US03.md
+    │   ├── US04.md
+    │   ├── US05.md
+    │   ├── US06.md
+    │   ├── US07.md
+    │   ├── US08.md
+    │   ├── US09.md
+    │   ├── US10.md
+    │   ├── US11.md
+    │   ├── US12.md
+    │   ├── US13.md
+    │   ├── US14.md
+    │   ├── US15.md
+    │   ├── US16.md
+    │   ├── US17.md
+    │   ├── US18.md
+    │   ├── US19.md
+    │   ├── US20.md
+    │   └── US21.md
+    ├── imagens/
+    │   ├── Burndown_sprint2.jpeg
+    │   ├── Burndown_sprint3.jpeg
+    │   ├── CSV_sprint3.png
+    │   ├── Cadastro.gif
+    │   ├── DER.jpeg
+    │   ├── DER_1.jpeg
+    │   ├── DER_2.jpeg
+    │   ├── GIF_tela_disciplina(1).gif
+    │   ├── GIF_tela_planejamento(1).gif
+    │   └── ...
+    ├── processos/
+    │   ├── estratégia-de-branch.md
+    │   ├── padrão-de-commit.md
+    │   ├── guia-estrutura-projeto.md
+    │   ├── guia-de-pull-requests.md
+    │   └── aceitação-e-permanência.md
+    ├── sprints/
+    │   ├── sprint-01/
+    │   │   └── README.md
+    │   ├── sprint-02/
+    │   │   └── README.md
+    │   └── sprint-03/
+    │       └── README.md
+    ├── videos/
+    └── README.md
 ```
+
+
 
 </details>
 
