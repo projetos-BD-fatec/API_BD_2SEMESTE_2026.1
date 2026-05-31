@@ -118,14 +118,13 @@ public class PlanejamentoController {
 
     @FXML
     private void clicarVoltar() {
-
         try {
             if (App.isAlteracaoNaoSalva()) {
                 App.mostrarConfirmarAlteracoes("Salvar alterações", "Você tem alterações não salvas.", "Deseja salvar antes de sair?").ifPresent(resposta -> {
-                    if (resposta.getText().equals("Salvar")) {
+                    if (resposta.getText().equals("Salvar e Sair")) {
                         clicarSalvar();
                         navegarParaDisciplinas();
-                    } else if (resposta.getText().equals("Descartar alterações")) {
+                    } else if (resposta.getText().equals("Sair sem Salvar")) {
                         descartarAlteracoes();
                         navegarParaDisciplinas();
                     }

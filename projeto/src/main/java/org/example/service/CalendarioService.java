@@ -1,10 +1,15 @@
 package org.example.service;
 
 import org.example.DAO.CalendarioDAO;
+import org.example.infrastructure.ConexaoBD;
 import org.example.infrastructure.ICalendarClient;
 import org.example.model.*;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -137,6 +142,18 @@ public class CalendarioService {
             EventoCalendario evento = classificarDia(dia, resumo);
             calendarioDAO.salvarDias(dia, evento, resumo.getPeriodo());
             dia = dia.plusDays(1);
+        }
+    }
+
+    public boolean periodoJaExiste(String periodo) {
+        String sql = "SELECT 1 FROM calendario WHERE periodo = ? LIMIT 1";
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, periodo);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            return false;
         }
     }
 }

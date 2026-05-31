@@ -444,7 +444,9 @@ public class DisciplinasController {
         btnCancelar.setOnAction(e -> modal.close());
 
         btnConfirmar.setOnAction(e -> {
-            calendarioService.iniciarSemestre(resumo);
+            if (!calendarioService.periodoJaExiste(resumo.getPeriodo())) {
+                calendarioService.iniciarSemestre(resumo);
+            }
             disciplinaService.deletarDisciplinas(usuario);
             usuarioDAO.atualizarPeriodo(usuario.getId(), resumo.getPeriodo());
             usuario.setPeriodoAtual(resumo.getPeriodo());
