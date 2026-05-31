@@ -96,7 +96,7 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 | Sprint | Período | Docs | Vídeos |
 | :----: | :-----: | :---: | :---: |
 | 1 | 16/03 - 05/04 | [Sprint 1 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-01) | |
-| 2 | 13/04 - 03/05 | [Sprint 2 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-02) | [Sprint 2 Vídeos](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-02) |
+| 2 | 13/04 - 03/05 | [Sprint 2 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-02) | [Sprint 2 Vídeos](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/videos/sprint02/README.md) |
 | 3 | 11/05 - 31/05 | [Sprint 3 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-03) | [Sprint 3 Vídeos](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-03)  |
 
 </div>
