@@ -93,7 +93,7 @@ Após preencher as informações, o professor deve clicar no botão de cadastro 
 
 <h1 align="center">
     <a>
-    <img src= INSERIR_LINK_DA_IMAGEM_CADASTRO_AQUI>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/cadastro_sprint3.png>
     </a>
 </h1>
 
@@ -118,7 +118,7 @@ Após preencher os campos, basta clicar no botão de login para acessar o sistem
 
 <h1 align="center">
     <a>
-    <img src= INSERIR_LINK_DA_IMAGEM_LOGIN_AQUI>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/Login_sprint3.png>
     </a>
 </h1>
 
@@ -150,7 +150,7 @@ Após preencher as informações, o professor deve clicar no botão **“Salvar 
 
 <h1 align="center">
     <a>
-    <img src= INSERIR_LINK_DA_IMAGEM_CADASTRO_DISCIPLINA_AQUI>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/tela_disciplina_sprint3.png>
     </a>
 </h1>
 
@@ -176,7 +176,7 @@ Na tela de planejamento, o professor organiza os conteúdos da disciplina ao lon
 
 <h1 align="center">
     <a>
-    <img src= INSERIR_LINK_DA_IMAGEM_PLANEJAMENTO_AQUI>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/tela_planejamento_sprint3.png>
     </a>
 </h1>
 
@@ -343,7 +343,7 @@ Após a exportação, será gerado um arquivo CSV contendo as informações do p
 
 <h1 align="center">
     <a>
-    <img src= INSERIR_LINK_DA_IMAGEM_EXPORTAR_CSV_AQUI>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/CSV_sprint3.png>
     </a>
 </h1>
 
