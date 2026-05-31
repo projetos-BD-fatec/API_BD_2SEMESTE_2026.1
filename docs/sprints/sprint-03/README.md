@@ -398,6 +398,8 @@ Após a exportação, será gerado um arquivo CSV contendo as informações do p
 </h1>
 
 ### Calendário automático
+Bônus da sprint 3: agora o calendário é automático!<br> 
+Ele tem integração com o calendário digital da fatec, então será possível realizar o planejamento de aulas nos próximos semestres também.
 <h1 align="center">
     <a>
     <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/calendario_automatico.gif>
