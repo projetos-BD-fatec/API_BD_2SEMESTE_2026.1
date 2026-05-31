@@ -45,15 +45,22 @@ Na Sprint 3, nosso foco será a entrega da versão final do PlanGuide, consolida
 - [x] Documentação finalizada
 - [x] Code review aprovado
 
-## BurnDown
+## Modelo Entidade Relacionamento
 
+<h1 align="center">
+    <a>
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/DER_2.jpeg>
+    </a>
+</h1>
+
+
+## BurnDown
 <h1 align="center">
     <a>
     <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/Burndown_sprint3.jpeg>
     </a>
 </h1>
 
----
 
 ## 📄 Manual do usuário - PlanGuide
 
@@ -61,8 +68,6 @@ Na Sprint 3, nosso foco será a entrega da versão final do PlanGuide, consolida
 <summary>
  Manual do usuário
 </summary> <br />
-  
-# Manual do Usuário — PlanGuide
 
 O **PlanGuide** é um software de planejamento de aulas desenvolvido para auxiliar professores na organização das disciplinas, tópicos, horários e distribuição automática dos conteúdos ao longo do semestre.
 
@@ -132,8 +137,10 @@ O professor deve informar os dados da disciplina, como:
 <br>
 
 • Nome da disciplina<br>
+• Curso<br>
 • Semestre<br>
 • Carga horária<br>
+• Período<br>
 • Dias da semana em que a disciplina ocorre<br>
 • Horários das aulas<br>
 
@@ -245,13 +252,6 @@ Essas aulas são identificadas com o título:
 <br>
 
 As aulas de fechamento ajudam a completar a carga horária necessária da disciplina, mantendo o planejamento alinhado com as exigências do calendário.
-
-<h1 align="center">
-    <a>
-    <img src= INSERIR_LINK_DA_IMAGEM_AULAS_SABADO_AQUI>
-    </a>
-</h1>
-
 <br>
 
 ---
@@ -379,7 +379,6 @@ Após a exportação, será gerado um arquivo CSV contendo as informações do p
 ### Tela Cadastro/Login
 
 ### Tela Disciplina
-
 
 ### Tela Planejamento
 
