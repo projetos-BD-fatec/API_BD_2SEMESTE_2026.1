@@ -25,16 +25,16 @@
 - [x] Metas definidas
 
 ## 🏆 DoD - Definition of Done <a id="dod"></a>
-- [ ] Código final escrito e funcional
-- [ ] Documentação finalizada
-- [ ] Code review aprovado
+- [x] Código final escrito e funcional
+- [x] Documentação finalizada
+- [x] Code review aprovado
 
 
 ## DoR e DoD Por Sprint<a id="dodedor"></a>
 
 | Sprint | Status | Docs |
 | ------ | :----: | ---- |
-| 1 |  concluida | [Sprint 1 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-01) |
-| 2 |  concluida | [Sprint 2 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-02) |
-| 3 |  não iniciada | [Sprint 3 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-03) |
+| 1 |  concluída | [Sprint 1 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-01) |
+| 2 |  concluída | [Sprint 2 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-02) |
+| 3 |  concluída | [Sprint 3 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-03) |
 
