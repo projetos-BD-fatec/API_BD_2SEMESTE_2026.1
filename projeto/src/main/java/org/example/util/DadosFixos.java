@@ -8,14 +8,24 @@ import java.util.List;
 import java.time.LocalTime;
 
 public class DadosFixos {
-    public static final ObservableList<LocalTime> HORARIOS = FXCollections.observableArrayList(
+    public static final ObservableList<LocalTime> HORARIOS_NOITE= FXCollections.observableArrayList(
             LocalTime.of(18, 45),
             LocalTime.of(19, 35),
             LocalTime.of(20, 25),
-            LocalTime.of(21, 25),
+            LocalTime.of(21, 15),
             LocalTime.of(22, 15),
             LocalTime.of(23, 0)
     );
+
+        public static final ObservableList<LocalTime> HORARIOS_MANHA= FXCollections.observableArrayList(
+                LocalTime.of(7,10),
+                LocalTime.of(8,0),
+                LocalTime.of(8,50),
+                LocalTime.of(9,55),
+                LocalTime.of(10,45),
+                LocalTime.of(11,45),
+                LocalTime.of(12,35)
+        );
 
     public static final List<String> CURSOS = List.of(
             "Banco de Dados",
@@ -27,7 +37,6 @@ public class DadosFixos {
             "Manutenção de Aeronaves",
             "Manufatura Avançada",
             "Gestão Empresaral EAD"
-            // consultar site da instituição para lista completa
     );
 
     public static final List<String> SEMESTRES = List.of(

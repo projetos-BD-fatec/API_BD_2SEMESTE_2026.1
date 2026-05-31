@@ -10,7 +10,6 @@
   <a href ="#backlog">Backlog</a>  |
   <a href ="#instalação">Instalação</a>  |
   <a href ="#estrutura">Estrutura</a>  |
-  <a href ="#modelo">Modelo</a>  |
   <a href ="#equipe"> Equipe</a> |
 </p>
 
@@ -73,18 +72,18 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 | [US07](http://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US07.md)      | Controle carga horária              | Como professor, desejo visualizar quantas aulas já foram planejadas e quantas ainda faltam para garantir que a carga horária da disciplina seja cumprida.                                                           | Moderada   | 2      | Meta              | 5 | ✅ |
 |  [US08](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US08.md)     | Controle carga horária              | Como professor, desejo ser avisado quando a carga horária não estiver sendo cumprida.                                                                                                                               | Moderada   | 2      | Bônus da sprint 2 | 3 | ✅ |
 | [US09](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US09.md)      | Calendário acadêmico                | Como professor, desejo ser avisado ao tentar planejar aulas em datas não letivas/proibidas para evitar conflitos no cronograma.                                                                                     | Moderada   | 2      | Bônus da sprint 2 | 3 | ✅ |
-| [US10](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US10.md)      | Exportar planejamento               | Como professor, desejo exportar o planejamento de aulas para facilitar subir em outras plataformas.                                                                                                                 | Moderada   | 3      | Meta | 5 | |
-| [US11](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US11.md)    | Gestão de disciplinas               | Como professor, desejo cadastrar uma disciplina informando nome, curso, semestre e carga horária para iniciar o planejamento das aulas do semestre.                                                                 | Baixa      | 3      | Meta              | 3 |
-| [US12](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US12.md)      | Gestão de disciplinas               | Como professor, desejo ter meu próprio cadastro para ter acesso apenas aos planejamentos de aulas das minhas disciplinas.                                                                                           | Baixa      | 3      | Meta              | 3 |
-| [US13](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US13.md)      | Gestão de disciplinas               | Como professor, desejo conseguir selecionar uma das disciplinas que eu leciono para realizar o planejamento das aulas.                                                                                              | Baixa      | 3      | Meta              | 2 |
-| [US14](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US14.md)      | Definição de horários da disciplina | Como professor, desejo informar os dias da semana em que ministro a disciplina para definir quando as aulas acontecem.                                                                                              | Baixa      | 3      | Meta              | 5 |
-| [US15](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US15.md)      | Definição de horários da disciplina | Como professor, desejo informar a carga horária da disciplina para garantir que essa carga será cumprida.                                                                                                           | Baixa      | 3      | Meta              | 2 |
-| [US16](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US16.md)      | Celendário acadêmico                 | Como professor, desejo que o calendário acadêmico esteja sempre atualizado mesmo nos próximos semestres.                                                                                                                      | Baixa      | 3      | Meta              | 8 |
-| [US17](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US17.md)      | Planejamento de aulas               | Como professor, desejo editar o conteúdo de uma aula já planejada.                                                                                                                                                  | Baixa      | 3      | Bônus da sprint 3 | 2 |    
-| [US18](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US18.md)      | Integração com celular           | Como professor, quero que meu conteúdo de aulas apareça no meu calendário do celular para eu conseguir me programar antecipadamente para as aulas.                                                                                          | Baixa      | 3      | Bônus da sprint 3 | 21 |
-| [US19](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US19.md)      | Integração com celular                      | Como professor, quero receber lembrete do conteúdo da disciplina no celular dois dias antes da aula para eu lembrar dos assuntos que vou passar em sala.                                                                                                        | Baixa      | 3      | Bônus da sprint 3 | 21 |
-| [US20](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US20.md)      | Integração com IA             | Como professor, eu desejo receber emails antes de cada aula com sugestões/dicas de assuntos personalizados sobre o conteúdo.                                                                | Baixa      | 3      | Bônus da sprint 3 | 21 |
-| [US21](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US21.md)      | Calendário interativo              | Como professor, eu desejo visualizar minhas aulas num calendário interativo, onde eu consiga selecionar um mês, e então visualizar as aulas dentro do mês, e ao passar o mouse no dia, aparece a descrição da aula.                | Baixa      | 3      | Bônus da sprint 3 | 21 |
+| [US10](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US10.md)      | Exportar planejamento               | Como professor, desejo exportar o planejamento de aulas para facilitar subir em outras plataformas.                                                                                                                 | Moderada   | 3      | Meta | 5 | ✅ |
+| [US11](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US11.md)    | Gestão de disciplinas               | Como professor, desejo cadastrar uma disciplina informando nome, curso, semestre e carga horária para iniciar o planejamento das aulas do semestre.                                                                 | Baixa      | 3      | Meta              | 3 | ✅ |
+| [US12](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US12.md)      | Gestão de disciplinas               | Como professor, desejo ter meu próprio cadastro para ter acesso apenas aos planejamentos de aulas das minhas disciplinas.                                                                                           | Baixa      | 3      | Meta              | 3 | ✅ |
+| [US13](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US13.md)      | Gestão de disciplinas               | Como professor, desejo conseguir selecionar uma das disciplinas que eu leciono para realizar o planejamento das aulas.                                                                                              | Baixa      | 3      | Meta              | 2 | ✅ |
+| [US14](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US14.md)      | Definição de horários da disciplina | Como professor, desejo informar os dias da semana em que ministro a disciplina para definir quando as aulas acontecem.                                                                                              | Baixa      | 3      | Meta              | 5 | ✅ |
+| [US15](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US15.md)      | Definição de horários da disciplina | Como professor, desejo informar a carga horária da disciplina para garantir que essa carga será cumprida.                                                                                                           | Baixa      | 3      | Meta              | 2 | ✅ |
+| [US16](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US16.md)      | Celendário acadêmico                 | Como professor, desejo que o calendário acadêmico esteja sempre atualizado mesmo nos próximos semestres.                                                                                                                      | Baixa      | 3      | Bônus da sprint 3              | 8 | ✅ |
+| [US17](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US17.md)      | Planejamento de aulas               | Como professor, desejo editar o conteúdo de uma aula já planejada.                                                                                                                                                  | Baixa      | 3      | Bônus da sprint 3 | 2 | ✅ |    
+| [US18](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US18.md)      | Integração com celular           | Como professor, quero que meu conteúdo de aulas apareça no meu calendário do celular para eu conseguir me programar antecipadamente para as aulas.                                                                                          | Baixa      | 3      | Bônus da sprint 3 | 21 | |
+| [US19](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US19.md)      | Integração com celular                      | Como professor, quero receber lembrete do conteúdo da disciplina no celular dois dias antes da aula para eu lembrar dos assuntos que vou passar em sala.                                                                                                        | Baixa      | 3      | Bônus da sprint 3 | 21 | |
+| [US20](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US20.md)      | Integração com IA             | Como professor, eu desejo receber emails antes de cada aula com sugestões/dicas de assuntos personalizados sobre o conteúdo.                                                                | Baixa      | 3      | Bônus da sprint 3 | 21 | |
+| [US21](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/User_Stories/US21.md)      | Calendário interativo              | Como professor, eu desejo visualizar minhas aulas num calendário interativo, onde eu consiga selecionar um mês, e então visualizar as aulas dentro do mês, e ao passar o mouse no dia, aparece a descrição da aula.                | Baixa      | 3      | Bônus da sprint 3 | 21 | |
 
 </details>
 
@@ -93,11 +92,11 @@ Centralizar o planejamento de aulas em um único ambiente, permitindo que o prof
 </div>
 <div align="center">
 
-| Sprint | Período | Docs |
-| :----: | :-----: | :---: |
-| 1 | 16/03 - 05/04 | [Sprint 1 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-01) |
-| 2 | 13/04 - 03/05 | [Sprint 2 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-02) |
-| 3 | 11/05 - 31/05 | [Sprint 3 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-03) |
+| Sprint | Período | Docs | Vídeos |
+| :----: | :-----: | :---: | :---: |
+| 1 | 16/03 - 05/04 | [Sprint 1 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-01) | |
+| 2 | 13/04 - 03/05 | [Sprint 2 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-02) | [Sprint 2 Vídeos](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/videos/sprint02/README.md) |
+| 3 | 11/05 - 31/05 | [Sprint 3 Docs](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/tree/main/docs/sprints/sprint-03) | [Sprint 3 Vídeos](https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/videos/sprint03/README.md)  |
 
 </div>
 
@@ -146,49 +145,74 @@ mvn clean javafx:run
 <summary>
  Estrutura
 </summary> <br />
-    
-```
+
+```text
 ├── README.md
 ├── .github/
-│    └── pull_request_template.md
+│   └── pull_request_template.md
+├── .idea/
 ├── projeto/
-│    ├── .idea/
-│    ├── src/
-│    ├── target/
-│    ├── pom.xml
-│    └── .gitignore
+│   ├── .idea/
+│   ├── META-INF/
+│   ├── src/
+│   │   └── main/
+│   │       ├── java/
+│   │       └── resources/
+│   ├── .gitignore
+│   ├── dependency-reduced-pom.xml
+│   └── pom.xml
 └── docs/
-     ├── processos/
-     │   ├── estratégia-de-branch.md
-     │   ├── padrão-de-commit.md
-     │   ├── guia-estrutura-projeto.md
-     │   ├── guia-de-pull-requests.md
-     │   └── aceitação-e-permanência.md
-     ├── imagens/
-     │   ├── fluxograma-branches.png
-     │   └── logo-bughunters.png
-     ├── sprints/
-     │   ├── sprint-01/
-     │   │   └── README.md
-     │   ├── sprint-02/
-     │   │   └── README.md
-     │   └── sprint-03/
-     │         └── README.md
-     └── README.md
-
+    ├── User_Stories/
+    │   ├── US01.md
+    │   ├── US02.md
+    │   ├── US03.md
+    │   ├── US04.md
+    │   ├── US05.md
+    │   ├── US06.md
+    │   ├── US07.md
+    │   ├── US08.md
+    │   ├── US09.md
+    │   ├── US10.md
+    │   ├── US11.md
+    │   ├── US12.md
+    │   ├── US13.md
+    │   ├── US14.md
+    │   ├── US15.md
+    │   ├── US16.md
+    │   ├── US17.md
+    │   ├── US18.md
+    │   ├── US19.md
+    │   ├── US20.md
+    │   └── US21.md
+    ├── imagens/
+    │   ├── Burndown_sprint2.jpeg
+    │   ├── Burndown_sprint3.jpeg
+    │   ├── CSV_sprint3.png
+    │   ├── Cadastro.gif
+    │   ├── DER.jpeg
+    │   ├── DER_1.jpeg
+    │   ├── DER_2.jpeg
+    │   ├── GIF_tela_disciplina(1).gif
+    │   ├── GIF_tela_planejamento(1).gif
+    │   └── ...
+    ├── processos/
+    │   ├── estratégia-de-branch.md
+    │   ├── padrão-de-commit.md
+    │   ├── guia-estrutura-projeto.md
+    │   ├── guia-de-pull-requests.md
+    │   └── aceitação-e-permanência.md
+    ├── sprints/
+    │   ├── sprint-01/
+    │   │   └── README.md
+    │   ├── sprint-02/
+    │   │   └── README.md
+    │   └── sprint-03/
+    │       └── README.md
+    ├── videos/
+    └── README.md
 ```
 
-</details>
 
-# Modelo Entidade Relacionamento <a id="modelo"></a>
-<details closed>
-<summary>
- Modelo Entidade Relacionamento
-</summary> <br />
-
-<p align="center">
-    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/DER_1.jpeg >
-</p>
 
 </details>
 

@@ -1,13 +1,9 @@
 package org.example.DAO;
 
 import org.example.infrastructure.ConexaoBD;
-import org.example.model.Aula;
-import org.example.model.DiaSemana;
 import org.example.model.Topico;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +74,21 @@ public class TopicoDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void atualizar(Topico topico) throws SQLException {
+        String sql = "UPDATE topico SET nome = ?, min_aulas = ?, max_aulas = ?, peso = ?, avaliacao = ?, ordem = ? WHERE id = ?";
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, topico.getNome());
+            stmt.setInt(2, topico.getMinAulas());
+            stmt.setInt(3, topico.getMaxAulas());
+            stmt.setInt(4, topico.getPeso());
+            stmt.setBoolean(5, topico.getAvaliacao());
+            stmt.setObject(6, topico.getOrdem());
+            stmt.setLong(7, topico.getId());
             stmt.executeUpdate();
         }
     }

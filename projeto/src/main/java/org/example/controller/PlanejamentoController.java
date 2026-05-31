@@ -11,21 +11,28 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.example.App;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
+import org.example.DAO.DisciplinaDAO;
 import org.example.DAO.HorarioDAO;
 import org.example.DAO.TopicoDAO;
 import org.example.model.Aula;
+import org.example.model.DiaSemana;
+import org.example.model.Disciplina;
 import org.example.model.Topico;
-import org.example.model.TopicoOrdenado;
 import org.example.service.AulaService;
 import org.example.service.DistribuicaoService;
-import org.example.util.Toast;
+import org.example.service.ExportarAulasCSV;
+import org.example.util.UserSession;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,9 +57,17 @@ public class PlanejamentoController {
     @FXML private Label lblAulasRestantes;
     @FXML private Label lblTotalTopicos;
     @FXML private Label lblHoraPlanejada;
-    //@FXML private Label lblHoraTotal;
+    @FXML private Label lblHoraTotal;
+    @FXML private Button btnExportar;
+
+    @FXML private Label labelUsuario;
+    @FXML private ComboBox<String> btnTrocarDisciplina;
 
     private Long disciplinaIdAtual;
+    private List<Disciplina> disciplinasDoUsuario = new ArrayList<>();
+    private final DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+
+    private boolean trocandoProgramaticamente = false;
 
     private List<Topico> topicosCache = new ArrayList<>();
     private List<Topico> topicosPendentes = new ArrayList<>();
@@ -67,36 +82,52 @@ public class PlanejamentoController {
 
     @FXML
     public void initialize() {
+        labelUsuario.setText("\uD83D\uDC64" + UserSession.getInstance().getUsuarioLogado().getNome());
         spinnerMin.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
         spinnerMax.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 2));
 
         cbPeso.getItems().addAll("Peso 1", "Peso 2", "Peso 3");
         cbPeso.setValue("Peso 1");
+
+        Long usuarioId = UserSession.getInstance().getUsuarioLogado().getId();
+        String usuarioPeriodo = UserSession.getInstance().getUsuarioLogado().getPeriodoAtual();
+        disciplinasDoUsuario = disciplinaDAO.findByUsuarioId(usuarioId, usuarioPeriodo);
+
+        trocandoProgramaticamente = true;
+        btnTrocarDisciplina.getItems().setAll(
+                disciplinasDoUsuario.stream().map(Disciplina::getNome).collect(Collectors.toList())
+        );
+        trocandoProgramaticamente = false;
+
+        btnTrocarDisciplina.valueProperty().addListener((obs, antigo, novo) -> {
+            if (trocandoProgramaticamente) return;
+            if (novo == null || novo.equals(antigo)) return;
+            disciplinasDoUsuario.stream()
+                    .filter(d -> d.getNome().equals(novo))
+                    .findFirst()
+                    .ifPresent(d -> {
+                        if (d.getId().equals(disciplinaIdAtual)) return;
+                        try {
+                            App.navegarParaPlanejamento(d.getId());
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    });
+        });
     }
 
     @FXML
     private void clicarVoltar() {
         try {
             if (App.isAlteracaoNaoSalva()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Alterações não salvas");
-                alert.setHeaderText("Você tem alterações não salvas.");
-                alert.setContentText("O que deseja fazer?");
-
-                ButtonType salvar = new ButtonType("Salvar");
-                ButtonType descartar = new ButtonType("Descartar alterações");
-                ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
-                alert.getButtonTypes().setAll(salvar, descartar, cancelar);
-
-                alert.showAndWait().ifPresent(resposta -> {
-                    if (resposta == salvar) {
+                App.mostrarConfirmarAlteracoes("Salvar alterações", "Você tem alterações não salvas.", "Deseja salvar antes de sair?").ifPresent(resposta -> {
+                    if (resposta.getText().equals("Salvar e Sair")) {
                         clicarSalvar();
                         navegarParaDisciplinas();
-                    } else if (resposta == descartar) {
+                    } else if (resposta.getText().equals("Sair sem Salvar")) {
                         descartarAlteracoes();
                         navegarParaDisciplinas();
                     }
-                    // cancelar: não faz nada
                 });
             } else {
                 navegarParaDisciplinas();
@@ -122,7 +153,33 @@ public class PlanejamentoController {
         App.setDescartarCallback(this::descartarAlteracoes);
         this.disciplinaIdAtual = disciplinaId;
 
+        disciplinasDoUsuario.stream()
+                .filter(d -> d.getId().equals(disciplinaId))
+                .findFirst()
+                .ifPresent(d -> {
+                    javafx.application.Platform.runLater(() -> {
+                        trocandoProgramaticamente = true;
+                        btnTrocarDisciplina.setValue(d.getNome());
+                        trocandoProgramaticamente = false;
+                    });
+                });
+
         colData.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getData()));
+
+        colData.setCellFactory(column -> new TableCell<Aula, LocalDate>() {
+            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            @Override
+            protected void updateItem(LocalDate data, boolean empty) {
+                super.updateItem(data, empty);
+                if (empty || data == null) {
+                    setText(null);
+                } else {
+                    setText(data.format(formatter));
+                }
+            }
+        });
+
         colDia.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getDiaSemana().getValorBanco()));
         colEvento.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getEvento()));
         colHorario.setCellValueFactory(cell -> {
@@ -146,27 +203,36 @@ public class PlanejamentoController {
                     String selecionado = comboTopico.getSelectionModel().getSelectedItem();
                     Aula aula = getTableRow().getItem();
 
-                    if (selecionado == null || selecionado.equals("Selecionar")) {
+                    if (aula.getDiaSemana() == DiaSemana.SABADO) return;
+                    if (novoValor == null || novoValor.equals("Selecionar")) {
+                        aula.setAncorada(false);
                         aula.setTopicoId(null);
-                        try {
-                            aulaDAO.updateTopicoId(aula.getId(), null);
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
-                        }
-                    } else {
-
-                        topicosCache.stream()
-                                .filter(t -> t.getNome().equals(selecionado))
-                                .findFirst()
-                                .ifPresent(t -> {
-                                    aula.setTopicoId(t.getId());
-                                    try {
-                                        aulaDAO.updateTopicoId(aula.getId(), t.getId());
-                                    } catch (SQLException ex) {
-                                        ex.printStackTrace();
-                                    }
-                                });
+                        redistribuir();
+                        return;
                     }
+
+                    topicosCache.stream()
+                            .filter(t -> t.getNome().equals(novoValor))
+                            .findFirst()
+                            .ifPresent(t -> {
+                                List<Aula> ancorasDoTopico = aulasCronograma.stream()
+                                        .filter(a -> a.isAncorada() && t.getId().equals(a.getTopicoId()) && !a.getId().equals(aula.getId()))
+                                        .collect(Collectors.toList());
+
+                                if (ancorasDoTopico.size() >= t.getMaxAulas()) {
+                                    Aula ancoraParaLiberar = ancorasDoTopico.stream()
+                                            .min(Comparator.comparing(Aula::getData))
+                                            .orElse(null);
+
+                                    if (ancoraParaLiberar != null) {
+                                        ancoraParaLiberar.setAncorada(false);
+                                        ancoraParaLiberar.setTopicoId(null);
+                                    }
+                                }
+                                aula.setTopicoId(t.getId());
+                                aula.setAncorada(true);
+                                redistribuir();
+                            });
                     atualizarIndicadores();
                 });
             }
@@ -177,54 +243,67 @@ public class PlanejamentoController {
                 if (empty || getTableRow() == null || getTableRow().getItem() == null) {
                     setGraphic(null);
                     setText(null);
+                    return;
+                }
+
+                Aula aula = getTableRow().getItem();
+                if (aula.getDiaSemana() == DiaSemana.SABADO) {
+                    Label lblFechamento = new Label("Fechamento");
+                    lblFechamento.setStyle("-fx-font-style: italic;");
+                    setGraphic(lblFechamento);
+                    setText(null);
+                    return;
+                }
+
+                boolean isEventoReservado = distribuicaoService.isDiaBloqueado(aula);
+                List<String> nomesFiltrados;
+
+                if (isEventoReservado) {
+                    nomesFiltrados = topicosCache.stream()
+                            .filter(t -> !t.isAvaliacao())
+                            .map(Topico::getNome)
+                            .collect(Collectors.toList());
                 } else {
-                    Aula aula = getTableRow().getItem();
+                    nomesFiltrados = topicosCache.stream()
+                            .map(Topico::getNome)
+                            .collect(Collectors.toList());
+                }
 
-                    boolean isEventoReservado = distribuicaoService.isDiaBloqueado(aula);
-
-                    List<Topico> todosTopicos = topicosCache;
-                    List<String> nomesFiltrados;
-
-                    if (isEventoReservado) {
-                        nomesFiltrados = todosTopicos.stream()
-                                .filter(t -> !t.isAvaliacao())
-                                .map(Topico::getNome)
-                                .collect(Collectors.toList());
+                if (nomesFiltrados.isEmpty()) {
+                    setGraphic(null);
+                    setText(isEventoReservado ? "Sem tópicos comuns" : "Sem tópicos cadastrados");
+                } else {
+                    atualizandoProgramaticamente = true;
+                    nomesFiltrados.add(0, "Selecionar");
+                    comboTopico.getItems().setAll(nomesFiltrados);
+                    if (aula.getTopicoId() != null) {
+                        topicosCache.stream()
+                                .filter(t -> t.getId().equals(aula.getTopicoId()))
+                                .findFirst()
+                                .ifPresent(t -> comboTopico.setValue(t.getNome()));
                     } else {
-                        nomesFiltrados = todosTopicos.stream()
-                                .map(Topico::getNome)
-                                .collect(Collectors.toList());
+                        comboTopico.setValue("Selecionar");
                     }
-
-                    if (nomesFiltrados.isEmpty()) {
-                        setGraphic(null);
-
-                        setText(isEventoReservado ? "Sem tópicos comuns" : "Sem tópicos cadastrados");
-                    } else {
-                        atualizandoProgramaticamente = true;
-                        nomesFiltrados.add(0, "Selecionar");
-                        comboTopico.getItems().setAll(nomesFiltrados);
-                        if (aula.getTopicoId() != null) {
-                            topicosCache.stream()
-                                    .filter(t -> t.getId().equals(aula.getTopicoId()))
-                                    .findFirst()
-                                    .ifPresent(t -> comboTopico.setValue(t.getNome()));
-                        } else {
-                            comboTopico.setValue("Selecionar");
-                        }
-                        atualizandoProgramaticamente = false;
-                        setGraphic(comboTopico);
-                        setText(null);
-                    }
+                    atualizandoProgramaticamente = false;
+                    setGraphic(comboTopico);
+                    setText(null);
                 }
             }
         });
 
         aulasCronograma = aulaService.buscarAulas(disciplinaId);
+        aulasCronograma.stream()
+                .filter(a -> a.getDiaSemana() == DiaSemana.SABADO)
+                .forEach(a -> {
+                    a.setTopicoId(999L);
+                    a.setAncorada(true);
+                });
+
         tabelaCronograma.getItems().setAll(aulasCronograma);
         containerTopicos.getChildren().clear();
         topicosCache.forEach(this::adicionarLinhaTopico);
         atualizarIndicadores();
+        App.setAlteracaoNaoSalva(false);
     }
 
 
@@ -237,12 +316,11 @@ public class PlanejamentoController {
         Boolean avaliacao = chkAvaliacao.isSelected();
 
         if (nome.isEmpty()) {
-            mostrarAlerta("Campo obrigatório", "O nome do tópico não pode estar vazio.");
+            mostrarAlerta(Alert.AlertType.WARNING,"Campo obrigatório", null, "O nome do tópico não pode estar vazio.");
             return;
         }
-
         if (max < min) {
-            mostrarAlerta("Valores inválidos", "O máximo de aulas não pode ser menor que o mínimo.");
+            mostrarAlerta(Alert.AlertType.WARNING,"Valores inválidos", null, "O máximo de aulas não pode ser menor que o mínimo.");
             return;
         }
 
@@ -250,7 +328,7 @@ public class PlanejamentoController {
         try {
             topicoDAO.salvar(topico);
         } catch (SQLException e) {
-            mostrarAlerta("Erro no banco", "Não foi possível salvar o tópico: " + e.getMessage());
+            mostrarAlerta(Alert.AlertType.ERROR, "Erro no banco", null, "Não foi possível salvar o tópico: " + e.getMessage());
             return;
         }
         topicosCache.add(topico);
@@ -259,6 +337,16 @@ public class PlanejamentoController {
         atualizarIndicadores();
         limparCampos();
         redistribuir();
+        if (avaliacao && topico.getId() != null) {
+            redistribuir();
+            aulasCronograma.stream()
+                    .filter(a -> topico.getId().equals(a.getTopicoId()))
+                    .forEach(a -> a.setAncorada(true));
+            tabelaCronograma.getItems().setAll(aulasCronograma);
+            atualizarIndicadores();
+        } else {
+            redistribuir();
+        }
         App.setAlteracaoNaoSalva(true);
     }
 
@@ -284,11 +372,11 @@ public class PlanejamentoController {
             aulaDAO.clearTopicoByDisciplina(disciplinaIdAtual);
             aulaDAO.salvarDistribuicao(aulasCronograma);
 
-            mostrarAlerta("Sucesso", "Planejamento salvo com sucesso!");
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Sucesso", null,"Planejamento salvo com sucesso!");
             App.setAlteracaoNaoSalva(false);
             topicosPendentes.clear();
         } catch (SQLException e) {
-            mostrarAlerta("Erro ao salvar", e.getMessage());
+            mostrarAlerta(Alert.AlertType.ERROR, "Erro ao salvar", null, e.getMessage());
         }
     }
 
@@ -300,7 +388,7 @@ public class PlanejamentoController {
                     topicoDAO.deletar(topico.getId());
                 }
             } catch (SQLException e) {
-                mostrarAlerta("Erro ao descartar", "Não foi possível reverter o tópico: " + topico.getNome());
+                mostrarAlerta(Alert.AlertType.ERROR,"Erro ao descartar", null,"Não foi possível reverter o tópico: " + topico.getNome());
             }
         }
         topicosPendentes.clear();
@@ -337,9 +425,20 @@ public class PlanejamentoController {
 
         Button btnDeletar = new Button("🗑");
         btnDeletar.getStyleClass().add("btn-deletar");
+        Button btnEditar = new Button("✎");
+        btnEditar.getStyleClass().add("btn-editar");
+        btnEditar.setOnAction(e -> {
+            abrirDialogEditarTopico(topico, linha);
+        });
         btnDeletar.setOnAction(e -> {
             try {
                 if (topico.getId() != null) {
+                    aulasCronograma.stream()
+                            .filter(a -> topico.getId().equals(a.getTopicoId()) && a.isAncorada())
+                            .forEach(a -> {
+                                a.setAncorada(false);
+                                a.setTopicoId(null);
+                            });
                     aulaDAO.clearTopicoById(topico.getId());
                     topicoDAO.deletar(topico.getId());
                 } else {
@@ -351,7 +450,7 @@ public class PlanejamentoController {
                 atualizarIndicadores();
                 redistribuir();
             } catch (SQLException ex) {
-                mostrarAlerta("Erro ao deletar", "Não foi possível deletar o tópico: " + ex.getMessage());
+                mostrarAlerta(Alert.AlertType.ERROR,"Erro ao deletar", null,"Não foi possível deletar o tópico: " + ex.getMessage());
             }
         });
 
@@ -361,9 +460,71 @@ public class PlanejamentoController {
             lblAvaliacao.getStyleClass().add("topicoAvaliacao");
             linha.getChildren().add(lblAvaliacao);
         }
-        linha.getChildren().addAll(lblInfo, lblBadge, btnDeletar);
+        linha.getChildren().addAll(lblInfo, lblBadge, btnEditar, btnDeletar);
         containerTopicos.getChildren().add(linha);
     }
+
+    private void abrirDialogEditarTopico(Topico topico, HBox linha) {
+        Dialog<Topico> dialog = new Dialog<>();
+        dialog.setTitle("Editar Tópico");
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        // Form fields pre‑filled with current values
+        TextField txtNome = new TextField(topico.getNome());
+        txtNome.setPromptText("Nome");
+        Spinner<Integer> spMin = new Spinner<>(1, 20, topico.getMinAulas());
+        Spinner<Integer> spMax = new Spinner<>(1, 20, topico.getMaxAulas());
+        ComboBox<String> cbPeso = new ComboBox<>();
+        cbPeso.getItems().addAll("Peso 1", "Peso 2", "Peso 3");
+        cbPeso.setValue("Peso " + topico.getPeso());
+        CheckBox chkAvaliacao = new CheckBox("Avaliação");
+        chkAvaliacao.setSelected(topico.isAvaliacao());
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.add(new Label("Nome:"), 0, 0);
+        grid.add(txtNome, 1, 0);
+        grid.add(new Label("Min:"), 0, 1);
+        grid.add(spMin, 1, 1);
+        grid.add(new Label("Max:"), 0, 2);
+        grid.add(spMax, 1, 2);
+        grid.add(new Label("Peso:"), 0, 3);
+        grid.add(cbPeso, 1, 3);
+        grid.add(chkAvaliacao, 1, 4);
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(button -> {
+            if (button == ButtonType.OK) {
+                return new Topico(
+                        topico.getId(),
+                        txtNome.getText(),
+                        spMin.getValue(),
+                        spMax.getValue(),
+                        Integer.parseInt(cbPeso.getValue().replace("Peso ", "")),
+                        topico.getDisciplinaId(),
+                        chkAvaliacao.isSelected(),
+                        topico.getOrdem()
+                );
+            }
+            return null;
+        });
+
+        dialog.showAndWait().ifPresent(atualizado -> {
+            try {
+                topicoDAO.atualizar(atualizado);
+                // Refresh cache and UI
+                topicosCache = topicoDAO.findByDisciplinaId(disciplinaIdAtual);
+                containerTopicos.getChildren().clear();
+                topicosCache.forEach(this::adicionarLinhaTopico);
+                atualizarIndicadores();
+                redistribuir();
+            } catch (SQLException e) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Erro ao atualizar", null, e.getMessage());
+            }
+        });
+    }
+
 
     private void moverTopico(HBox linha, int direcao) {
         int idx = containerTopicos.getChildren().indexOf(linha);
@@ -371,53 +532,25 @@ public class PlanejamentoController {
         if (novoIdx >= 0 && novoIdx < containerTopicos.getChildren().size()) {
             containerTopicos.getChildren().remove(linha);
             containerTopicos.getChildren().add(novoIdx, linha);
+
+            List<String> ordemNomes = containerTopicos.getChildren().stream()
+                    .map(n -> ((Label) ((HBox) n).getChildren().get(1)).getText())
+                    .collect(Collectors.toList());
+
+            topicosCache.sort(Comparator.comparingInt(t -> ordemNomes.indexOf(t.getNome())));
             redistribuir();
         }
     }
 
     private void redistribuir() {
         App.setAlteracaoNaoSalva(true);
-        List<TopicoOrdenado> topicosOrdenados = new ArrayList<>();
-        List<javafx.scene.Node> linhas = containerTopicos.getChildren();
-
-        for (int i = 0; i < linhas.size(); i++) {
-            HBox linha = (HBox) linhas.get(i);
-            Label lblNome = (Label) linha.getChildren().get(1);
-            String nome = lblNome.getText();
-
-            topicosCache.stream()
-                    .filter(t -> t.getNome().equals(nome))
-                    .findFirst()
-                    .ifPresent(t -> topicosOrdenados.add(
-                            new TopicoOrdenado(t, topicosOrdenados.size())
-                    ));
-        }
         try {
-            distribuicaoService.distribuir(aulasCronograma, topicosOrdenados);
+            distribuicaoService.distribuir(aulasCronograma, topicosCache);
         } catch (IllegalStateException e) {
-            mostrarAlerta("Distribuição impossível", e.getMessage());
+            mostrarAlerta(Alert.AlertType.WARNING,"Distribuição impossível", null, e.getMessage());
         }
         tabelaCronograma.getItems().setAll(aulasCronograma);
         atualizarIndicadores();
-        verificarLacunas();
-    }
-
-    private void verificarLacunas() {
-        for (Topico t : topicosCache) {
-            if (!t.isAvaliacao()) continue;
-
-            aulasCronograma.stream()
-                    .filter(a -> t.getId().equals(a.getTopicoId()))
-                    .findFirst()
-                    .ifPresent(aulaAvaliacao -> {
-                        int idx = aulasCronograma.indexOf(aulaAvaliacao);
-                        if (idx > 0 && aulasCronograma.get(idx - 1).getTopicoId() == null) {
-                            Stage stage = (Stage) txtTopico.getScene().getWindow();
-                            Toast.mostrar(stage,
-                                    "Atenção: \"" + t.getNome() + "\" foi alocada após dias bloqueados. Verifique as lacunas no cronograma.");
-                        }
-                    });
-        }
     }
 
     private void atualizarIndicadores() {
@@ -432,7 +565,7 @@ public class PlanejamentoController {
         lblAulasRestantes.setText(String.valueOf(totais - planejadas));
         lblTotalTopicos.setText(String.valueOf(containerTopicos.getChildren().size()));
         lblHoraPlanejada.setText(formatarHoras(planejadas * 50));
-        //lblHoraTotal.setText("/ " + formatarHoras(totais * 50));
+        lblHoraTotal.setText("/ " + formatarHoras(totais * 50));
     }
 
     private String formatarHoras(int totalMinutos) {
@@ -447,11 +580,93 @@ public class PlanejamentoController {
         chkAvaliacao.setSelected(false);
     }
 
-    private void mostrarAlerta(String titulo, String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String cabecalho, String mensagem) {
+        javafx.stage.Stage modal = new javafx.stage.Stage();
+        modal.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+        modal.initStyle(StageStyle.UNDECORATED);
+        modal.setResizable(false);
+
+        String corBotao = "#F25958";
+        String icone = "⚠";
+
+        if (tipo == Alert.AlertType.ERROR) {
+            corBotao = "#C62828";
+            icone = "✖";
+        } else if (tipo == Alert.AlertType.INFORMATION) {
+            corBotao = "#6D9D7B";
+            icone = "✓";
+        }
+
+        javafx.scene.control.Label lblTitulo = new javafx.scene.control.Label(icone + " " + titulo);
+        lblTitulo.setMaxWidth(Double.MAX_VALUE);
+        lblTitulo.setAlignment(Pos.CENTER_LEFT);
+        lblTitulo.setStyle("-fx-font-size: 20px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-text-fill: #000000;" +
+                "-fx-background-color: #F5E6CF;" +
+                "-fx-border-color: #000000;" +
+                "-fx-border-width: 0 0 2 0;" +
+                "-fx-padding: 12 18;" +
+                "-fx-background-radius: 8 8 0 0;"
+        );
+
+        VBox corpo = new VBox();
+        if (cabecalho != null && !cabecalho.isBlank()) {
+            Label lblCabecalho = new Label(cabecalho);
+            lblCabecalho.setStyle(
+                    "-fx-font-size: 15px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-padding: 12 18 0 18;"
+            );
+            corpo.getChildren().add(lblCabecalho);
+        }
+
+        Label lblMensagem = new Label(mensagem);
+        lblMensagem.setWrapText(true);
+        lblMensagem.setStyle(
+                "-fx-font-size: 15px;" +
+                        "-fx-padding: 12 18 18 18;"
+        );
+        corpo.getChildren().add(lblMensagem);
+        Button btnOk = new Button("OK");
+        btnOk.setStyle(
+                "-fx-background-color: " +
+                        corBotao +
+                        ";" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-border-color: #000000;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-border-radius: 30;" +
+                        "-fx-background-radius: 30;" +
+                        "-fx-padding: 8 22;" +
+                        "-fx-cursor: hand;"
+        );
+        btnOk.setOnAction(e -> modal.close());
+
+        HBox rodape = new HBox(btnOk);
+
+        rodape.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+
+        rodape.setPadding(new javafx.geometry.Insets(0, 18, 18, 18));
+
+        VBox layout = new VBox(lblTitulo, corpo, rodape);
+        layout.setStyle(
+                "-fx-background-color: white;" +
+                        "-fx-border-color: black;" +
+                        "-fx-border-width: 2 5 5 2;" +
+                        "-fx-border-radius: 10;" +
+                        "-fx-background-radius: 10;"
+        );
+        modal.setScene(new javafx.scene.Scene(layout));
+        modal.showAndWait();
+    }
+
+    @FXML
+    private void clicarExportar() {
+        Stage stage = (Stage) btnExportar.getScene().getWindow();
+        ExportarAulasCSV exportador = new ExportarAulasCSV(tabelaCronograma, topicosCache);
+        exportador.exportar(stage);
     }
 }
