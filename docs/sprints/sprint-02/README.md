@@ -44,6 +44,12 @@ Priorizamos as funcionalidades essenciais para resolver o problema principal, en
 - [x] Documentação finalizada
 - [x] Code review aprovado
 
+# Modelo Entidade Relacionamento <a id="modelo"></a>
+
+<p align="center">
+    <img src= https://github.com/projetos-BD-fatec/API_BD_2SEMESTE_2026.1/blob/main/docs/imagens/DER_1.jpeg >
+</p>
+
 ## BurnDown
 
 <h1 align="center">
