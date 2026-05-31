@@ -10,7 +10,6 @@
   <a href ="#backlog">Backlog</a>  |
   <a href ="#instalação">Instalação</a>  |
   <a href ="#estrutura">Estrutura</a>  |
-  <a href ="#modelo">Modelo</a>  |
   <a href ="#equipe"> Equipe</a> |
 </p>
 
