@@ -450,6 +450,11 @@ public class DisciplinasController {
             disciplinaService.deletarDisciplinas(usuario);
             usuarioDAO.atualizarPeriodo(usuario.getId(), resumo.getPeriodo());
             usuario.setPeriodoAtual(resumo.getPeriodo());
+            try {
+                App.navegarParaDisciplinas();
+            } catch (Exception ex) {
+                mostrarAlerta(Alert.AlertType.ERROR,"Erro", null, ex.getMessage());
+            }
             modal.close();
             mostrarAlerta(Alert.AlertType.INFORMATION,"Sucesso", null,"Semestre " + resumo.getPeriodo() + " iniciado com sucesso!");
         });

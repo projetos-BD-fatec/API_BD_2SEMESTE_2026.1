@@ -3,10 +3,8 @@ package org.example.service;
 import org.example.DAO.AulaDAO;
 import org.example.DAO.CalendarioDAO;
 import org.example.DAO.HorarioDAO;
-import org.example.model.Aula;
-import org.example.model.Calendario;
-import org.example.model.DiaSemana;
-import org.example.model.Horario;
+import org.example.model.*;
+import org.example.util.UserSession;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -25,10 +23,11 @@ public class AulaService {
     public void gerarAulas(Long disciplinaId, int cargaHoraria) {
         cargaHoraria = cargaHoraria * 60;
         List<Horario> horarios = horarioDAO.findByDisciplinaID(disciplinaId);
+        Usuario usuario = UserSession.getInstance().getUsuarioLogado();
         Integer cargaTotal = 0;
 
         for (Horario horario : horarios) {
-            List<Calendario> datasHorario = calendarioDAO.findByDiaSemana(horario.getDiaSemana());
+            List<Calendario> datasHorario = calendarioDAO.findByDiaSemana(horario.getDiaSemana(), usuario.getPeriodoAtual());
             for (Calendario calendario : datasHorario) {
                 LocalTime horaAtual = horario.getHoraInicio();
                 while (!horaAtual.plusMinutes(50).isAfter(horario.getHoraFim())) {
@@ -43,7 +42,7 @@ public class AulaService {
 
         if (cargaTotal < cargaHoraria) {
             System.out.println("Carga total: " + cargaTotal + " | Carga horária: " + cargaHoraria);
-            List<Calendario> sabados = calendarioDAO.findByDiaSemana(DiaSemana.SABADO);
+            List<Calendario> sabados = calendarioDAO.findByDiaSemana(DiaSemana.SABADO, usuario.getPeriodoAtual());
             System.out.println("Sábados encontrados: " + sabados.size());
 
             for (int i = sabados.size() - 1; i >= 0; i--) {

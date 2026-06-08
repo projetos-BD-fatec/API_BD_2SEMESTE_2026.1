@@ -12,13 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CalendarioDAO {
-    public List<Calendario> findByDiaSemana(DiaSemana diaSemanaCD) {
+    public List<Calendario> findByDiaSemana(DiaSemana diaSemanaCD, String periodo) {
         List<Calendario> diasCalendario = new ArrayList<>();
-        String sql = "SELECT * FROM calendario WHERE dia_semana = ?::dia_semana ORDER BY data ASC";
+        String sql = "SELECT * FROM calendario WHERE dia_semana = ?::dia_semana AND periodo = ? ORDER BY data ASC";
 
         try (Connection conn = ConexaoBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, diaSemanaCD.getValorBanco());
+            stmt.setString(2, periodo);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String diaSemanaStr = rs.getString("dia_semana");
